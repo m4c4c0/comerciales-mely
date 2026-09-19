@@ -18,6 +18,15 @@ Integrantes del Equipo:
 Repositorio en GitHub: https://github.com/m4c4c0/comerciales-mely
 Despliegue en Vercel:  https://comerciales-mely.vercel.app
 
+Usuarios para acceder al sistema:
+Raul Mulato
+usuario: raulzometa@gmail.com
+contraseña: 1234
+
+Edwin Rivera
+usuario: rc232946@alumno.udb.edu.sv
+contraseña: 123456
+
 Descripción de la Actividad (Etapa 2):
 
 En esta etapa se desarrolló la versión web del sistema para Comerciales Mely utilizando **React + Next.js**, implementando la lógica de negocio central y una **API REST** conectada a **Cloud Firestore**. 
