@@ -16,6 +16,7 @@ interface Product {
 
 export default function InventarioPage() {
   const { user } = useAuth();
+  const isAdmin = user?.rol === 'Administrador';
   const [products, setProducts] = useState<Product[]>([]);
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Todas');
@@ -124,7 +125,7 @@ export default function InventarioPage() {
           nombre: editForm.nombre,
           codigo: editForm.codigo,
           categoria: editForm.categoria,
-          precio: Number(editForm.precio),
+          precio: isAdmin ? Number(editForm.precio) : editingProduct.precio,
           stock: Number(editForm.stock),
         }),
       });
@@ -144,6 +145,11 @@ export default function InventarioPage() {
 
   // Eliminar Producto (D en CRUD)
   const handleDelete = async (id: string, nombre: string) => {
+    if (!isAdmin) {
+      alert('Acción restringida: Solo el Administrador puede eliminar productos.');
+      return;
+    }
+
     if (!confirm(`¿Confirmas que deseas eliminar "${nombre}" del inventario?`)) return;
 
     try {
@@ -210,6 +216,16 @@ export default function InventarioPage() {
       }
     >
       <div className="space-y-6">
+        {!isAdmin && user?.rol === 'Empleado' && (
+          <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-800 text-xs flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="font-bold text-sm">🔒 Modo Empleado:</span>
+              <span>Puedes consultar el inventario y actualizar existencias. Los precios y la eliminación de productos están restringidos al Administrador.</span>
+            </div>
+            <span className="bg-amber-200/60 px-2 py-0.5 rounded font-bold uppercase text-[10px]">Restricción activa</span>
+          </div>
+        )}
+
         {/* Notificación Toast */}
         {message && (
           <div
@@ -384,14 +400,19 @@ export default function InventarioPage() {
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Precio ($)</label>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                      Precio ($) {!isAdmin && <span className="text-rose-600 font-bold">🔒 Solo Admin</span>}
+                    </label>
                     <input
                       type="number"
                       step="0.01"
                       min="0.01"
+                      disabled={!isAdmin}
                       value={editForm.precio}
                       onChange={(e) => setEditForm({ ...editForm, precio: e.target.value })}
-                      className="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500"
+                      className={`w-full border border-slate-300 rounded-xl px-3 py-2 text-sm ${
+                        !isAdmin ? 'bg-slate-100 text-slate-400 cursor-not-allowed' : 'focus:ring-2 focus:ring-teal-500'
+                      }`}
                       required
                     />
                   </div>
@@ -580,7 +601,7 @@ export default function InventarioPage() {
                             )}
 
                             {/* Botón Eliminar (Delete) - Solo Administrador */}
-                            {user?.rol === 'Administrador' && (
+                            {isAdmin && (
                               <button
                                 onClick={() => handleDelete(item.id, item.nombre)}
                                 title="Eliminar producto"
