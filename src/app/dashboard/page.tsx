@@ -39,6 +39,7 @@ export default function DashboardPage() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const isAdmin = user?.rol === 'Administrador';
 
   const fetchStats = async () => {
     try {
@@ -60,10 +61,18 @@ export default function DashboardPage() {
 
   return (
     <AppLayout
-      title="Dashboard General"
-      subtitle="Panel de control e indicadores clave de Comerciales Mely"
+      title={isAdmin ? 'Dashboard Gerencial (Administrador)' : 'Panel Operativo de Almacén (Empleado)'}
+      subtitle={`Sesión iniciada con permisos de: ${user?.rol || 'Usuario'}`}
       actions={
         <div className="flex items-center gap-2">
+          {isAdmin && (
+            <Link
+              href="/usuarios"
+              className="hidden sm:inline-flex items-center gap-1.5 bg-purple-700 hover:bg-purple-800 text-white font-medium text-xs sm:text-sm px-3.5 py-2 rounded-xl transition shadow-xs"
+            >
+              <span>Gestionar Personal</span>
+            </Link>
+          )}
           <Link
             href="/inventario"
             className="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-medium text-xs sm:text-sm px-4 py-2 rounded-xl transition shadow-xs"
@@ -89,15 +98,20 @@ export default function DashboardPage() {
         {/* Banner de Bienvenida */}
         <div className="bg-gradient-to-r from-teal-800 via-teal-700 to-slate-800 text-white rounded-2xl p-6 shadow-md relative overflow-hidden">
           <div className="relative z-10 max-w-2xl">
-            <span className="inline-block bg-teal-900/60 text-teal-200 text-xs font-semibold px-2.5 py-1 rounded-full mb-3 border border-teal-600/40">
-              Etapa 2: Aplicación Web Multiplataforma
+            <span className={`inline-block text-xs font-bold px-3 py-1 rounded-full mb-3 border ${
+              isAdmin
+                ? 'bg-purple-900/60 text-purple-200 border-purple-500/40'
+                : 'bg-emerald-900/60 text-emerald-200 border-emerald-500/40'
+            }`}>
+              Nivel de Acceso: {user?.rol?.toUpperCase()}
             </span>
             <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
               Bienvenido, {user?.nombre || 'Usuario'}
             </h2>
-            <p className="text-teal-100 text-sm mt-1.5 leading-relaxed">
-              Monitorea el estado actual del inventario, productos con existencias críticas y
-              trazabilidad en tiempo real para <strong>Comerciales Mely</strong>.
+            <p className="text-slate-200 text-sm mt-1.5 leading-relaxed">
+              {isAdmin
+                ? 'Tienes control total del sistema: auditoría de costos, gestión de usuarios, catálogo de precios y eliminación de registros.'
+                : 'Tienes acceso operativo para registrar ingresos de mercancía, despacho de pedidos y control de existencias en tiempo real.'}
             </p>
 
             <div className="mt-4 flex flex-wrap gap-3">
@@ -113,6 +127,14 @@ export default function DashboardPage() {
               >
                 Ver Movimientos y Entradas
               </Link>
+              {isAdmin && (
+                <Link
+                  href="/usuarios"
+                  className="bg-purple-600 hover:bg-purple-700 text-white font-medium text-xs sm:text-sm px-4 py-2.5 rounded-xl transition"
+                >
+                  Administrar Usuarios
+                </Link>
+              )}
             </div>
           </div>
 
@@ -175,28 +197,35 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* KPI 3: Valor Total de Inventario */}
-          <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                Valor en Inventario
-              </span>
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+          {/* KPI 3: Valor en Inventario o Estado Operativo */}
+          {isAdmin ? (
+            <div className="bg-white p-5 rounded-2xl border border-purple-200 shadow-xs bg-gradient-to-br from-purple-50/40 to-white">
+              <div className="flex justify-between items-center">
+                <span className="text-xs font-bold uppercase tracking-wider text-purple-700">
+                  Valor Financiero (Admin)
+                </span>
+                <span className="text-[10px] bg-purple-100 text-purple-800 px-2 py-0.5 rounded-md font-bold">
+                  Confidencial
+                </span>
               </div>
+              <div className="mt-2">
+                <span className="text-3xl font-black text-slate-900">
+                  ${loading ? '...' : stats?.totalInventoryValue?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) ?? '0.00'}
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-400 mt-1">Suma de stock × precio de venta</p>
             </div>
-            <div className="mt-3 flex items-baseline gap-2">
-              <span className="text-3xl font-black text-slate-900">
-                ${loading ? '...' : stats?.totalInventoryValue?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) ?? '0.00'}
+          ) : (
+            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                Estado de Almacén
               </span>
+              <div className="mt-2 flex items-baseline gap-2">
+                <span className="text-2xl font-bold text-emerald-600">Operativo</span>
+              </div>
+              <p className="text-[11px] text-slate-400 mt-1">Listo para surtir y despachar</p>
             </div>
-            <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-              <span>Cálculo:</span>
-              <span className="font-semibold text-slate-700">Stock × Precio Unitario</span>
-            </div>
-          </div>
+          )}
 
           {/* KPI 4: Unidades Totales */}
           <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition">
@@ -322,7 +351,7 @@ export default function DashboardPage() {
                         <th className="pb-3">Producto</th>
                         <th className="pb-3">Categoría</th>
                         <th className="pb-3 text-center">Stock Actual</th>
-                        <th className="pb-3 text-right">Precio</th>
+                        {isAdmin && <th className="pb-3 text-right">Precio</th>}
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
@@ -342,9 +371,11 @@ export default function DashboardPage() {
                               {item.stock === 0 ? 'Agotado (0)' : `${item.stock} unidades`}
                             </span>
                           </td>
-                          <td className="py-3 text-right font-semibold text-slate-800">
-                            ${Number(item.precio).toFixed(2)}
-                          </td>
+                          {isAdmin && (
+                            <td className="py-3 text-right font-semibold text-slate-800">
+                              ${Number(item.precio).toFixed(2)}
+                            </td>
+                          )}
                         </tr>
                       ))}
                     </tbody>
