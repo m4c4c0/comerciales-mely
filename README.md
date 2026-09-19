@@ -1,40 +1,48 @@
 # Comerciales Mely — Sistema de Gestión Multiplataforma
-# Etapa 2: Aplicación Web con React + Next.js y API REST
+## Etapa 2: Aplicación Web con React + Next.js y API REST
 
-# Universidad Don Bosco (UDB Virtual) — El Salvador  
-# Asignatura: Diseño y Programación de Software Multiplataforma (DPS941) — Ciclo II 2026  
-# Docente: Alexander Alberto Siguenza Campos  
-# Equipo de Trabajo: R.E.F.E.S  
+**Universidad Don Bosco (UDB Virtual) — El Salvador**  
+**Asignatura:** Diseño y Programación de Software Multiplataforma (DPS941) — Ciclo II 2026  
+**Docente:** Alexander Alberto Siguenza Campos  
+**Equipo de Trabajo:** R.E.F.E.S  
 
-Integrantes del Equipo:
+---
 
-| Integrante                      | Carnet   | Rama en GitHub    | Módulo Asignado                                   |
-| Edwin Wilfredo Cerón Contreras  | CC060761 | `wilfredo_dev`    | Dashboard general, métricas y resumen gerencial   |
-| Jorge Steven Moreno Hernández   | MH222714 | `jorge_dev`       | CRUD de Inventario y control de permisos de precios |
-| Raúl Adalberto Mulato Vasquez   | MV222715 | `raul_dev`        | Gestión de usuarios y API REST de personal        |
-| Fernando Raúl López Torres      | LT172001 | `fernando_dev`    | Menú dinámico, layout y navegación por roles      |
-| Edwin Vladimir Rivera Cubias    | RC232947 | `rivera_dev`      | Movimientos de inventario y trazabilidad          |
+### Integrantes del Equipo
 
-Repositorio en GitHub: https://github.com/m4c4c0/comerciales-mely
-Despliegue en Vercel:  https://comerciales-mely.vercel.app
+| Integrante | Carnet | Rama en GitHub | Módulo Asignado |
+| :--- | :---: | :---: | :--- |
+| **Edwin Wilfredo Cerón Contreras** | CC060761 | `wilfredo_dev` | Dashboard general, métricas y resumen gerencial |
+| **Jorge Steven Moreno Hernández** | MH222714 | `jorge_dev` | CRUD de Inventario y control de permisos de precios |
+| **Raúl Adalberto Mulato Vasquez** | MV222715 | `raul_dev` | Gestión de usuarios y API REST de personal |
+| **Fernando Raúl López Torres** | LT172001 | `fernando_dev` | Menú dinámico, layout y navegación por roles |
+| **Edwin Vladimir Rivera Cubias** | RC232947 | `rivera_dev` | Movimientos de inventario y trazabilidad |
 
-Usuarios para acceder al sistema:
-Raul Mulato
-usuario: raulzometa@gmail.com
-contraseña: 1234
+* **Repositorio en GitHub:** [https://github.com/m4c4c0/comerciales-mely](https://github.com/m4c4c0/comerciales-mely)
+* **Despliegue en Vercel:** [https://comerciales-mely.vercel.app](https://comerciales-mely.vercel.app)
 
-Edwin Rivera
-usuario: rc232946@alumno.udb.edu.sv
-contraseña: 123456
+---
 
-Descripción de la Actividad (Etapa 2):
+### Usuarios para Acceder al Sistema (Evaluación)
 
-En esta etapa se desarrolló la versión web del sistema para Comerciales Mely utilizando **React + Next.js**, implementando la lógica de negocio central y una **API REST** conectada a **Cloud Firestore**. 
+| Rol | Usuario / Correo | Contraseña | Nivel de Acceso |
+| :--- | :--- | :---: | :--- |
+| **Administrador** | `raulzometa@gmail.com` | `1234` | Acceso total, gestión de usuarios y fijación de precios |
+| **Empleado** | `rc232946@alumno.udb.edu.sv` | `123456` | Gestión de stock y consulta de inventario |
+
+> *Nota: En la pantalla de login (`/login`) también se incluye una sección de **Acceso Rápido por Rol** con botones automáticos (`Admin`, `Empleado`, `Facturador`) para agilizar la revisión.*
+
+---
+
+## Descripción de la Actividad (Etapa 2)
+
+En esta etapa se desarrolló la versión web del sistema para **Comerciales Mely** utilizando **React + Next.js**, implementando la lógica de negocio central y una **API REST** conectada a **Cloud Firestore**. 
 
 Este primer avance funcional cumple los requerimientos definidos en la **Etapa 1 (Análisis y Planificación)** y establece la arquitectura base que se integrará con **React Native** en la Etapa 3.
 
+---
 
-Arquitectura y Separación de Capas:
+## Arquitectura y Separación de Capas
 
 El sistema implementa una arquitectura desacoplada en 3 capas de responsabilidad:
 
@@ -45,25 +53,28 @@ El sistema implementa una arquitectura desacoplada en 3 capas de responsabilidad
 
 2. **Capa de Lógica de Negocio:**
    * Gestión de estado global de sesión mediante **Context API** (`AuthContext`).
-   * Validación de reglas de negocio: impedimento de stock negativo, verificación de existencias antes de salidas, y restricción de modificación de precios según rol.
+   * Validación de reglas de negocio: impedimento de stock negativo, verificación de existencias antes de salidas y restricción de precios según rol.
    * Manejo centralizado de errores, estados de carga (`loading`) y notificaciones dinámicas (`toast`).
 
 3. **Capa de Datos:**
    * **API REST interna** desarrollada mediante Next.js Route Handlers (`/api/*`).
    * Persistencia y operaciones NoSQL en tiempo real con **Google Cloud Firestore**.
 
-Requerimientos Técnicos Implementados
+---
 
-**Framework Web:** React 19 + Next.js 16 (App Router, Turbopack, TypeScript).
-**Separación de Capas:** UI independiente de la lógica y del acceso a datos (Context API + Servicios REST).
-**Integración con API REST:** Backend propio con endpoints tipados y respuestas JSON estandarizadas.
-**Diseño Responsivo:** Tailwind CSS optimizado para pantallas móviles, tablets y monitores de escritorio.
-**Seguridad y Rutas Protegidas:** Componente `ProtectedRoute` que verifica el token de sesión y valida los roles permitidos por ruta.
-**Control de Versiones:** Repositorio en GitHub con estrategia de ramas individuales (`*_dev`) y colaboradores asignados.
-**Despliegue Continuo:** Configurado para despliegue en la plataforma **Vercel**.
+## Requerimientos Técnicos Implementados
 
+* **Framework Web:** React 19 + Next.js 16 (App Router, Turbopack, TypeScript).
+* **Separación de Capas:** UI independiente de la lógica y del acceso a datos (Context API + Servicios REST).
+* **Integración con API REST:** Backend propio con endpoints tipados y respuestas JSON estandarizadas.
+* **Diseño Responsivo:** Tailwind CSS optimizado para pantallas móviles, tablets y monitores de escritorio.
+* **Seguridad y Rutas Protegidas:** Componente `ProtectedRoute` que verifica el token de sesión y valida los roles permitidos por ruta.
+* **Control de Versiones:** Repositorio en GitHub con estrategia de ramas individuales (`*_dev`) y colaboradores asignados.
+* **Despliegue Continuo:** Configurado para despliegue en la plataforma **Vercel**.
 
-# REQUERIMIENTOS FUNCIONALES:
+---
+
+## Requerimientos Funcionales
 
 ### 1. Módulo de Autenticación y Control de Acceso
 * **Registro de Usuarios (`/register`):** Creación de cuentas con validación de correo existente, nombre y contraseña cifrada/limpia.
@@ -92,24 +103,26 @@ Requerimientos Técnicos Implementados
 ### 5. Actualización Dinámica de Datos
 * Respuestas asíncronas inmediatas: las altas, bajas y cambios de stock se reflejan instantáneamente en la interfaz sin necesidad de recargar la página.
 
+---
 
+## Roles y Permisos para los Usuarios del Sistema
 
-# ROLES Y PERMISOS PARA LOS USUARIOS DEL SISTEMA:
+| Módulo / Acción | Administrador | Empleado | Facturador |
+| :--- | :---: | :---: | :---: |
+| Acceso al Dashboard | ✅ | ✅ | ✅ |
+| Consultar catálogo de productos | ✅ | ✅ | ✅ |
+| Modificar stock en inventario | ✅ | ✅ | ❌ |
+| Fijar/editar precios y eliminar productos | ✅ | ❌ *(Bloqueado)* | ❌ |
+| Registrar entradas de almacén | ✅ | ✅ | ❌ |
+| Registrar salidas de almacén | ✅ | ✅ | ❌ |
+| Gestión de Usuarios (`/usuarios` y `/api/users`) | ✅ | ❌ *(Bloqueado)* | ❌ |
 
-| Módulo / Acción       | Administrador | Empleado  | Facturador |
-| Acceso al Dashboard   | ✅            | ✅       | ✅         |
-| Consultar catálogo    | ✅            | ✅       | ✅         |
-| Modificar stock       | ✅            | ✅       | ❌         |
-| Fijar/editar precios  | ✅            | ❌       | ❌         |
-| Registrar entradas    | ✅            | ✅       | ❌         |
-| Registrar salidas     | ✅            | ✅       | ❌         |
-| Gestión de Usuarios   | ✅            | ❌       | ❌         |
+---
 
-
-
-# ENDPOINT API REST:
+## Endpoints de la API REST
 
 | Método | Endpoint | Descripción |
+| :---: | :--- | :--- |
 | `POST` | `/api/auth/login` | Autentica usuario y genera token de sesión |
 | `POST` | `/api/auth/register` | Registra nuevos usuarios en el sistema |
 | `GET` | `/api/products` | Obtiene el catálogo completo de productos |
@@ -122,27 +135,35 @@ Requerimientos Técnicos Implementados
 | `GET` | `/api/users` | Lista los usuarios del sistema sin contraseñas (Admin) |
 | `POST` | `/api/users` | Registra usuarios y asigna roles desde el panel (Admin) |
 
+---
 
+## Pasos e Instalación para Ejecución Local
 
-# PASOS Y INSTALACION PARA EJECUCION LOCAL:
-
-# 1. Clonar repositorio y cambiar a tu rama
+### 1. Clonar repositorio y cambiar a tu rama
+```bash
 git clone https://github.com/m4c4c0/comerciales-mely.git
 cd comerciales-mely
 git checkout raul_dev
+```
 
-# 2. Instalar dependencias
+### 2. Instalar dependencias
+```bash
 npm install
+```
 
-# 3. Configurar variables de entorno
+### 3. Configurar variables de entorno
 Crea un archivo `.env.local` en la raíz del proyecto con las credenciales de Firebase:
+```env
 NEXT_PUBLIC_FIREBASE_API_KEY=tu_api_key
 NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=tu_auth_domain
 NEXT_PUBLIC_FIREBASE_PROJECT_ID=tu_project_id
 NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=tu_storage_bucket
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=tu_messaging_sender_id
 NEXT_PUBLIC_FIREBASE_APP_ID=tu_app_id
+```
 
-# 4. Iniciar servidor de desarrollo
+### 4. Iniciar servidor de desarrollo
+```bash
 npm run dev
-Abre el navegador: http://localhost:3000
+```
+Abre en tu navegador: [http://localhost:3000](http://localhost:3000)
