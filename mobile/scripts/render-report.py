@@ -1,7 +1,7 @@
 """Genera informe académico y manual con identidad Mely y evidencias reales."""
 from pathlib import Path
 from html import escape
-import re
+import re,sys
 from reportlab.platypus import (BaseDocTemplate,PageTemplate,Frame,Paragraph,Spacer,PageBreak,Image,Table,TableStyle,KeepTogether,Preformatted)
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.enums import TA_CENTER,TA_LEFT
@@ -94,7 +94,10 @@ for part in parts:
  if title=='Referencias':story.append(PageBreak())
  story.append(p(title,heading))
  for para in re.split(r'\n\s*\n',content.strip()):
-  if para.strip():story.append(reference(para.strip().replace('\n',' ')) if title=='Referencias' else p(para.strip().replace('\n',' '),body))
+  if para.strip().startswith('|'):
+   rows=[[c.strip() for c in line.strip().strip('|').split('|')] for line in para.strip().splitlines() if not re.match(r'^\s*\|?\s*:?-{3}',line)]
+   story.extend([Spacer(1,12),box(rows,[96,96,276]),Spacer(1,12)])
+  elif para.strip():story.append(reference(para.strip().replace('\n',' ')) if title=='Referencias' else p(para.strip().replace('\n',' '),body))
 captions={1:('Acceso','Pantalla de autenticación y selector de perfil.'),2:('Inventario','Catálogo con imágenes, precios y existencias.'),3:('Ficha de producto','Detalle nativo del producto seleccionado.'),4:('Movimiento de entrada','La operación aumenta las existencias y deja historial.'),5:('Venta registrada','Comprobante emitido mediante la operación transaccional.'),6:('Reporte de ventas','El reporte refleja la operación confirmada.'),7:('Persistencia','Las existencias se conservan al cerrar y reabrir.'),8:('Perfil de empleado','Opciones correspondientes a su rol.'),9:('Perfil de cajero','Acceso a ventas y reportes de su perfil.'),10:('Registro','Formulario para crear una cuenta local.'),11:('Cuenta creada','Perfil autenticado después del registro.'),12:('Alertas de stock','Pantalla distinta del perfil; muestra el seguimiento de existencias.'),13:('Formulario vacío','La validación rechaza el acceso sin campos obligatorios.'),14:('Credenciales incorrectas','El sistema no permite acceder con contraseña inválida.'),15:('Registro inválido','La confirmación de contraseña debe coincidir.')}
 figs=[]
 for f in sorted((ROOT/'output/evidence').glob('[0-9][0-9]-*.png')):
@@ -110,6 +113,9 @@ for offset in range(0,len(figs),2):
  if len(cells)==1:cells.append([])
  t=Table([cells],colWidths=[234,234]);t.setStyle(TableStyle([('VALIGN',(0,0),(-1,-1),'TOP'),('LEFTPADDING',(0,0),(-1,-1),7),('RIGHTPADDING',(0,0),(-1,-1),7)]));story.append(t)
 Document(OUT/'Informe_Etapa3_Avance1_Comerciales_Mely.pdf','Informe técnico',True).multiBuild(story)
+if '--report-only' in sys.argv:
+ print('Informe actualizado:',OUT/'Informe_Etapa3_Avance1_Comerciales_Mely.pdf')
+ raise SystemExit(0)
 # Manual con secciones navegables, pasos y comandos preservados.
 manual=(ROOT/'docs/MANUAL_ANDROID_IOS.md').read_text(encoding='utf-8-sig')
 ms=[Spacer(1,560),PageBreak(),p('Antes de comenzar',uih),p('Elige la ruta según el equipo disponible. El APK Android funciona de manera autónoma; el modo de desarrollo requiere herramientas y Metro. Los procedimientos de iOS están preparados y pendientes de validación nativa.',ui),box([['Tu objetivo','Ruta recomendada'],['Usar la app en Android','Sección 2: instalar APK.'],['Conectar Android por USB','Sección 3: instalar con ADB.'],['Cambiar el código Android','Secciones 4 y 5.'],['Probar iOS en un Mac','Sección 6: Xcode y simulador.'],['Compilar iOS en la nube','Sección 7: EAS y firma.'],['Comprobar el funcionamiento','Sección 8: recorrido de aceptación.']],[170,322]),Spacer(1,20),p('Archivos de entrega',uih),p('APK: Comerciales-Mely-etapa3.apk<br/>Video: Comerciales-Mely-Android.mp4<br/>Guion: GUION_NARRACION_VIDEO.md',ui)]

@@ -21,6 +21,7 @@ Los datos se guardan en cada dispositivo. Son cuentas de demostración.
 - Guion para grabar la voz: docs/GUION_NARRACION_VIDEO.md
 - Resultados reales y capturas: output/evidence/VERIFICACION.md
 - Criterios y alcance: docs/CRITERIOS.md
+- Invitación y seguimiento de commits del equipo: https://github.com/m4c4c0/comerciales-mely/issues/9
 
 ## Estado
 

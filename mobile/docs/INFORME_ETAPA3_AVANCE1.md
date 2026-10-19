@@ -92,6 +92,24 @@ El recorrido manual recomendado es iniciar sesión con los tres perfiles, regist
 
 Las capturas incorporadas en el anexo provienen de la app ejecutada y deben leerse junto al registro de pruebas. Los requisitos externos pendientes se enumeran en docs/CRITERIOS.md: incorporación posterior de la voz del equipo al video y participación real de cada integrante. No se inventan contribuciones, resultados de dispositivos o enlaces que no existan.
 
+## 8. Colaboración y seguimiento del equipo
+
+El 19 de octubre de 2026 se verificaron mediante la API de GitHub las cinco cuentas con acceso al repositorio del equipo. La cuenta autenticada para coordinar esta revisión es wilfredo409. Los cuatro compañeros ya disponen de permisos suficientes para publicar sus ramas; por ello, la invitación enviada corresponde a tareas de revisión y aportes, sin generar accesos duplicados.
+
+La coordinación está publicada desde wilfredo409 en el issue 9: https://github.com/m4c4c0/comerciales-mely/issues/9 . Se asignó a Ferhboot, Stevenhzw, m4c4c0 y floripeto. Incluye la rama móvil, tareas propuestas, comandos de preparación y la evidencia que debe presentar cada persona (wilfredo409, 2026b).
+
+| Cuenta GitHub | Acceso verificado | Seguimiento de esta invitación |
+| --- | --- | --- |
+| wilfredo409 | Escritura | Coordinación e integración publicadas; seguimiento del equipo. |
+| Ferhboot | Escritura | Invitado a revisar navegación y flujo por perfil; aporte pendiente. |
+| Stevenhzw | Escritura | Invitado a revisar inventario, validaciones y permisos; aporte pendiente. |
+| m4c4c0 | Administrador | Invitado a revisar acceso, registro, sesión y permisos; aporte pendiente. |
+| floripeto | Escritura | Invitado a revisar movimientos, ventas y trazabilidad; aporte pendiente. |
+
+Los nombres y carnets de los cinco integrantes constan en la portada, conforme al README del repositorio. Esta tabla registra permisos y tareas propuestas; no atribuye a un integrante un módulo terminado ni commits que todavía no existen. La aceptación de una tarea y su implementación se comprueban con la respuesta en el issue, el commit o pull request y el resultado de una prueba real.
+
+Cada integrante debe partir de etapa3/avance1-movil-20261018, trabajar en una rama propia y dirigir su pull request a esa rama móvil. Antes de solicitar integración debe ejecutar las verificaciones del proyecto y explicar su cambio. El informe se actualizará con enlaces y resultados comprobables conforme se reciban. No se requieren commits vacíos para aparentar participación.
+
 ## Conclusiones
 
 La versión móvil transforma los módulos de Comerciales Mely en acciones conectadas: vender modifica el stock, genera un movimiento y actualiza los reportes. Separar estas reglas de las pantallas permite verificarlas de forma independiente. Los componentes reutilizables y las áreas seguras favorecen una presentación consistente en tamaños de pantalla diferentes.
@@ -128,4 +146,6 @@ Universidad Don Bosco. (2026c). Unidad 2: Introducción a React, biblioteca de J
 
 Universidad Don Bosco. (2026d). Unidad 3: Herramientas de diseño y desarrollo en React Native [Material de cátedra]. Dirección de Educación a Distancia.
 
-wilfredo409. (2026). Comerciales Mely: Referencia web [Código fuente]. GitHub. https://github.com/wilfredo409/comerciales-mely-web
+wilfredo409. (2026a). Comerciales Mely: Referencia web [Código fuente]. GitHub. https://github.com/wilfredo409/comerciales-mely-web
+
+wilfredo409. (2026b, 19 de octubre). Etapa 3 móvil: invitación al equipo para revisión, commits y evidencias [Issue 9]. GitHub. https://github.com/m4c4c0/comerciales-mely/issues/9

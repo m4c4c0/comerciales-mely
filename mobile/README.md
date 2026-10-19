@@ -132,3 +132,7 @@ El APK universal de distribución académica está en `output/android/Comerciale
 SHA-256 del APK universal: `2c1718a3a1d0f1b27e79e00c6a460b421b831a4dc20bd42a493cda769fd10d2d`.
 
 Consultar `output/evidence/VERIFICACION.md`, capturas y registro. El video de `docs/demo` es evidencia técnica automática de unos tres minutos, sin voz del equipo; usar el guion para preparar la explicación requerida por la materia.
+
+## Coordinación del equipo
+
+Invitación de revisión y aportes enviada desde wilfredo409: https://github.com/m4c4c0/comerciales-mely/issues/9 . Todos los integrantes tienen acceso al repositorio del equipo. Las tareas, commits y pruebas se registran allí y en docs/COLABORACION.md.

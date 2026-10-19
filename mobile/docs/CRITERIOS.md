@@ -32,3 +32,5 @@ Pendientes: Firebase compartido por web y móvil, autenticación remota en ambas
 El APK y los bundles se consideran listos únicamente si existen y los comandos terminan correctamente. Para iOS se necesita Expo/EAS y, para instalar en iPhone, firma Apple y dispositivo autorizado. Consultar output/evidence/VERIFICACION.md para resultados, sin confundir una exportación JS con un IPA.
 
 Equipo y accesos verificados en docs/COLABORACION.md. No se crearon ramas atribuidas a otros integrantes.
+
+Invitación de trabajo enviada desde wilfredo409 el 19 de octubre de 2026: https://github.com/m4c4c0/comerciales-mely/issues/9 . Los cuatro compañeros ya tienen acceso; sus aportes móviles se comprobarán mediante commits/PR y resultados de pruebas. La invitación y los permisos verificados se incorporaron al informe.

@@ -37,3 +37,7 @@ El video se entrega sin audio, subtítulos ni explicaciones superpuestas. El pri
 Se prepararon identificador com.refes.comercialesmely, icono Mely, permisos, versión 1.0.1/build 2, código compartido y perfiles EAS. La exportación JavaScript/Hermes iOS terminó correctamente. No se generó un IPA ni se realizaron pruebas nativas en iPhone. El manual distingue Mac/Xcode, build para simulador y distribución interna con firma Apple.
 
 SQLite conserva datos por instalación. Firebase Authentication, Google, Firestore y sincronización con la web pertenecen al siguiente avance. La participación de los integrantes y la narración posterior deben ser reales.
+
+## Seguimiento documental del equipo
+
+El 19 de octubre de 2026 se verificó la sesión wilfredo409 y los accesos de los cinco integrantes. Desde esa cuenta se publicó la invitación de trabajo https://github.com/m4c4c0/comerciales-mely/issues/9, asignada a Ferhboot, Stevenhzw, m4c4c0 y floripeto. El informe incluye permisos y seguimiento; los aportes de los compañeros quedan pendientes de evidencia real.
