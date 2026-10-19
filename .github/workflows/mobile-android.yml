@@ -1,0 +1,88 @@
+name: Comerciales Mely - APK Android
+on:
+  workflow_dispatch:
+  push:
+    branches: [etapa3/avance1-movil-20261018]
+    paths: [mobile/src/**, mobile/assets/**, mobile/package.json, mobile/package-lock.json, mobile/app.json]
+permissions:
+  contents: read
+concurrency:
+  group: mely-android-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    defaults:
+      run:
+        working-directory: mobile
+    env:
+      CI: '1'
+      CMAKE_BUILD_PARALLEL_LEVEL: '2'
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '25'
+      - name: Instalar dependencias verificables
+        run: npm ci
+      - name: Verificar reglas y formularios
+        run: |
+          npm test
+          npm run lint
+          npm run typecheck
+      - name: Generar proyecto Android
+        run: npx expo prebuild --platform android --no-install
+      - name: Compilar APK autonomo
+        run: |
+          chmod +x android/gradlew
+          cd android
+          ./gradlew assembleRelease -PreactNativeArchitectures=arm64-v8a,x86_64 --max-workers=2 --no-daemon
+          cd ..
+          mkdir -p output/android
+          cp android/app/build/outputs/apk/release/app-release.apk output/android/Comerciales-Mely-etapa3.apk
+          sha256sum output/android/Comerciales-Mely-etapa3.apk > output/android/SHA256SUMS.txt
+      - name: Guardar APK
+        uses: actions/upload-artifact@v7
+        with:
+          name: Comerciales-Mely-Android
+          path: mobile/output/android/
+          if-no-files-found: error
+          retention-days: 30
+      - name: Habilitar KVM del runner
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Probar la app en Android 14
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          ram-size: 2048M
+          heap-size: 512M
+          disk-size: 2G
+          disable-animations: true
+          emulator-boot-timeout: 600
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none
+          script: |
+            adb install -r mobile/output/android/Comerciales-Mely-etapa3.apk
+            python3 mobile/scripts/android-smoke.py --reset-demo --record
+      - name: Conservar evidencias de dispositivo
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: Comerciales-Mely-Evidencias
+          path: |
+            mobile/output/evidence/
+            mobile/output/video/
+          if-no-files-found: warn
+          retention-days: 30
