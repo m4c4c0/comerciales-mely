@@ -4,7 +4,7 @@ Universidad Don Bosco, Facultad de Ingeniería
 Diseño y Programación de Software Multiplataforma - DPS941
 Ciclo II-2026 · Equipo R.E.F.E.S
 Etapa 3: Avance 1 (Foro de Discusión 1)
-18 de octubre de 2026
+19 de octubre de 2026
 
 Cerón Contreras, Edwin Wilfredo - CC060761
 Moreno Hernández, Jorge Steven - MH222714
@@ -46,7 +46,7 @@ Los controles táctiles tienen una altura mínima de 48 unidades, etiquetas de a
 
 La presentación está en src/app y src/components; la lógica de negocio está en src/domain/business.mjs; el acceso a SQLite y al almacén seguro se concentra en src/services. AppContext conecta la sesión y los datos con las pantallas. La separación permite probar las reglas sin montar una interfaz y reemplazar posteriormente la persistencia sin reescribir cada formulario.
 
-Expo Router organiza las rutas como archivos y utiliza la infraestructura de React Navigation. Las rutas públicas son login y registro; el grupo autenticado contiene Inventario, Movimientos, Alertas, Perfil, Ficha Técnica, Resumen, Ventas y Reportes. Las cuatro primeras forman la barra principal del prototipo; las herramientas adicionales se abren desde Perfil. Stack.Protected condiciona el acceso a la sesión activa (Expo, s. f.-b). Las pantallas de ventas y reportes revisan adicionalmente el perfil, y la capa de datos valida cada operación antes de escribir. Ocultar una pestaña por sí solo no se considera autorización suficiente.
+Expo Router organiza las rutas como archivos y utiliza la infraestructura de React Navigation. Las rutas públicas son login y registro; el grupo autenticado contiene Inventario, Movimientos, Alertas, Perfil, Ficha Técnica, Resumen, Ventas y Reportes. Las cuatro primeras forman la barra principal del prototipo; las herramientas adicionales se abren desde Perfil. En Expo Router 58, href nulo se convierte internamente en una ruta oculta con redirección. Para conservar accesibles las herramientas secundarias se oculta únicamente su botón con tabBarButton y tabBarItemStyle, sin marcar la ruta como hidden. La prueba del APK permitió detectar y corregir esta diferencia respecto de ejemplos de versiones anteriores. Stack.Protected condiciona el acceso a la sesión activa (Expo, s. f.-b). Se declara redirectTo de forma explícita: el grupo autenticado vuelve a /login al revocarse la sesión y las rutas públicas vuelven a /inventario al ingresar. El recorrido en Android valida también esta transición, porque persistir o revocar el token no sustituye comprobar la pantalla de destino. Las pantallas de ventas y reportes revisan adicionalmente el perfil, y la capa de datos valida cada operación antes de escribir. Ocultar una pestaña por sí solo no se considera autorización suficiente.
 
 El administrador puede gestionar productos, archivar, registrar movimientos y vender. El empleado consulta y gestiona inventario y bodega, pero no emite ventas. El facturador consulta productos y movimientos, emite comprobantes y revisa reportes, pero no altera directamente las existencias. El registro público permite únicamente empleado o facturador. Son permisos de un prototipo local: una aplicación distribuida entre dispositivos necesitará autorización impuesta por el backend o por las reglas de Firebase.
 
@@ -84,7 +84,7 @@ En Windows no se dispone de Xcode para compilar localmente iOS. EAS ofrece compi
 
 ## 7. Verificación y evidencias
 
-Las pruebas automatizadas del dominio verifican redondeo monetario, actualización de stock, rechazo de artículos duplicados que exceden existencias, reversión ante una línea inválida, permisos por rol, cantidades fraccionarias, registro sin elevación a administrador, archivo de productos y reportes por fecha local. La evidencia reproducible se obtiene mediante npm test. Lint, revisión de tipos y exportaciones de plataforma complementan la verificación, sin sustituir las pruebas en el dispositivo.
+Las pruebas automatizadas del dominio verifican redondeo monetario, actualización de stock, rechazo de artículos duplicados que exceden existencias, reversión ante una línea inválida, permisos por rol, cantidades fraccionarias, registro sin elevación a administrador, archivo de productos y reportes por fecha local. La evidencia reproducible se obtiene mediante npm test. Lint, revisión sintáctica y exportaciones de plataforma complementan la verificación, sin sustituir las pruebas en el dispositivo. La ejecución 39199889132 de GitHub Actions compiló el APK y completó once comprobaciones de interfaz en Android 14: acceso, validación, catálogo, ficha, entrada, venta, reportes, persistencia, dos perfiles y cierre de sesión. Las primeras nueve capturas del anexo y el registro JSON corresponden a esa ejecución real. Una comprobación adicional sobre el mismo APK confirmó registro de una cuenta de empleado, reingreso y cierre; sus tres capturas y registro están incluidos como evidencia adicional.
 
 El recorrido manual recomendado es iniciar sesión con los tres perfiles, registrar una cuenta, buscar un producto, guardar una imagen, crear una entrada, intentar una salida excesiva, emitir una venta y comprobar el descuento en Inventario y el importe en Reportes. Después debe cerrarse y reabrirse la app para revisar persistencia. El video debe mostrar errores controlados y explicar el código responsable, no únicamente recorrer pantallas.
 

@@ -2,7 +2,7 @@ name: Comerciales Mely - APK Android
 on:
   workflow_dispatch:
   push:
-    branches: [etapa3/avance1-movil-20261018]
+    branches: [main, etapa3/avance1-movil-20261018]
     paths: [mobile/src/**, mobile/assets/**, mobile/package.json, mobile/package-lock.json, mobile/app.json]
 permissions:
   contents: read
@@ -76,6 +76,7 @@ jobs:
           script: |
             adb install -r mobile/output/android/Comerciales-Mely-etapa3.apk
             python3 mobile/scripts/android-smoke.py --reset-demo --record
+            python3 mobile/scripts/android-register.py
       - name: Conservar evidencias de dispositivo
         if: always()
         uses: actions/upload-artifact@v7

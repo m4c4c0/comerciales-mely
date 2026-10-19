@@ -16,7 +16,8 @@ PACKAGE = json.loads((ROOT/'app.json').read_text(encoding='utf-8'))['expo']['and
 OUT = ROOT/'output/evidence'
 OUT.mkdir(parents=True, exist_ok=True)
 steps = []
-(OUT/'ANDROID_SMOKE_OK.txt').unlink(missing_ok=True)
+if __name__ == '__main__':
+    (OUT/'ANDROID_SMOKE_OK.txt').unlink(missing_ok=True)
 started = time.monotonic()
 recording = None
 
@@ -50,8 +51,8 @@ def tap(text, editable=False, contains=False):
 
 def navigate(control, expected):
     for attempt in range(3):
-        tap(control)
         try:
+            tap(control)
             return wait(expected, 12)
         except RuntimeError:
             if attempt == 2: raise
@@ -68,6 +69,15 @@ def wait(text, seconds=35):
     while time.monotonic()<deadline:
         try:
             root=dump()
+            labels=[label(n) for n in root.iter('node')]
+            if any(v in ("Pixel Launcher isn't responding", "System UI isn't responding") for v in labels):
+                close=next((n for n in root.iter('node') if label(n).casefold()=='close app'),None)
+                if close is not None:
+                    x1,y1,x2,y2=map(int,re.findall(r'\d+',close.attrib['bounds']))
+                    adb('shell','input','tap',str((x1+x2)//2),str((y1+y2)//2))
+                    print('Cerrado el diálogo ANR de un componente del sistema del emulador.',flush=True)
+                    time.sleep(1)
+                    continue
             if any(text.casefold() in label(n).casefold() for n in root.iter('node')): return root
         except (RuntimeError,ET.ParseError): pass
         time.sleep(.8)
@@ -95,71 +105,77 @@ def scroll():
     w,h=map(int,re.search(r'(\d+)x(\d+)',size).groups())
     adb('shell','input','swipe',str(w//2),str(int(h*.78)),str(w//2),str(int(h*.30)),'450');time.sleep(.4)
 
-try:
-    if opts.reset_demo:
-        if not opts.device.startswith('emulator-'): raise RuntimeError('--reset-demo solo se permite en emuladores.')
-        adb('shell','pm','clear',PACKAGE)
-    if opts.record:
-        recording = subprocess.Popen([ADB,'-s',opts.device,'shell','screenrecord','--size','720x1280','--bit-rate','2000000','--time-limit','180','/sdcard/mely-demo.mp4'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
-        time.sleep(1)
-        started = time.monotonic()
-    adb('shell','am','force-stop',PACKAGE)
-    adb('shell','am','start','-n',PACKAGE+'/.MainActivity')
-    wait('Rol de acceso',90);screenshot('01-login.png');record('Inicio autónomo del APK y pantalla de acceso')
-    tap('Iniciar sesión');wait('usuario:');record('Validación de formulario vacío')
-    login('admin','admin123','Admin');screenshot('02-inventario.png');record('Autenticación y catálogo con recursos de Figma')
-    navigate('Ver Espejo de Tocador LED','Ficha Técnica');screenshot('03-producto.png');record('Navegación a ficha técnica con fotografía')
-    tap('Volver al inventario');tap('Movimientos',contains=True);wait('Registrar Movimiento')
-    tap('Seleccionar producto');tap('Seleccionar Set de 6 vasos plásticos');wait('Stock actual en sala:')
-    root=dump();stock_text=' '.join(label(n) for n in root.iter('node'))
-    initial=int(re.search(r'Stock actual en sala: (\d+)',stock_text).group(1))
-    fill('Cantidad de Unidades','2');fill('Notas / Justificación','Compra de prueba');tap('Registrar Movimiento')
-    wait(f'Stock actual en sala: {initial+2}');screenshot('04-movimientos.png');record('Entrada de bodega persistida y stock actualizado')
-    profile();tap('Ventas y facturación');wait('Nueva venta')
-    tap('+ Agregar producto');tap('Agregar Set de 6 vasos plásticos');wait('Cantidad: Set de 6 vasos plásticos')
-    tap('Emitir comprobante');tap('Confirmar');wait('Venta registrada');tap('OK');record('Venta confirmada con descuento transaccional de inventario')
-    screenshot('05-ventas.png')
-    profile();tap('Reportes y estadísticas');wait('Ventas diarias');screenshot('06-reportes.png');record('Reportes y gráfica actualizados con la venta')
-    adb('shell','am','force-stop',PACKAGE);adb('shell','am','start','-n',PACKAGE+'/.MainActivity');wait('Catálogo Mely')
-    fill('Buscar producto o categoría','vasos');wait(f'{initial+1} uds');screenshot('07-persistencia.png');record('Datos y sesión conservados tras cerrar y reabrir la app')
-    logout();login('empleado','empleado123','Empleado');profile()
-    root=dump();all_text=' '.join(label(n) for n in root.iter('node'))
-    assert 'Ventas y facturación' not in all_text,'El empleado no debe acceder a ventas'
-    screenshot('08-permisos-empleado.png');record('Permisos diferenciados del empleado')
-    logout();login('facturador','factura123','Cajero');profile();wait('Ventas y facturación');screenshot('09-permisos-cajero.png');record('Permisos diferenciados del cajero')
-    logout();record('Cierre de sesión revocado y retorno al acceso público')
-    (OUT/'ANDROID_SMOKE_OK.txt').write_text('Recorrido Android completado: '+str(len(steps))+' comprobaciones.\n',encoding='utf-8')
-except Exception as exc:
+def main():
+    global started, recording
     try:
-        screenshot('smoke-failure.png')
-        pid=adb('shell','pidof',PACKAGE).decode().strip()
-        (OUT/'logcat.txt').write_bytes(adb('logcat','-d','--pid='+pid))
-    except Exception:pass
-    try:
-        tap('Perfil',contains=True);time.sleep(2);screenshot('diagnostico-perfil.png')
-        (OUT/'diagnostico-perfil.xml').write_bytes(adb('shell','uiautomator','dump','/dev/tty'))
-    except Exception:pass
-    steps.append({'paso':'Recorrido interrumpido','resultado':'ERROR','detalle':str(exc)})
-    (OUT/'android-smoke.json').write_text(json.dumps(steps,ensure_ascii=False,indent=2),encoding='utf-8')
-    raise
+        if opts.reset_demo:
+            if not opts.device.startswith('emulator-'): raise RuntimeError('--reset-demo solo se permite en emuladores.')
+            adb('shell','pm','clear',PACKAGE)
+        if opts.record:
+            recording = subprocess.Popen([ADB,'-s',opts.device,'shell','screenrecord','--size','720x1280','--bit-rate','2000000','--time-limit','180','/sdcard/mely-demo.mp4'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+            time.sleep(1)
+            started = time.monotonic()
+        adb('shell','am','force-stop',PACKAGE)
+        adb('shell','am','start','-n',PACKAGE+'/.MainActivity')
+        wait('Rol de acceso',90);screenshot('01-login.png');record('Inicio autónomo del APK y pantalla de acceso')
+        tap('Iniciar sesión');wait('usuario:');record('Validación de formulario vacío')
+        login('admin','admin123','Admin');screenshot('02-inventario.png');record('Autenticación y catálogo con recursos de Figma')
+        navigate('Ver Espejo de Tocador LED','Ficha Técnica');screenshot('03-producto.png');record('Navegación a ficha técnica con fotografía')
+        tap('Volver al inventario');tap('Movimientos',contains=True);wait('Registrar Movimiento')
+        tap('Seleccionar producto');tap('Seleccionar Set de 6 vasos plásticos');wait('Stock actual en sala:')
+        root=dump();stock_text=' '.join(label(n) for n in root.iter('node'))
+        initial=int(re.search(r'Stock actual en sala: (\d+)',stock_text).group(1))
+        fill('Cantidad de Unidades','2');fill('Notas / Justificación','Compra de prueba');tap('Registrar Movimiento')
+        wait(f'Stock actual en sala: {initial+2}');screenshot('04-movimientos.png');record('Entrada de bodega persistida y stock actualizado')
+        profile();tap('Ventas y facturación');wait('Nueva venta')
+        tap('+ Agregar producto');tap('Agregar Set de 6 vasos plásticos');wait('Cantidad: Set de 6 vasos plásticos')
+        tap('Emitir comprobante');tap('Confirmar');wait('Venta registrada');tap('OK');record('Venta confirmada con descuento transaccional de inventario')
+        screenshot('05-ventas.png')
+        profile();tap('Reportes y estadísticas');wait('Ventas diarias');screenshot('06-reportes.png');record('Reportes y gráfica actualizados con la venta')
+        adb('shell','am','force-stop',PACKAGE);adb('shell','am','start','-n',PACKAGE+'/.MainActivity');wait('Catálogo Mely')
+        fill('Buscar producto o categoría','vasos');wait(f'{initial+1} uds');screenshot('07-persistencia.png');record('Datos y sesión conservados tras cerrar y reabrir la app')
+        logout();login('empleado','empleado123','Empleado');profile()
+        root=dump();all_text=' '.join(label(n) for n in root.iter('node'))
+        assert 'Ventas y facturación' not in all_text,'El empleado no debe acceder a ventas'
+        screenshot('08-permisos-empleado.png');record('Permisos diferenciados del empleado')
+        logout();login('facturador','factura123','Cajero');profile();wait('Ventas y facturación');screenshot('09-permisos-cajero.png');record('Permisos diferenciados del cajero')
+        logout();record('Cierre de sesión revocado y retorno al acceso público')
+        (OUT/'ANDROID_SMOKE_OK.txt').write_text('Recorrido Android completado: '+str(len(steps))+' comprobaciones.\n',encoding='utf-8')
+    except Exception as exc:
+        try:
+            screenshot('smoke-failure.png')
+            pid=adb('shell','pidof',PACKAGE).decode().strip()
+            (OUT/'logcat.txt').write_bytes(adb('logcat','-d','--pid='+pid))
+        except Exception:pass
+        try:
+            tap('Perfil',contains=True);time.sleep(2);screenshot('diagnostico-perfil.png')
+            (OUT/'diagnostico-perfil.xml').write_bytes(adb('shell','uiautomator','dump','/dev/tty'))
+        except Exception:pass
+        steps.append({'paso':'Recorrido interrumpido','resultado':'ERROR','detalle':str(exc)})
+        (OUT/'android-smoke.json').write_text(json.dumps(steps,ensure_ascii=False,indent=2),encoding='utf-8')
+        raise
 
-finally:
-    if recording is not None:
-        try:
-            adb('shell','pkill','-INT','screenrecord')
-        except Exception: pass
-        try: recording.wait(timeout=15)
-        except subprocess.TimeoutExpired: recording.terminate()
-        video=ROOT/'output/video';video.mkdir(parents=True,exist_ok=True)
-        name='Comerciales-Mely-Android' if (OUT/'ANDROID_SMOKE_OK.txt').exists() else 'Demostracion-parcial'
-        try:
-            adb('pull','/sdcard/mely-demo.mp4',str(video/(name+'.mp4')),timeout=90)
-            def stamp(value):
-                total=int(value*1000);h,total=divmod(total,3600000);m,total=divmod(total,60000);sec,ms=divmod(total,1000);return f'{h:02}:{m:02}:{sec:02},{ms:03}'
-            subtitles=[]
-            for i,step in enumerate(steps):
-                at=step.get('segundos',181)
-                if at>=178:continue
-                subtitles.append(f'{len(subtitles)+1}\n{stamp(max(0,at-1))} --> {stamp(min(179,at+5))}\n{step["paso"]}\n')
-            (video/(name+'.srt')).write_text(chr(10).join(subtitles).replace(chr(92)+'n',chr(10)),encoding='utf-8')
-        except Exception as error: print('Video no recuperado:',error,flush=True)
+    finally:
+        if recording is not None:
+            try:
+                adb('shell','pkill','-INT','screenrecord')
+            except Exception: pass
+            try: recording.wait(timeout=15)
+            except subprocess.TimeoutExpired: recording.terminate()
+            video=ROOT/'output/video';video.mkdir(parents=True,exist_ok=True)
+            name='Comerciales-Mely-Android' if (OUT/'ANDROID_SMOKE_OK.txt').exists() else 'Demostracion-parcial'
+            try:
+                adb('pull','/sdcard/mely-demo.mp4',str(video/(name+'.mp4')),timeout=90)
+                def stamp(value):
+                    total=int(value*1000);h,total=divmod(total,3600000);m,total=divmod(total,60000);sec,ms=divmod(total,1000);return f'{h:02}:{m:02}:{sec:02},{ms:03}'
+                subtitles=[]
+                for i,step in enumerate(steps):
+                    at=step.get('segundos',181)
+                    if at>=178:continue
+                    subtitles.append(f'{len(subtitles)+1}\n{stamp(max(0,at-1))} --> {stamp(min(179,at+5))}\n{step["paso"]}\n')
+                (video/(name+'.srt')).write_text(chr(10).join(subtitles).replace(chr(92)+'n',chr(10)),encoding='utf-8')
+            except Exception as error: print('Video no recuperado:',error,flush=True)
+
+
+if __name__ == '__main__':
+    main()

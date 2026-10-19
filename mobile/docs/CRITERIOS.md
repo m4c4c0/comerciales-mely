@@ -6,14 +6,14 @@ Fuente principal: ruta de aprendizaje DPS941 CII-2026. El archivo de unidades 1 
 
 | Criterio | Implementación/evidencia | Estado |
 | --- | --- | --- |
-| Pantallas React Native | Login, registro, catálogo, ficha, movimientos, alertas, perfil, resumen, ventas y reportes | Implementado; revisar pruebas de ejecución |
-| Login/registro funcional | bcrypt, Zod, SQLite, SecureStore, perfil validado y rutas protegidas | Implementado; revisar pruebas de ejecución |
+| Pantallas React Native | Login, registro, catálogo, ficha, movimientos, alertas, perfil, resumen, ventas y reportes | Verificado en Android 14; ver registro y capturas |
+| Login/registro funcional | bcrypt, Zod, SQLite, SecureStore, perfil validado y rutas protegidas | Verificado en Android 14; ver registro y capturas |
 | Módulo principal y navegación | Expo Router; cuatro pestañas del prototipo y rutas secundarias | Implementado |
-| Coherencia con Figma | Nodos originales verificados, tokens e imágenes locales | Referencia aplicada; ver capturas comparativas |
-| Formularios validados | Zod, cantidades enteras, stock, precio mínimo, confirmación de contraseña | Implementado; 11 pruebas de dominio |
-| Investigación React Native/Figma en APA 7 | Fuente Markdown e informe PDF con referencias y análisis propio | Ver archivo final y revisión visual |
-| Repositorio GitHub con proyecto móvil | Carpeta mobile en rama etapa3/avance1-movil-20261018 del repositorio del equipo | Código en rama de entrega |
-| Video demostrativo <=15 min | Guion en docs/GUION_VIDEO.md | Falta grabación con explicación del equipo y enlace público |
+| Coherencia con Figma | Nodos originales verificados, tokens e imágenes locales | Referencia aplicada; originales y capturas reales disponibles |
+| Formularios validados | Zod, cantidades enteras, stock, precio mínimo, confirmación de contraseña | Implementado; 11 pruebas de dominio y validación UI |
+| Investigación React Native/Figma en APA 7 | Fuente Markdown e informe PDF con referencias y análisis propio | PDF generado y revisado visualmente |
+| Repositorio GitHub con proyecto móvil | Carpeta mobile en rama etapa3/avance1-movil-20261018 del repositorio del equipo | Publicado en rama de entrega |
+| Video demostrativo <=15 min | Guion y video técnico automático disponibles | Falta explicación grabada del equipo y publicación de su enlace |
 
 ## Complejidad transversal
 

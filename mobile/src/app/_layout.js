@@ -24,11 +24,11 @@ function Navigation() {
     );
   return (
     <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Protected guard={!user}>
+      <Stack.Protected guard={!user} redirectTo="/inventario">
         <Stack.Screen name="login" />
         <Stack.Screen name="registro" />
       </Stack.Protected>
-      <Stack.Protected guard={!!user}>
+      <Stack.Protected guard={!!user} redirectTo="/login">
         <Stack.Screen name="(tabs)" />
       </Stack.Protected>
       <Stack.Screen name="index" />

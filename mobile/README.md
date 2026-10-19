@@ -1,5 +1,9 @@
 # Comerciales Mely - aplicación móvil
 
+Guía rápida de instalación y entrega: [ENTREGA.md](ENTREGA.md).
+
+Descargas de la versión académica: https://github.com/m4c4c0/comerciales-mely/releases/tag/etapa3-avance1-android-v1.0.0
+
 Proyecto React Native/Expo para DPS941, Universidad Don Bosco, Ciclo II-2026. Etapa 3, Avance 1. Equipo R.E.F.E.S.
 
 Repositorio compartido: https://github.com/m4c4c0/comerciales-mely
@@ -10,12 +14,11 @@ Prototipo original: https://www.figma.com/proto/11GPTpTj3RrHusfOA9qqOr/?node-id=
 
 ## Instalación
 
-Requiere Node.js >=22.13, npm y, para compilación local Android, Android Studio con SDK, NDK y JDK compatibles con Expo SDK 58. El script utiliza el JDK de Android Studio. No es necesario cambiar el Java global de Windows.
+Requiere Node.js >=22.13, npm y, para compilación local Android, Android Studio con SDK, NDK y JDK compatibles con Expo SDK 58. El script utiliza el JDK de Android Studio y prepara Ninja 1.13.2 dentro de tools/native, verificando la huella oficial para admitir rutas largas de Windows. No es necesario cambiar el Java global de Windows.
 
 ```powershell
 npm ci
 npm run start
-npm run android
 ```
 
 `npm run start` sirve para desarrollo con Expo Go compatible o con una compilación de desarrollo. Para entregar una app autónoma utiliza el APK release:
@@ -62,7 +65,7 @@ Estas cuentas son exclusivamente de prueba. Las cuentas y datos se almacenan por
 - Alertas de stock, dashboard y reportes con gráfica de siete días.
 - Actualización del estado compartido a través de Context API y persistencia SQLite.
 
-La barra principal conserva Inventario, Movimientos, Alertas y Perfil del Figma. Desde Perfil se accede al resumen, ventas y reportes. Las pantallas adicionales son extensiones funcionales de la propuesta.
+La barra principal conserva Inventario, Movimientos, Alertas y Perfil del Figma. Desde Perfil se accede al resumen, ventas y reportes. Las pantallas adicionales son extensiones funcionales de la propuesta. Sus botones se ocultan con `tabBarButton` y `tabBarItemStyle`: en Router 58, `href: null` redirige y no sirve para estas rutas accesibles desde Perfil.
 
 ## Arquitectura
 
@@ -113,3 +116,19 @@ Archivo Figma: `11GPTpTj3RrHusfOA9qqOr`.
 | Alertas | 4:1467 |
 
 Se conservan fondo #F3F4F6, naranja #D97706, texto #111827, bordes #E5E7EB, Inter y los recursos originales locales. Las barras del sistema se delegan a Android/iOS. La app añade registro y operaciones que el prototipo representa visualmente; el usuario/correo admite compatibilidad con las cuentas de la web.
+
+
+## Repositorio del equipo
+
+Código móvil: https://github.com/m4c4c0/comerciales-mely/tree/etapa3/avance1-movil-20261018/mobile
+
+Los cinco colaboradores ya tienen acceso. Sus cuentas y ramas reales están documentadas en `docs/COLABORACION.md`. La portada y docente se contrastaron con el README compartido. Guía para completar la plataforma Apple: `docs/IOS_PREPARACION.md`.
+
+
+## APK y resultados de la entrega
+
+El APK universal de distribución académica está en `output/android/Comerciales-Mely-etapa3.apk`. El recorrido completo de Android 14 y la compilación terminaron correctamente: https://github.com/wilfredo409/comerciales-mely-web/actions/runs/39199889132 . También se compiló ARM64 en Windows.
+
+SHA-256 del APK universal: `2c1718a3a1d0f1b27e79e00c6a460b421b831a4dc20bd42a493cda769fd10d2d`.
+
+Consultar `output/evidence/VERIFICACION.md`, capturas y registro. El video de `docs/demo` es evidencia técnica automática de unos tres minutos, sin voz del equipo; usar el guion para preparar la explicación requerida por la materia.
