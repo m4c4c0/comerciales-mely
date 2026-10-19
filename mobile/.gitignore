@@ -60,3 +60,7 @@ yarn-error.*
 # Cachés de herramientas de verificación
 __pycache__/
 *.py[cod]
+
+# Procedencia y verificación del video de entrega
+!/output/evidence/video-*
+!/output/evidence/VIDEO_FINAL.json

@@ -14,15 +14,16 @@ Los datos se guardan en cada dispositivo. Son cuentas de demostración.
 
 ## Archivos para entregar
 
-- APK, código fuente ZIP, informe PDF y video técnico: https://github.com/m4c4c0/comerciales-mely/releases/tag/etapa3-avance1-android-v1.0.0
+- APK 1.0.1 con icono Mely, fuentes, informe, manual y video: https://github.com/m4c4c0/comerciales-mely/releases/tag/etapa3-avance1-android-v1.0.1
 - Código del equipo: https://github.com/m4c4c0/comerciales-mely/tree/etapa3/avance1-movil-20261018/mobile
 - Informe local: output/pdf/Informe_Etapa3_Avance1_Comerciales_Mely.pdf
-- Guion de explicación: docs/GUION_VIDEO.md
+- Manual paso a paso: output/pdf/Manual_Android_iOS_Comerciales_Mely.pdf
+- Guion para grabar la voz: docs/GUION_NARRACION_VIDEO.md
 - Resultados reales y capturas: output/evidence/VERIFICACION.md
 - Criterios y alcance: docs/CRITERIOS.md
 
 ## Estado
 
-La compilación universal y las once comprobaciones del recorrido completo pasaron en Android 14. También se compiló ARM64 en Windows. Se exportaron los bundles finales Android e iOS y se prepararon perfiles EAS, permisos e instrucciones para iOS; no se generó un IPA.
+La compilación universal y las once comprobaciones del recorrido completo pasaron en Android 14. Se exportaron los bundles finales Android e iOS y se prepararon perfiles EAS, permisos e instrucciones para iOS; no se generó un IPA.
 
-La entrega está organizada para el primer avance de la etapa 3. El video automático de apoyo muestra operaciones reales y no tiene voz del equipo: los integrantes deben grabar su explicación de máximo 15 minutos con el guion. Para los avances posteriores quedan Firebase Authentication, Google, Firestore y sincronización con la web, según la matriz de criterios. Los commits y explicaciones de cada integrante deben corresponder a su participación real.
+La entrega está organizada para el primer avance de la etapa 3. El video de entrega muestra el registro real de compilación y las pruebas de la app sin audio, subtítulos ni explicaciones superpuestas. Se adjunta un guion con tiempos para grabar la voz y añadirla al montaje final, de máximo 15 minutos. Para los avances posteriores quedan Firebase Authentication, Google, Firestore y sincronización con la web, según la matriz de criterios. Los commits y explicaciones de cada integrante deben corresponder a su participación real.

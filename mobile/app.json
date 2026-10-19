@@ -2,25 +2,26 @@
   "expo": {
     "name": "Comerciales Mely",
     "slug": "comerciales-mely-movil",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/mely-icon.png",
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.refes.comercialesmely",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
-      }
+      },
+      "buildNumber": "2"
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
+        "backgroundColor": "#111D30",
+        "foregroundImage": "./assets/mely-adaptive-foreground.png",
+        "monochromeImage": "./assets/mely-monochrome.png"
       },
-      "package": "com.anonymous.comercialesmelymovil"
+      "package": "com.anonymous.comercialesmelymovil",
+      "versionCode": 2
     },
     "web": {
       "favicon": "./assets/favicon.png"

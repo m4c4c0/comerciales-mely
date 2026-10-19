@@ -13,7 +13,7 @@ Fuente principal: ruta de aprendizaje DPS941 CII-2026. El archivo de unidades 1 
 | Formularios validados | Zod, cantidades enteras, stock, precio mínimo, confirmación de contraseña | Implementado; 11 pruebas de dominio y validación UI |
 | Investigación React Native/Figma en APA 7 | Fuente Markdown e informe PDF con referencias y análisis propio | PDF generado y revisado visualmente |
 | Repositorio GitHub con proyecto móvil | Carpeta mobile en rama etapa3/avance1-movil-20261018 del repositorio del equipo | Publicado en rama de entrega |
-| Video demostrativo <=15 min | Guion y video técnico automático disponibles | Falta explicación grabada del equipo y publicación de su enlace |
+| Video demostrativo <=15 min | Video de compilación y pruebas reales sin audio, y guion de narración separado | Video base listo; voz posterior a cargo del equipo, según solicitud |
 
 ## Complejidad transversal
 

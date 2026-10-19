@@ -1,51 +1,39 @@
-# Verificación final de Android y preparación iOS
+# Verificación de la entrega revisada 1.0.1
 
-Preparación de entrega: 19 de octubre de 2026.
+Fecha: 19 de octubre de 2026. Alcance: Android y preparación iOS.
 
-## APK de entrega
+## APK publicado
 
-Archivo: `output/android/Comerciales-Mely-etapa3.apk`.
-Tamaño: 68 238 512 bytes.
-SHA-256: `2c1718a3a1d0f1b27e79e00c6a460b421b831a4dc20bd42a493cda769fd10d2d`.
-ABI: arm64-v8a para teléfonos y x86_64 para emuladores. Incluye JavaScript/Hermes y recursos locales; no depende de Metro.
+Archivo: output/android/Comerciales-Mely-etapa3.apk.
+Versión: 1.0.1, versionCode 2. Tamaño: 67 999 511 bytes.
+SHA-256: 6792082993bca31cae82b40b59f1644d109fae1f4c7f16e7fffd398177411442.
+Paquete: com.anonymous.comercialesmelymovil. ABI: arm64-v8a y x86_64.
+Android mínimo API 24; compile SDK 37, target SDK 36.
+Firma APK v2 comprobada con apksigner 37.0.0. Certificado SHA-256: fac61745dc0903786fb9ede62a962b399f7348f0bb6f899b8332667591033b9c. Coincide con el APK anterior, por lo que permite actualizar sin desinstalar. Es firma académica de demostración.
 
-Firma APK v2 verificada con apksigner 37.0.0. Es firma de demostración académica, no una publicación en Play Store.
+## Compilación y pruebas
 
-## Resultado reproducible
+Ejecución exitosa: https://github.com/wilfredo409/comerciales-mely-web/actions/runs/39256275087
+Commit compilado: caf1fb7896cfb1bda28c84bbdd93e7f3acc657c5.
+Gradle: BUILD SUCCESSFUL in 15m 59s. Node 24, Java 25 y dependencias del lockfile.
 
-Ejecución completa exitosa: https://github.com/wilfredo409/comerciales-mely-web/actions/runs/39199889132
-Código de la app compilada: `2006c87faeb6a19014046cd4a14086536e081758`.
+Once pruebas del dominio, lint y revisión del proyecto pasaron. También se repitieron localmente npm test, npm run lint, npm run typecheck y npm run export:mobile para Android e iOS. El proyecto está escrito en JavaScript; typecheck no implica cobertura completa de tipos.
 
-Node 24, JDK 25, npm ci, 11 pruebas del dominio, lint y comprobación sintáctica terminaron correctamente. El proyecto está escrito en JavaScript: typecheck no representa cobertura completa de tipos.
+El mismo APK fue instalado en un emulador Android 14. ANDROID_SMOKE_OK.txt y android-smoke.json acreditan once comprobaciones reales: inicio autónomo, formulario vacío, acceso, catálogo, ficha, entrada de bodega, venta y descuento de existencias, reportes, persistencia, permisos y cierre de sesión. El registro adicional completó creación de empleado, reingreso y cierre; consultar REGISTRO_OK.txt y registro.json.
 
-El APK fue instalado y ejecutado en Android 14. `ANDROID_SMOKE_OK.txt` y `android-smoke.json` documentan once comprobaciones reales: inicio autónomo, formulario vacío, login, catálogo, ficha con imagen, entrada de bodega, venta transaccional, reportes, persistencia, permisos de empleado/cajero y cierre de sesión. Algunas comprobaciones agrupan más de una acción; la numeración y tiempos exactos están en el JSON.
+Las figuras 1 a 12 corresponden a esa ejecución. La figura 11 muestra la cuenta creada y la figura 12 muestra Alertas de stock. Se retiró la captura repetida del perfil.
 
-Se corrigieron dos diferencias de Expo Router 58 detectadas al probar: href nulo redirige las rutas ocultas y las protecciones requieren destinos explícitos para la transición de sesión. Las rutas secundarias ocultan solo su botón; Stack.Protected usa redirectTo.
+## Video de etapa 3
 
-La compilación local Windows también terminó con BUILD SUCCESSFUL (ARM64). El script prepara Ninja 1.13.2 verificado por SHA-256 dentro del proyecto para admitir rutas largas. No reemplaza el Ninja del SDK. El APK principal entregado es el universal del recorrido completo anterior.
+Grabación completa exitosa: https://github.com/wilfredo409/comerciales-mely-web/actions/runs/39259351843
+Commit de automatización: 2a592f42ab1e1512d57dc9c16f348283f5e6008d.
 
-## Instalación
+DEMO_OK.txt y tiempos.json se conservan en output/demo. El recorrido incluye el icono instalado, login vacío y con contraseña incorrecta, acceso válido, catálogo y ficha, entrada, venta, reporte, persistencia, perfiles, registro vacío y con confirmación diferente, registro válido, reingreso, alertas y cierre. Las figuras 13 a 15 proceden de esta ejecución independiente del mismo APK. La captura 00 documenta el icono real en el launcher.
 
-Copiar y abrir el APK en Android, autorizando la aplicación instaladora cuando el sistema lo solicite. Por USB, con depuración activada:
+El video se entrega sin audio, subtítulos ni explicaciones superpuestas. El primer tramo es un visor del registro real de compilación con las esperas resumidas; el resto son clips reales del dispositivo concatenados. No es una grabación de una compilación local en Windows. El guion de voz está separado y debe grabarlo el equipo, como solicitó el usuario. La comprobación técnica del montaje final está en VIDEO_FINAL.json.
 
-```powershell
-adb devices
-adb install -r C:\proy\mely\output\android\Comerciales-Mely-etapa3.apk
-```
+## iOS y avances posteriores
 
-Admin: `admin` / `admin123`; Empleado: `empleado` / `empleado123`; Cajero: `facturador` / `factura123`. Seleccionar el perfil correspondiente. Son cuentas locales de prueba.
+Se prepararon identificador com.refes.comercialesmely, icono Mely, permisos, versión 1.0.1/build 2, código compartido y perfiles EAS. La exportación JavaScript/Hermes iOS terminó correctamente. No se generó un IPA ni se realizaron pruebas nativas en iPhone. El manual distingue Mac/Xcode, build para simulador y distribución interna con firma Apple.
 
-## iOS y evidencia audiovisual
-
-La exportación final Android/iOS terminó correctamente y está en output/bundles. iOS tiene identificador, permisos y perfiles EAS preparados; no existe IPA ni prueba en iPhone. Ver docs/IOS_PREPARACION.md.
-
-El video técnico automático dura unos tres minutos y muestra el núcleo del recorrido; el registro completo dura unos cuatro minutos. No tiene explicación hablada del equipo ni cubre en video todos los perfiles. Las capturas y el JSON completan su evidencia técnica. El equipo debe grabar su explicación siguiendo docs/GUION_VIDEO.md para satisfacer la entrega audiovisual de la materia.
-
-SQLite conserva datos por dispositivo. Firebase Authentication, Google, Firestore y sincronización con la web son requisitos de los siguientes avances y no están acreditados por este APK.
-
-
-## Registro de cuentas
-
-Prueba adicional exitosa sobre el mismo APK final en Android 14: https://github.com/wilfredo409/comerciales-mely-web/actions/runs/39215756238 . Se verificaron creación de empleado con contraseña confirmada, acceso automático, reingreso posterior y cierre. Evidencias: 10-registro.png, 11-registro-creado.png, 12-registro-reingreso.png, registro.json y REGISTRO_OK.txt.
-
-El emulador local de Windows sufrió bloqueos de System UI durante pruebas de arranque. No se usaron esas capturas como evidencia de funcionamiento. La evidencia de registro y del recorrido completo procede de las ejecuciones exitosas de Android 14 en GitHub Actions. La compilación Windows sí terminó correctamente.
+SQLite conserva datos por instalación. Firebase Authentication, Google, Firestore y sincronización con la web pertenecen al siguiente avance. La participación de los integrantes y la narración posterior deben ser reales.
