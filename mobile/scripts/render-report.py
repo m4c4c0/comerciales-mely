@@ -82,11 +82,8 @@ def box(rows,widths):
  t=Table([[p(str(x),small) for x in row] for row in rows],colWidths=widths,hAlign='LEFT')
  t.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),PAPER),('LINEBELOW',(0,0),(-1,0),1,AMBER),('LINEBELOW',(0,1),(-1,-1),.4,colors.HexColor('#DDE3EA')),('VALIGN',(0,0),(-1,-1),'TOP'),('LEFTPADDING',(0,0),(-1,-1),10),('RIGHTPADDING',(0,0),(-1,-1),10),('TOPPADDING',(0,0),(-1,-1),9),('BOTTOMPADDING',(0,0),(-1,-1),7)]));return t
 source=(ROOT/'docs/INFORME_ETAPA3_AVANCE1.md').read_text(encoding='utf-8-sig')
-parts=source.split('\n## ')[1:];story=[Spacer(1,560),PageBreak(),Spacer(1,40)]
-center=ParagraphStyle('AcademicCover',parent=body,firstLineIndent=0,alignment=TA_CENTER,spaceAfter=12)
-for ix,block in enumerate(source.split('\n## ')[0].strip().split('\n\n')):
- story.append(p(block.lstrip('# ').strip(),ParagraphStyle('AcademicTitle',parent=center,fontName='BodyBold') if ix==0 else center))
-story.extend([PageBreak(),p('Contenido',uih)])
+parts=source.split('\n## ')[1:];story=[Spacer(1,560),PageBreak(),p('Contenido',uih)]
+
 toc=TableOfContents();toc.levelStyles=[ParagraphStyle('TOC',fontName='UI',fontSize=10,leading=19,firstLineIndent=0,leftIndent=0,textColor=NAVY)]
 story.extend([toc,Spacer(1,20),box([['Alcance de esta entrega','Evidencia disponible'],['Android','APK autónomo, icono Mely y pruebas en Android 14.'],['iOS','Configuración y manual preparados; sin IPA ni prueba de iPhone.'],['Datos','SQLite local. Firebase y sincronización: siguiente avance.']],[145,323]),PageBreak()])
 for part in parts:
