@@ -13,7 +13,7 @@ Fuente principal: ruta de aprendizaje DPS941 CII-2026. El archivo de unidades 1 
 | Formularios validados | Zod, cantidades enteras, stock, precio mínimo, confirmación de contraseña | Implementado; 11 pruebas de dominio y validación UI |
 | Investigación React Native/Figma en APA 7 | Fuente Markdown e informe PDF con referencias y análisis propio | PDF generado y revisado visualmente |
 | Repositorio GitHub con proyecto móvil | Carpeta mobile en rama etapa3/avance1-movil-20261018 del repositorio del equipo | Publicado en rama de entrega |
-| Video demostrativo <=15 min | Video de compilación y pruebas reales sin audio, y guion de narración separado | Video base listo; voz posterior a cargo del equipo, según solicitud |
+| Video demostrativo <=15 min | Video final de compilación y pruebas reales con la voz del autor (8:25), sin textos superpuestos | MP4 narrado verificado; compartir su enlace accesible en el Aula Digital |
 
 ## Complejidad transversal
 
@@ -34,3 +34,5 @@ El APK y los bundles se consideran listos únicamente si existen y los comandos 
 Equipo y accesos verificados en docs/COLABORACION.md. No se crearon ramas atribuidas a otros integrantes.
 
 Invitación de trabajo enviada desde wilfredo409 el 19 de octubre de 2026: https://github.com/m4c4c0/comerciales-mely/issues/9 . Los cuatro compañeros ya tienen acceso; sus aportes móviles se comprobarán mediante commits/PR y resultados de pruebas. La invitación y los permisos verificados se incorporaron al informe.
+
+Corte de colaboración, 20 de octubre de 2026: floripeto publicó commit e3ab59b y PR 10 (abierto, sin integrar). Ferhboot, Stevenhzw y m4c4c0 siguen sin nuevos aportes publicados para este avance. El informe acredita únicamente la evidencia existente.

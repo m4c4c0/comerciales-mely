@@ -131,7 +131,7 @@ El APK universal de distribución académica está en `output/android/Comerciale
 
 SHA-256 del APK universal: `2c1718a3a1d0f1b27e79e00c6a460b421b831a4dc20bd42a493cda769fd10d2d`.
 
-Consultar `output/evidence/VERIFICACION.md`, capturas y registro. El video de `docs/demo` es evidencia técnica automática de unos tres minutos, sin voz del equipo; usar el guion para preparar la explicación requerida por la materia.
+Consultar `output/evidence/VERIFICACION.md`, capturas y registro. La entrega final del Foro 1 utiliza `Comerciales-Mely-Android-con-voz.mp4` (8:25), con la narración real del autor y sin textos superpuestos. El montaje base sin audio de `docs/demo` se conserva para reproducir el proceso. Los PDF finales y el seguimiento de colaboración fueron actualizados el 20 de octubre de 2026.
 
 ## Coordinación del equipo
 

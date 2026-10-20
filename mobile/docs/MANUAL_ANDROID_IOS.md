@@ -1,6 +1,8 @@
 # Manual de instalación y ejecución
 Comerciales Mely | Android e iOS | Versión 1.0.1
 
+Material de apoyo del Foro 1. El video de demostración final es Comerciales-Mely-Android-con-voz.mp4 (8:25), con narración y sin textos superpuestos.
+
 ## 1. Elige cómo ejecutar la app
 Para usar Android sin preparar herramientas, instala el APK de la entrega. El APK contiene la aplicación y funciona sin Metro. Para modificar el código, utiliza la ejecución desde fuentes. Para iOS necesitas un Mac con Xcode si vas a ejecutar el simulador local; también puedes compilar en EAS y ejecutar el resultado en un Mac. Un iPhone físico requiere la firma y el aprovisionamiento correspondientes.
 
@@ -157,4 +159,4 @@ Expo. Distribución interna: https://docs.expo.dev/build/internal-distribution/
 Android Developers. ADB: https://developer.android.com/tools/adb
 Apple Developer. Developer Mode: https://developer.apple.com/documentation/xcode/enabling-developer-mode-on-a-device
 
-Consultado el 19 de octubre de 2026. iOS se presenta como procedimiento preparado, pendiente de ejecución y firma con las cuentas del equipo.
+Revisión documental del 20 de octubre de 2026. Fuentes de instalación consultadas el 19 de octubre de 2026. iOS se presenta como procedimiento preparado, pendiente de ejecución y firma con las cuentas del equipo.

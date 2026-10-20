@@ -1,7 +1,7 @@
-# Video de etapa 3 y voz pendiente
+# Video final del Foro 1
 
-El video final se entrega sin audio, sin subtítulos y sin explicaciones superpuestas, conforme a lo solicitado. Su primer tramo presenta un visor del registro real de compilación Android; se seleccionan comandos y resultados de la ejecución de GitHub Actions, resumiendo las esperas. El resto proviene de grabaciones continuas de la aplicación instalada en un emulador Android 14. No se simulan las interacciones ni se atribuye participación a integrantes.
+La versión final de entrega es Comerciales-Mely-Android-con-voz.mp4, de 8:25, disponible en output/video y en output/entrega-final-foro1. Incorpora la grabación real del autor, con limpieza moderada de ruido y ajuste de volumen; conserva su tono y velocidad. No se añadieron subtítulos ni explicaciones sobre la imagen. Se ajustaron pausas para acompañar las explicaciones de operaciones reales.
 
-El guion de voz separado es docs/GUION_NARRACION_VIDEO.md. Graba la narración con el video como referencia y añade esa pista de audio al montaje final. La rúbrica exige un video de demostración de máximo 15 minutos; el guion no sustituye la participación real del equipo.
+Comerciales-Mely-Android.mp4 es el montaje base de 7:35, sin audio, conservado para reproducción del proceso. Su primer tramo muestra comandos y resultados del registro real de GitHub Actions con esperas resumidas. El resto corresponde al APK ejecutado en Android 14. El guion con tiempos describe este montaje base.
 
-El proceso es reproducible con scripts/android-demo.py y scripts/render-video.py. La grabación utiliza screenrecord sin audio. El montaje elimina cualquier pista de audio con -an. El registro de tiempos permite ubicar cada caso probado.
+Los archivos de voz originales, modelos de reconocimiento y transcripciones no se incluyen en el código fuente ni se publican en GitHub. El equipo debe compartir el enlace del MP4 narrado para la evaluación.

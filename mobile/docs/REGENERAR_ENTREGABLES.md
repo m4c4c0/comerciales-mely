@@ -10,7 +10,7 @@ En Windows, instala las dependencias Python de scripts/requirements-artifacts.tx
 
 Los SVG originales y los PNG finales están en assets/mely-*. No es necesario regenerarlos. scripts/generate-brand.cjs requiere Sharp si deseas exportar nuevamente los recursos; también acepta la ruta del módulo mediante MELY_SHARP. La app utiliza los PNG ya incluidos y no necesita Sharp.
 
-## Video sin audio ni rótulos
+## Montaje base sin audio ni rótulos
 
 1. Instala el APK en un emulador Android 14 desechable. El script borra exclusivamente los datos del paquete en ese emulador; no utilices una instalación con información que necesites conservar.
 2. Ejecuta python scripts/android-demo.py. La captura se divide en segmentos continuos para respetar el límite de screenrecord. Conserva output/demo/clips, tiempos.json, segmentos.json y el marcador DEMO_OK.txt. Este marcador solo existe al terminar el recorrido.
@@ -18,4 +18,4 @@ Los SVG originales y los PNG finales están en assets/mely-*. No es necesario re
 4. Ejecuta python scripts/render-video.py y python scripts/generate-narration.py. El montaje genera un visor del registro real de compilación y concatena las capturas de la app. Elimina audio con -an. No añade subtítulos, títulos ni explicaciones sobre las capturas.
 5. Revisa la duración, la ausencia de audio y los empalmes, y utiliza docs/GUION_NARRACION_VIDEO.md para grabar la voz aparte.
 
-El repositorio del equipo contiene el flujo mobile-android.yml; sus próximas ejecuciones conservan también los segmentos crudos del recorrido en output/demo. El entorno que produjo esta entrega ejecutó adicionalmente mobile-demo.yml en wilfredo409/comerciales-mely-web; la procedencia exacta se documenta en output/evidence/VERIFICACION.md. La voz posterior y su publicación corresponden al equipo.
+El repositorio del equipo contiene el flujo mobile-android.yml; sus próximas ejecuciones conservan también los segmentos crudos del recorrido en output/demo. El entorno que produjo esta entrega ejecutó adicionalmente mobile-demo.yml en wilfredo409/comerciales-mely-web; la procedencia exacta se documenta en output/evidence/VERIFICACION.md. La voz real del autor ya se incorporó al MP4 final de 8:25. Estos comandos regeneran únicamente el montaje base sin audio; no deben reemplazar por accidente la versión narrada. Las grabaciones originales no se incluyen en el repositorio. La publicación del enlace de evaluación corresponde al equipo.

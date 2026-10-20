@@ -4,7 +4,7 @@ Universidad Don Bosco, Facultad de Ingeniería
 Diseño y Programación de Software Multiplataforma - DPS941
 Ciclo II-2026 · Equipo R.E.F.E.S
 Etapa 3: Avance 1 (Foro de Discusión 1)
-19 de octubre de 2026
+20 de octubre de 2026
 
 Cerón Contreras, Edwin Wilfredo - CC060761
 Moreno Hernández, Jorge Steven - MH222714
@@ -88,9 +88,9 @@ En Windows no se dispone de Xcode para compilar localmente iOS. EAS ofrece compi
 
 Las pruebas automatizadas del dominio verifican redondeo monetario, actualización de stock, rechazo de artículos duplicados que exceden existencias, reversión ante una línea inválida, permisos por rol, cantidades fraccionarias, registro sin elevación a administrador, archivo de productos y reportes por fecha local. La evidencia reproducible se obtiene mediante npm test. Lint, revisión sintáctica y exportaciones de plataforma complementan la verificación, sin sustituir las pruebas en el dispositivo. La ejecución 39256275087 de GitHub Actions compiló el APK 1.0.1 con la nueva identidad Mely y completó once comprobaciones de interfaz en Android 14: acceso, validación, catálogo, ficha, entrada, venta, reportes, persistencia, dos perfiles y cierre de sesión. Las figuras 1 a 12 y los registros JSON corresponden a esa ejecución real. Las figuras 13 a 15 documentan casos inválidos del recorrido de video 39259351843, sobre el mismo APK en una instancia independiente de Android 14. Una comprobación adicional sobre el mismo APK confirmó registro de una cuenta de empleado, reingreso y cierre; su registro está incluido como evidencia adicional. Las figuras de registro y alertas muestran pantallas distintas, y las pruebas negativas cuentan con capturas específicas.
 
-El recorrido manual recomendado es iniciar sesión con los tres perfiles, registrar una cuenta, buscar un producto, guardar una imagen, crear una entrada, intentar una salida excesiva, emitir una venta y comprobar el descuento en Inventario y el importe en Reportes. Después debe cerrarse y reabrirse la app para revisar persistencia. El video muestra operaciones reales y errores controlados. Se entrega sin audio ni textos superpuestos, acompañado de un guion separado para que el equipo grabe su explicación y la incorpore posteriormente.
+El recorrido manual recomendado es iniciar sesión con los tres perfiles, registrar una cuenta, buscar un producto, guardar una imagen, crear una entrada, intentar una salida excesiva, emitir una venta y comprobar el descuento en Inventario y el importe en Reportes. Después debe cerrarse y reabrirse la app para revisar persistencia. El video muestra operaciones reales y errores controlados. La versión final incorpora la narración real de Edwin Wilfredo Cerón, con limpieza moderada de ruido y ajuste de volumen. Dura 8 minutos y 25 segundos, conserva la velocidad original de la voz y no agrega subtítulos ni explicaciones superpuestas. Se ajustaron pausas de imagen para acompañar la explicación; se conserva también el montaje base sin audio.
 
-Las capturas incorporadas en el anexo provienen de la app ejecutada y deben leerse junto al registro de pruebas. Los requisitos externos pendientes se enumeran en docs/CRITERIOS.md: incorporación posterior de la voz del equipo al video y participación real de cada integrante. No se inventan contribuciones, resultados de dispositivos o enlaces que no existan.
+Las capturas incorporadas en el anexo provienen de la app ejecutada y deben leerse junto al registro de pruebas. Los requisitos externos pendientes se enumeran en docs/CRITERIOS.md: participación pendiente de tres integrantes y requisitos propios de los siguientes avances. La voz ya está incorporada al video final. No se inventan contribuciones, resultados de dispositivos o enlaces que no existan.
 
 ## 8. Colaboración y seguimiento del equipo
 
@@ -104,11 +104,23 @@ La coordinación está publicada desde wilfredo409 en el issue 9: https://github
 | Ferhboot | Escritura | Invitado a revisar navegación y flujo por perfil; aporte pendiente. |
 | Stevenhzw | Escritura | Invitado a revisar inventario, validaciones y permisos; aporte pendiente. |
 | m4c4c0 | Administrador | Invitado a revisar acceso, registro, sesión y permisos; aporte pendiente. |
-| floripeto | Escritura | Invitado a revisar movimientos, ventas y trazabilidad; aporte pendiente. |
+| floripeto | Escritura | Commit e3ab59b y PR 10 publicados: prueba de permisos por rol. Respondió en el issue 9. Integración pendiente. |
 
-Los nombres y carnets de los cinco integrantes constan en la portada, conforme al README del repositorio. Esta tabla registra permisos y tareas propuestas; no atribuye a un integrante un módulo terminado ni commits que todavía no existen. La aceptación de una tarea y su implementación se comprueban con la respuesta en el issue, el commit o pull request y el resultado de una prueba real.
+Los nombres y carnets de los cinco integrantes constan en la portada, conforme al README del repositorio. La revisión del 20 de octubre de 2026 comprobó las nueve ramas publicadas, el historial de commits y los pull requests. De los cuatro compañeros invitados, únicamente floripeto publicó un aporte nuevo para esta etapa. Ferhboot, Stevenhzw y m4c4c0 conservan aportes web de septiembre, sin nuevos commits móviles ni respuestas a la invitación a la fecha de corte. Esta tabla diferencia los aportes publicados de las tareas pendientes. La aceptación de una tarea y su implementación se comprueban con la respuesta en el issue, el commit o pull request y el resultado de una prueba real.
 
-Cada integrante debe partir de etapa3/avance1-movil-20261018, trabajar en una rama propia y dirigir su pull request a esa rama móvil. Antes de solicitar integración debe ejecutar las verificaciones del proyecto y explicar su cambio. El informe se actualizará con enlaces y resultados comprobables conforme se reciban. No se requieren commits vacíos para aparentar participación.
+Cada integrante debe partir de etapa3/avance1-movil-20261018, trabajar en una rama propia y dirigir su pull request a esa rama móvil. Antes de solicitar integración debe ejecutar las verificaciones del proyecto y explicar su cambio. El estado documentado corresponde al corte del 20 de octubre de 2026. No se requieren commits vacíos para aparentar participación.
+
+El aporte de Edwin Vladimir Rivera Cubias está asociado a la cuenta floripeto: commit e3ab59b681ddd32cc3a8871475bcd1818d634967, publicado el 19 de octubre de 2026. Modifica mobile/tests/business.test.mjs y añade una matriz de pruebas para administrador, empleado, facturador, sesión nula y acción desconocida. Se comprobó la autoría y el archivo modificado. Su PR 10 tiene como base etapa3/avance1-movil-20261018 y continúa abierto; no forma parte del código del APK 1.0.1. El autor reporta doce pruebas, lint y typecheck aprobados; esos resultados se registran como evidencia declarada en el PR, sin sustituir las once pruebas verificadas de la versión entregada (floripeto, 2026).
+
+Enlaces de evidencia: https://github.com/m4c4c0/comerciales-mely/commit/e3ab59b681ddd32cc3a8871475bcd1818d634967 y https://github.com/m4c4c0/comerciales-mely/pull/10 .
+
+## 9. Recursos de la entrega
+
+El código React Native se encuentra en la carpeta mobile de la rama de entrega del repositorio del equipo: https://github.com/m4c4c0/comerciales-mely/tree/etapa3/avance1-movil-20261018/mobile . Se utiliza este enlace específico para evitar dirigir la evaluación únicamente a la versión web de main.
+
+El informe se acompaña del video Comerciales-Mely-Android-con-voz.mp4 (8:25), del Manual_Android_iOS_Comerciales_Mely.pdf y del APK Comerciales-Mely-etapa3.apk. El archivo Comerciales-Mely-movil-fuentes.zip conserva una copia reproducible del proyecto. El APK probado y los recursos del proyecto se identifican en https://github.com/m4c4c0/comerciales-mely/releases/tag/etapa3-avance1-android-v1.0.1 .
+
+El conjunto corresponde al Foro de Discusión 1, primer avance de la etapa 3. El video documenta compilación, acceso vacío e incorrecto, navegación, entrada de bodega, venta, reportes, persistencia, perfiles y registro de cuenta. La narración no acredita una prueba de iPhone ni integración Firebase. Los enlaces a Figma y al seguimiento del equipo permiten contrastar el diseño y la participación con la evidencia disponible.
 
 ## Conclusiones
 
@@ -135,6 +147,8 @@ Expo. (s. f.-e). Create your first build. Recuperado el 18 de octubre de 2026, d
 Expo. (s. f.-f). Splash screen and app icon. Recuperado el 19 de octubre de 2026, de https://docs.expo.dev/develop/user-interface/splash-screen-and-app-icon/
 
 Figma. (s. f.). Guide to auto layout in Figma. Recuperado el 18 de octubre de 2026, de https://help.figma.com/hc/en-us/articles/360040451373-Guide-to-auto-layout-in-Figma
+
+floripeto. (2026, 19 de octubre). test(mobile): cover role permission matrix [Pull request 10]. GitHub. https://github.com/m4c4c0/comerciales-mely/pull/10
 
 Meta Platforms. (s. f.). Core components and APIs. React Native. Recuperado el 18 de octubre de 2026, de https://reactnative.dev/docs/components-and-apis
 

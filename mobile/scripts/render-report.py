@@ -49,7 +49,7 @@ class Document(BaseDocTemplate):
     for i,t in enumerate(names):c.drawString(60,280-i*21,t)
    else:
     c.setFont('UI',10);c.drawString(60,290,'Incluye cuentas de prueba y solución de problemas.');c.drawString(60,269,'iOS pendiente de compilación y prueba nativa.')
-   c.setFont('UI',9);c.drawString(60,70,'19 DE OCTUBRE DE 2026');c.drawRightString(552,70,'R.E.F.E.S  /  1.0.1')
+   c.setFont('UI',9);c.drawString(60,70,'20 DE OCTUBRE DE 2026');c.drawRightString(552,70,'R.E.F.E.S  /  1.0.1')
    return
   c.setFillColor(NAVY);c.rect(0,774,612,18,fill=1,stroke=0)
   c.setFont('UIBold',8);c.setFillColor(GRAY);c.drawString(self.leftMargin,750,'COMERCIALES MELY')
@@ -118,7 +118,7 @@ if '--report-only' in sys.argv:
  raise SystemExit(0)
 # Manual con secciones navegables, pasos y comandos preservados.
 manual=(ROOT/'docs/MANUAL_ANDROID_IOS.md').read_text(encoding='utf-8-sig')
-ms=[Spacer(1,560),PageBreak(),p('Antes de comenzar',uih),p('Elige la ruta según el equipo disponible. El APK Android funciona de manera autónoma; el modo de desarrollo requiere herramientas y Metro. Los procedimientos de iOS están preparados y pendientes de validación nativa.',ui),box([['Tu objetivo','Ruta recomendada'],['Usar la app en Android','Sección 2: instalar APK.'],['Conectar Android por USB','Sección 3: instalar con ADB.'],['Cambiar el código Android','Secciones 4 y 5.'],['Probar iOS en un Mac','Sección 6: Xcode y simulador.'],['Compilar iOS en la nube','Sección 7: EAS y firma.'],['Comprobar el funcionamiento','Sección 8: recorrido de aceptación.']],[170,322]),Spacer(1,20),p('Archivos de entrega',uih),p('APK: Comerciales-Mely-etapa3.apk<br/>Video: Comerciales-Mely-Android.mp4<br/>Guion: GUION_NARRACION_VIDEO.md',ui)]
+ms=[Spacer(1,560),PageBreak(),p('Antes de comenzar',uih),p('Elige la ruta según el equipo disponible. El APK Android funciona de manera autónoma; el modo de desarrollo requiere herramientas y Metro. Los procedimientos de iOS están preparados y pendientes de validación nativa.',ui),box([['Tu objetivo','Ruta recomendada'],['Usar la app en Android','Sección 2: instalar APK.'],['Conectar Android por USB','Sección 3: instalar con ADB.'],['Cambiar el código Android','Secciones 4 y 5.'],['Probar iOS en un Mac','Sección 6: Xcode y simulador.'],['Compilar iOS en la nube','Sección 7: EAS y firma.'],['Comprobar el funcionamiento','Sección 8: recorrido de aceptación.']],[170,322]),Spacer(1,20),p('Archivos de entrega',uih),p('APK: Comerciales-Mely-etapa3.apk<br/>Video final: Comerciales-Mely-Android-con-voz.mp4 (8:25)<br/>Guion del montaje base: GUION_NARRACION_VIDEO.md',ui)]
 for section in manual.split('\n## ')[1:]:
  title,_,text=section.partition('\n');ms.extend([PageBreak(),p(title,uih)])
  chunks=re.split(r'(```[^\n]*\n[\s\S]*?```)',text)
