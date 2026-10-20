@@ -1,0 +1,48 @@
+{
+  "expo": {
+    "name": "Comerciales Mely",
+    "slug": "comerciales-mely-movil",
+    "version": "1.0.1",
+    "orientation": "portrait",
+    "icon": "./assets/mely-icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.refes.comercialesmely",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "buildNumber": "2"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#111D30",
+        "foregroundImage": "./assets/mely-adaptive-foreground.png",
+        "monochromeImage": "./assets/mely-monochrome.png"
+      },
+      "package": "com.anonymous.comercialesmelymovil",
+      "versionCode": 2
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-sqlite",
+      "expo-secure-store",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Selecciona imágenes para los productos de Comerciales Mely.",
+          "cameraPermission": "Toma fotografías para el inventario de Comerciales Mely.",
+          "microphonePermission": false
+        }
+      ],
+      "expo-sharing",
+      "expo-image",
+      "expo-font",
+      "./plugins/withShortCmakePaths"
+    ],
+    "scheme": "comercialesmely"
+  }
+}

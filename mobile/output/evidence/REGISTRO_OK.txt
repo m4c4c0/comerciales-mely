@@ -1,0 +1,1 @@
+Registro, reingreso y cierre verificados en Android. Usuario local de prueba: registro_1792416076

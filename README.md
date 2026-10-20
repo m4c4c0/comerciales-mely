@@ -167,3 +167,9 @@ NEXT_PUBLIC_FIREBASE_APP_ID=tu_app_id
 npm run dev
 ```
 Abre en tu navegador: [http://localhost:3000](http://localhost:3000)
+
+## Etapa 3: aplicación móvil Android / preparación iOS
+
+La app React Native/Expo se encuentra en [mobile](mobile/README.md). Ejecutar `npm ci` dentro de esa carpeta; la web conserva su instalación y estructura propias. La entrega móvil está aislada en la rama `etapa3/avance1-movil-20261018`.
+
+Incluye catálogo, movimientos, ventas, reportes y autenticación local para el primer avance. Firebase compartido y pruebas firmadas de iPhone corresponden al alcance posterior indicado en la matriz. Consultar [criterios](mobile/docs/CRITERIOS.md), [informe](mobile/output/pdf/Informe_Etapa3_Avance1_Comerciales_Mely.pdf) y [equipo verificado](mobile/docs/COLABORACION.md).
