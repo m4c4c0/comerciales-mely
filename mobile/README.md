@@ -16,6 +16,8 @@ Prototipo original: https://www.figma.com/proto/11GPTpTj3RrHusfOA9qqOr/?node-id=
 
 Requiere Node.js >=22.13, npm y, para compilación local Android, Android Studio con SDK, NDK y JDK compatibles con Expo SDK 58. El script utiliza el JDK de Android Studio y prepara Ninja 1.13.2 dentro de tools/native, verificando la huella oficial para admitir rutas largas de Windows. No es necesario cambiar el Java global de Windows.
 
+Ejecuta los siguientes comandos desde la carpeta `mobile`.
+
 ```powershell
 npm ci
 npm run start
