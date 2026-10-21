@@ -1,0 +1,17 @@
+[
+  {
+    "paso": "Registro nativo de empleado y acceso automático",
+    "resultado": "OK",
+    "segundos": 40.5
+  },
+  {
+    "paso": "Cuenta conservada y autenticada nuevamente",
+    "resultado": "OK",
+    "segundos": 84.13
+  },
+  {
+    "paso": "Cierre de sesión de la cuenta registrada",
+    "resultado": "OK",
+    "segundos": 97.44
+  }
+]

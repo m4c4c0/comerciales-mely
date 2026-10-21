@@ -6,12 +6,6 @@ export async function POST(request: Request) {
   try {
     const { email, password } = await request.json();
 
-    if (!process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID) {
-      return NextResponse.json({ 
-        message: 'Error: Faltan variables en .env.local o no se ha reiniciado el servidor' 
-      }, { status: 500 });
-    }
-
     const cleanEmail = email ? String(email).trim().toLowerCase() : '';
     const cleanPass = password ? String(password).trim() : '';
 

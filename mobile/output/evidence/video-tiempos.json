@@ -1,0 +1,86 @@
+[
+  {
+    "segundos": 18.1,
+    "accion": "Abrir APK instalado desde el icono Mely"
+  },
+  {
+    "segundos": 25.32,
+    "accion": "Login vacío: rechazo de datos obligatorios"
+  },
+  {
+    "segundos": 34.68,
+    "accion": "Credenciales incorrectas: acceso rechazado"
+  },
+  {
+    "segundos": 68.93,
+    "accion": "Recorrido de acceso, catálogo, movimientos, ventas, reportes y roles"
+  },
+  {
+    "segundos": 74.54,
+    "accion": "Inicio autónomo del APK y pantalla de acceso"
+  },
+  {
+    "segundos": 79.21,
+    "accion": "Validación de formulario vacío"
+  },
+  {
+    "segundos": 98.1,
+    "accion": "Autenticación y catálogo con recursos de Figma"
+  },
+  {
+    "segundos": 103.28,
+    "accion": "Navegación a ficha técnica con fotografía"
+  },
+  {
+    "segundos": 133.52,
+    "accion": "Entrada de bodega persistida y stock actualizado"
+  },
+  {
+    "segundos": 161.49,
+    "accion": "Venta confirmada con descuento transaccional de inventario"
+  },
+  {
+    "segundos": 171.04,
+    "accion": "Reportes y gráfica actualizados con la venta"
+  },
+  {
+    "segundos": 182.67,
+    "accion": "Datos y sesión conservados tras cerrar y reabrir la app"
+  },
+  {
+    "segundos": 218.02,
+    "accion": "Permisos diferenciados del empleado"
+  },
+  {
+    "segundos": 253.47,
+    "accion": "Permisos diferenciados del cajero"
+  },
+  {
+    "segundos": 265.88,
+    "accion": "Cierre de sesión revocado y retorno al acceso público"
+  },
+  {
+    "segundos": 265.88,
+    "accion": "Registro vacío: rechazo de datos obligatorios"
+  },
+  {
+    "segundos": 297.56,
+    "accion": "Registro con confirmación diferente: rechazo"
+  },
+  {
+    "segundos": 306.39,
+    "accion": "Registro correcto de empleado"
+  },
+  {
+    "segundos": 328.62,
+    "accion": "Cerrar sesión y volver a ingresar con la cuenta creada"
+  },
+  {
+    "segundos": 363.08,
+    "accion": "Alertas de existencias y navegación"
+  },
+  {
+    "segundos": 372.97,
+    "accion": "Cierre de sesión y fin del recorrido"
+  }
+]
