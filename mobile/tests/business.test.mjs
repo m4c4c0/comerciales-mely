@@ -195,3 +195,40 @@ test("rejects blank names, missing prices and sub-cent amounts", () => {
       }),
     );
 });
+
+test("login validation sanitizes and lowercases username input", () => {
+  const result = parse(loginSchema, {
+    usuario: "  ADMINISTRADOR@MELY.COM  ",
+    password: "password123",
+  });
+  assert.equal(result.usuario, "administrador@mely.com");
+});
+
+test("registration requires valid username format and trims whitespace", () => {
+  assert.throws(() =>
+    parse(registerSchema, {
+      nombre: "Empleado Test",
+      usuario: "empleado!@#",
+      password: "password123",
+      rol: "empleado",
+    }),
+  );
+
+  const valid = parse(registerSchema, {
+    nombre: "Empleado Valido",
+    usuario: "  empleado_01  ",
+    password: "password123",
+    rol: "empleado",
+  });
+  assert.equal(valid.usuario, "empleado_01");
+});
+
+test("normalizeAuthUser standardizes user session profile and roles", () => {
+  const rawUser = { id: "u-1", nombre: "Raul Mulato", usuario: "RAUL.DEV ", rol: "EMPLEADO " };
+  const normalized = normalizeAuthUser(rawUser);
+  assert.equal(normalized.rol, "empleado");
+  assert.equal(normalized.usuario, "raul.dev");
+  assert.equal(allowed(normalized, "product"), true);
+  assert.equal(allowed(normalized, "remove"), false);
+  assert.equal(normalizeAuthUser(null), null);
+});

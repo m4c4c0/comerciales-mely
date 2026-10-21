@@ -195,7 +195,7 @@ export default function Login() {
               disabled={task.busy}
               onPress={() =>
                 task.run(() =>
-                  authenticate("login", { usuario, password, expectedRole }),
+                  authenticate("login", { usuario: (usuario || "").trim().toLowerCase(), password, expectedRole }),
                 )
               }
             />

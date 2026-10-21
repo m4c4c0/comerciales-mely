@@ -73,7 +73,11 @@ export default function Registro() {
               task.run(() => {
                 if (confirmation !== data.password)
                   throw new Error("Las contraseñas no coinciden.");
-                return authenticate("register", data);
+                return authenticate("register", {
+                  ...data,
+                  nombre: (data.nombre || "").trim(),
+                  usuario: (data.usuario || "").trim().toLowerCase(),
+                });
               })
             }
           />
