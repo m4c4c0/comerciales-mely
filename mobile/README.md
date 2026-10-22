@@ -1,5 +1,19 @@
 # Comerciales Mely - aplicación móvil
 
+## Enlaces para el Aula Digital
+
+Entrega: **Etapa 3 - Avance 1 / Foro 1**. El proyecto React Native está en esta carpeta `mobile/`.
+
+- [Informe técnico final en PDF (23 páginas)](https://github.com/m4c4c0/comerciales-mely/releases/download/etapa3-avance1-android-v1.0.1/Informe_Etapa3_Avance1_Comerciales_Mely.pdf)
+- [Video demostrativo final con narración (8:25)](https://github.com/m4c4c0/comerciales-mely/releases/download/etapa3-avance1-android-v1.0.1/Comerciales-Mely-Android-con-voz.mp4)
+- [Código fuente descargable en ZIP](https://github.com/m4c4c0/comerciales-mely/releases/download/etapa3-avance1-android-v1.0.1/Comerciales-Mely-movil-fuentes.zip)
+- [APK Android 1.0.1 probado](https://github.com/m4c4c0/comerciales-mely/releases/download/etapa3-avance1-android-v1.0.1/Comerciales-Mely-etapa3.apk)
+- [Manual Android e iOS](https://github.com/m4c4c0/comerciales-mely/releases/download/etapa3-avance1-android-v1.0.1/Manual_Android_iOS_Comerciales_Mely.pdf)
+- [Publicación de entrega](https://github.com/m4c4c0/comerciales-mely/releases/tag/etapa3-avance1-android-v1.0.1)
+- [Prototipo Figma](https://www.figma.com/proto/11GPTpTj3RrHusfOA9qqOr/?node-id=4-1226)
+
+El video muestra compilación, acceso y validaciones, catálogo, movimientos, ventas, reportes, persistencia y registro. Android fue probado; iOS está preparado y pendiente de compilación y prueba nativa. El archivo sin voz se conserva únicamente como montaje base.
+
 Guía rápida de instalación y entrega: [ENTREGA.md](ENTREGA.md).
 
 Descargas de la versión académica: https://github.com/m4c4c0/comerciales-mely/releases/tag/etapa3-avance1-android-v1.0.1
