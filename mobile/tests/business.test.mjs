@@ -5,6 +5,7 @@ import {
   seedProducts,
   totals,
   report,
+  allowed,
   parse,
   registerSchema,
   productSchema,
@@ -16,6 +17,53 @@ const store = () => ({
   productos: seedProducts(),
   movimientos: [],
   facturas: [],
+});
+test("role permissions protect reports and administrative actions", () => {
+  const permissions = [
+    [
+      admin,
+      {
+        read: true,
+        product: true,
+        remove: true,
+        movement: true,
+        invoice: true,
+        reports: true,
+        users: true,
+      },
+    ],
+    [
+      employee,
+      {
+        read: true,
+        product: true,
+        remove: false,
+        movement: true,
+        invoice: false,
+        reports: false,
+        users: false,
+      },
+    ],
+    [
+      cashier,
+      {
+        read: true,
+        product: false,
+        remove: false,
+        movement: false,
+        invoice: true,
+        reports: true,
+        users: false,
+      },
+    ],
+  ];
+
+  for (const [user, actions] of permissions)
+    for (const [action, expected] of Object.entries(actions))
+      assert.equal(allowed(user, action), expected, `${user.rol}: ${action}`);
+
+  assert.equal(allowed(null, "read"), false);
+  assert.equal(allowed(admin, "unknown"), false);
 });
 test("invoice uses cents and rounds tax once", () => {
   assert.deepEqual(
