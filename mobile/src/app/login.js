@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   View,
   Text,
@@ -25,11 +25,16 @@ const profiles = [
 ];
 export default function Login() {
   const { authenticate } = useApp();
+  const passwordInput = useRef(null);
   const [usuario, setUsuario] = useState(""),
     [password, setPassword] = useState(""),
     [expectedRole, setExpectedRole] = useState("administrador"),
     [visible, setVisible] = useState(false);
   const task = useTask();
+  const submit = () =>
+    task.run(() =>
+      authenticate("login", { usuario, password, expectedRole }),
+    );
   return (
     <SafeAreaView style={s.screen}>
       <KeyboardAvoidingView
@@ -76,6 +81,7 @@ export default function Login() {
                 <View style={[s.input, s.row, { paddingVertical: 0 }]}>
                   <Image source={mail} style={{ width: 16, height: 16 }} />
                   <TextInput
+                    testID="login-username"
                     accessibilityLabel="Usuario"
                     style={{
                       flex: 1,
@@ -89,6 +95,9 @@ export default function Login() {
                     autoCorrect={false}
                     textContentType="username"
                     placeholder="administrador@mely.com"
+                    returnKeyType="next"
+                    blurOnSubmit={false}
+                    onSubmitEditing={() => passwordInput.current?.focus()}
                   />
                 </View>
               </View>
@@ -118,6 +127,8 @@ export default function Login() {
                 <View style={[s.input, s.row, { paddingVertical: 0 }]}>
                   <Image source={lock} style={{ width: 16, height: 16 }} />
                   <TextInput
+                    ref={passwordInput}
+                    testID="login-password"
                     accessibilityLabel="Contraseña"
                     style={{
                       flex: 1,
@@ -130,6 +141,8 @@ export default function Login() {
                     secureTextEntry={!visible}
                     autoCapitalize="none"
                     autoCorrect={false}
+                    returnKeyType="go"
+                    onSubmitEditing={submit}
                   />
                   <Pressable
                     accessibilityRole="button"
@@ -193,11 +206,7 @@ export default function Login() {
               testID="login-submit"
               title={task.busy ? "Ingresando…" : "Iniciar sesión"}
               disabled={task.busy}
-              onPress={() =>
-                task.run(() =>
-                  authenticate("login", { usuario, password, expectedRole }),
-                )
-              }
+              onPress={submit}
             />
             <Link href="/registro" style={s.link}>
               Crear cuenta de empleado o cajero
