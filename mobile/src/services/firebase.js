@@ -15,7 +15,9 @@ export const firebaseConfig = {
 };
 
 // Client ID de tipo "Web" de Google (Firebase Console > Authentication > Google).
-export const GOOGLE_WEB_CLIENT_ID = process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID || "";
+export const GOOGLE_WEB_CLIENT_ID =
+  process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID ||
+  "945325242075-1s2ssfk2jqfsh0l28u90tb7a81nn8j1i.apps.googleusercontent.com";
 
 const existing = getApps().length > 0;
 export const app = existing ? getApp() : initializeApp(firebaseConfig);
