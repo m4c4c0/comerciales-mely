@@ -6,6 +6,7 @@ import {
   totals,
   report,
   parse,
+  allowed,
   registerSchema,
   productSchema,
 } from "../src/domain/business.mjs";
@@ -108,6 +109,27 @@ test("employee cannot invoice; cashier cannot mutate stock", () => {
       ),
     /permiso/,
   );
+});
+test("screen capabilities match each mobile profile", () => {
+  const capabilities = [
+    ["read", [admin, employee, cashier]],
+    ["product", [admin, employee]],
+    ["movement", [admin, employee]],
+    ["remove", [admin]],
+    ["invoice", [admin, cashier]],
+    ["reports", [admin, cashier]],
+  ];
+
+  for (const [action, permittedUsers] of capabilities) {
+    for (const user of [admin, employee, cashier]) {
+      assert.equal(
+        allowed(user, action),
+        permittedUsers.includes(user),
+        `${user.rol} access to ${action}`,
+      );
+    }
+    assert.equal(allowed(null, action), false, `anonymous access to ${action}`);
+  }
 });
 test("rejects fractional, zero and excessive withdrawal quantities", () => {
   for (const cantidad of [0, -1, 1.5, 99999])

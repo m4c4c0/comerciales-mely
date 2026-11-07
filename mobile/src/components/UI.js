@@ -41,18 +41,22 @@ export function Button({
     </Pressable>
   );
 }
-export function Field({
-  label,
-  value,
-  onChangeText,
-  secureTextEntry = false,
-  compact = false,
-  ...props
-}) {
+export const Field = React.forwardRef(function Field(
+  {
+    label,
+    value,
+    onChangeText,
+    secureTextEntry = false,
+    compact = false,
+    ...props
+  },
+  ref,
+) {
   return (
     <View>
       {!compact && <Text style={s.label}>{label}</Text>}
       <TextInput
+        ref={ref}
         accessibilityLabel={label}
         value={value}
         onChangeText={onChangeText}
@@ -73,7 +77,7 @@ export function Field({
       />
     </View>
   );
-}
+});
 export function Screen({ title, subtitle, children, scroll = true }) {
   const body = (
     <View style={s.content}>

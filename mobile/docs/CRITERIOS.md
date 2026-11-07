@@ -10,7 +10,7 @@ Fuente principal: ruta de aprendizaje DPS941 CII-2026. El archivo de unidades 1 
 | Login/registro funcional | bcrypt, Zod, SQLite, SecureStore, perfil validado y rutas protegidas | Verificado en Android 14; ver registro y capturas |
 | Módulo principal y navegación | Expo Router; cuatro pestañas del prototipo y rutas secundarias | Implementado |
 | Coherencia con Figma | Nodos originales verificados, tokens e imágenes locales | Referencia aplicada; originales y capturas reales disponibles |
-| Formularios validados | Zod, cantidades enteras, stock, precio mínimo, confirmación de contraseña | Implementado; 11 pruebas de dominio y validación UI |
+| Formularios, teclado y acceso por perfil | Zod, cantidades enteras, stock y precio mínimo; navegación por teclado en login/registro; matriz de acceso para administrador, empleado y facturador | Implementado; 12 pruebas automatizadas de dominio, incluida matriz de permisos |
 | Investigación React Native/Figma en APA 7 | Fuente Markdown e informe PDF con referencias y análisis propio | PDF generado y revisado visualmente |
 | Repositorio GitHub con proyecto móvil | Carpeta mobile en rama etapa3/avance1-movil-20261018 del repositorio del equipo | Publicado en rama de entrega |
 | Video demostrativo <=15 min | Video final de compilación y pruebas reales con la voz del autor (8:25), sin textos superpuestos | MP4 narrado verificado; compartir su enlace accesible en el Aula Digital |
