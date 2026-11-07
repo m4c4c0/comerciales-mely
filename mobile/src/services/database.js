@@ -1,8 +1,10 @@
 import * as Crypto from "expo-crypto";
+import { Platform, TurboModuleRegistry } from "react-native";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithCredential,
+  signInWithPopup,
   GoogleAuthProvider,
   sendPasswordResetEmail,
   updateProfile,
@@ -289,19 +291,16 @@ export async function register(data) {
 }
 
 async function googleIdToken() {
-  let mod;
-  try {
-    mod = require("@react-native-google-signin/google-signin");
-  } catch {
+  if (!TurboModuleRegistry.get("RNGoogleSignin")) {
     throw new Error(
-      "Google requiere la app instalada (APK o development build). No funciona en Expo Go.",
+      "En Expo Go no está disponible el módulo nativo de Google. Para probar Google usa el navegador (npm run web) o instala el APK compilado.",
     );
   }
   if (!GOOGLE_WEB_CLIENT_ID)
     throw new Error(
       "Falta configurar EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID (ver mobile/FIREBASE.md).",
     );
-  const { GoogleSignin } = mod;
+  const { GoogleSignin } = require("@react-native-google-signin/google-signin");
   GoogleSignin.configure({ webClientId: GOOGLE_WEB_CLIENT_ID });
   await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
   const res = await GoogleSignin.signIn();
@@ -312,6 +311,12 @@ async function googleIdToken() {
 
 export async function loginGoogle() {
   return guard(async () => {
+    if (Platform.OS === "web") {
+      const provider = new GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: "select_account" });
+      const cred = await signInWithPopup(auth, provider);
+      return establish(cred.user);
+    }
     const idToken = await googleIdToken();
     const cred = await signInWithCredential(auth, GoogleAuthProvider.credential(idToken));
     return establish(cred.user);
@@ -329,8 +334,10 @@ export async function resetPassword(email) {
 
 export async function logout() {
   try {
-    const mod = require("@react-native-google-signin/google-signin");
-    await mod.GoogleSignin.signOut();
+    if (Platform.OS !== "web" && TurboModuleRegistry.get("RNGoogleSignin")) {
+      const mod = require("@react-native-google-signin/google-signin");
+      await mod.GoogleSignin.signOut();
+    }
   } catch {
     // Sin sesión de Google o módulo nativo no disponible.
   }
