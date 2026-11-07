@@ -22,10 +22,11 @@ export const GOOGLE_WEB_CLIENT_ID =
 const existing = getApps().length > 0;
 export const app = existing ? getApp() : initializeApp(firebaseConfig);
 
-// La sesión de Firebase se persiste en AsyncStorage para sobrevivir al cierre de la app.
-export const auth = existing
-  ? getAuth(app)
-  : initializeAuth(app, { persistence: getReactNativePersistence(AsyncStorage) });
+// La sesión de Firebase se persiste en AsyncStorage en Android/iOS y en IndexedDB/localStorage en Web.
+export const auth =
+  existing || typeof getReactNativePersistence !== "function"
+    ? getAuth(app)
+    : initializeAuth(app, { persistence: getReactNativePersistence(AsyncStorage) });
 
 export const db = getFirestore(app);
 
