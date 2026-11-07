@@ -17,6 +17,7 @@ export default function Registro() {
   const { authenticate } = useApp();
   const [data, setData] = useState({
       nombre: "",
+      email: "",
       usuario: "",
       password: "",
       rol: "empleado",
@@ -38,7 +39,14 @@ export default function Registro() {
             autoCapitalize="words"
           />
           <Field
-            label="Usuario"
+            label="Correo electrónico"
+            value={data.email}
+            onChangeText={(v) => change("email", v)}
+            autoCapitalize="none"
+            keyboardType="email-address"
+          />
+          <Field
+            label="Usuario (letras y números)"
             value={data.usuario}
             onChangeText={(v) => change("usuario", v)}
           />
@@ -73,7 +81,12 @@ export default function Registro() {
               task.run(() => {
                 if (confirmation !== data.password)
                   throw new Error("Las contraseñas no coinciden.");
-                return authenticate("register", data);
+                return authenticate("register", {
+                  ...data,
+                  nombre: (data.nombre || "").trim(),
+                  usuario: (data.usuario || "").trim().toLowerCase(),
+                  email: (data.email || "").trim().toLowerCase(),
+                });
               })
             }
           />

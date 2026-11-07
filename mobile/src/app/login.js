@@ -24,7 +24,7 @@ const profiles = [
   ["facturador", "Cajero", require("../../assets/figma/s0-imgVector2.svg")],
 ];
 export default function Login() {
-  const { authenticate } = useApp();
+  const { authenticate, resetPassword } = useApp();
   const [usuario, setUsuario] = useState(""),
     [password, setPassword] = useState(""),
     [expectedRole, setExpectedRole] = useState("administrador"),
@@ -88,7 +88,8 @@ export default function Login() {
                     autoCapitalize="none"
                     autoCorrect={false}
                     textContentType="username"
-                    placeholder="administrador@mely.com"
+                    placeholder="correo@ejemplo.com"
+                    keyboardType="email-address"
                   />
                 </View>
               </View>
@@ -98,10 +99,13 @@ export default function Login() {
                   <Pressable
                     accessibilityRole="button"
                     onPress={() =>
-                      Alert.alert(
-                        "Recuperación de acceso",
-                        "En este avance local, solicita ayuda al administrador. Para las pruebas puedes usar las cuentas indicadas en Soporte. La recuperación por correo se integrará con Firebase.",
-                      )
+                      task.run(async () => {
+                        await resetPassword(usuario);
+                        Alert.alert(
+                          "Revisa tu correo",
+                          "Te enviamos un enlace para restablecer tu contraseña.",
+                        );
+                      })
                     }
                   >
                     <Text
@@ -195,9 +199,15 @@ export default function Login() {
               disabled={task.busy}
               onPress={() =>
                 task.run(() =>
-                  authenticate("login", { usuario, password, expectedRole }),
+                  authenticate("login", { usuario: (usuario || "").trim().toLowerCase(), password, expectedRole }),
                 )
               }
+            />
+            <Button
+              testID="login-google"
+              title={task.busy ? "Conectando…" : "Continuar con Google"}
+              disabled={task.busy}
+              onPress={() => task.run(() => authenticate("google"))}
             />
             <Link href="/registro" style={s.link}>
               Crear cuenta de empleado o cajero
@@ -214,8 +224,8 @@ export default function Login() {
                 accessibilityRole="button"
                 onPress={() =>
                   Alert.alert(
-                    "Soporte de demostración",
-                    "Administrador: admin / admin123\nEmpleado: empleado / empleado123\nCajero: facturador / factura123\n\nDatos locales en SQLite. No se sincronizan con la web.",
+                    "Acceso con Firebase",
+                    "Inicia sesión con tu correo y contraseña, o con Google. Si aún no tienes cuenta, usa «Crear cuenta». Los datos se sincronizan con la web a través de Firestore.",
                   )
                 }
               >
