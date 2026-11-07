@@ -7,7 +7,10 @@ import {
   report,
   parse,
   registerSchema,
-  productSchema,
+  loginSchema,
+  normalizeAuthUser,
+    allowed,
+    productSchema,
 } from "../src/domain/business.mjs";
 const admin = { id: "a", nombre: "Admin", rol: "administrador" },
   employee = { id: "e", nombre: "Empleado", rol: "empleado" },

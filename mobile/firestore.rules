@@ -1,0 +1,39 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function rolDe(uid) { return get(/databases/$(database)/documents/usuarios/$(uid)).data.rol; }
+    function isAdmin() { return signedIn() && rolDe(request.auth.uid) == 'Administrador'; }
+
+    // Perfiles: usuarios/{uid}
+    match /usuarios/{uid} {
+      allow read: if signedIn();
+      allow create: if signedIn() && (request.auth.uid == uid || isAdmin());
+      allow update, delete: if isAdmin();
+    }
+
+    // Catálogo (web y móvil). Cualquier usuario autenticado puede registrar
+    // productos y descontar stock; solo el administrador elimina documentos.
+    match /productos/{id} {
+      allow read: if signedIn();
+      allow create, update: if signedIn();
+      allow delete: if isAdmin();
+    }
+
+    // Historial de movimientos: auditoría inmutable, ligada al uid autenticado.
+    match /movimientos/{id} {
+      allow read: if signedIn();
+      allow create: if signedIn() && request.resource.data.usuarioId == request.auth.uid;
+      allow update, delete: if false;
+    }
+
+    // Facturas / ventas de la app móvil.
+    match /facturas/{id} {
+      allow read: if signedIn();
+      allow create: if signedIn() && request.resource.data.usuarioId == request.auth.uid;
+      allow update, delete: if false;
+    }
+  }
+}
+

@@ -41,7 +41,8 @@
       "expo-sharing",
       "expo-image",
       "expo-font",
-      "./plugins/withShortCmakePaths"
+      "./plugins/withShortCmakePaths",
+      "@react-native-google-signin/google-signin"
     ],
     "scheme": "comercialesmely"
   }
