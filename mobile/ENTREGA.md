@@ -14,6 +14,8 @@ Los datos se guardan en cada dispositivo. Son cuentas de demostración.
 
 ## Archivos para entregar
 
+- **Informe de investigación Avance 2 — Firebase en React Native (PDF APA 7):** [Investigacion_Firebase_ReactNative_Comerciales_Mely.pdf](Investigacion_Firebase_ReactNative_Comerciales_Mely.pdf) / [`output/pdf/Investigacion_Firebase_ReactNative_Comerciales_Mely.pdf`](output/pdf/Investigacion_Firebase_ReactNative_Comerciales_Mely.pdf)
+- **Guía técnica de Firebase y reglas Firestore (Avance 2):** [FIREBASE.md](FIREBASE.md) y [firestore.rules](firestore.rules)
 - APK 1.0.1 con icono Mely, fuentes, informe, manual y video: https://github.com/m4c4c0/comerciales-mely/releases/tag/etapa3-avance1-android-v1.0.1
 - Código del equipo: https://github.com/m4c4c0/comerciales-mely/tree/etapa3/avance1-movil-20261018/mobile
 - Informe local: output/pdf/Informe_Etapa3_Avance1_Comerciales_Mely.pdf

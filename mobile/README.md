@@ -1,10 +1,21 @@
 # Comerciales Mely - aplicación móvil
 
-Guía rápida de instalación y entrega: [ENTREGA.md](ENTREGA.md).
+Guía rápida de instalación y entrega: [ENTREGA.md](ENTREGA.md) · Configuración Firebase (Avance 2): [FIREBASE.md](FIREBASE.md).
 
-Descargas de la versión académica: https://github.com/m4c4c0/comerciales-mely/releases/tag/etapa3-avance1-android-v1.0.1
+## Entregables Etapa 3 — Avance 2 (Foro 2: Integración Firebase en React Native)
 
-Proyecto React Native/Expo para DPS941, Universidad Don Bosco, Ciclo II-2026. Etapa 3, Avance 1. Equipo R.E.F.E.S.
+- **Documento PDF de investigación (APA 7.ª ed.):** [Investigacion_Firebase_ReactNative_Comerciales_Mely.pdf](Investigacion_Firebase_ReactNative_Comerciales_Mely.pdf) *(también disponible en [`output/pdf/Investigacion_Firebase_ReactNative_Comerciales_Mely.pdf`](output/pdf/Investigacion_Firebase_ReactNative_Comerciales_Mely.pdf) y fuente editable en [`docs/INFORME_ETAPA3_AVANCE2_FIREBASE.md`](docs/INFORME_ETAPA3_AVANCE2_FIREBASE.md))*.
+- **Integración implementada:**
+  1. Autenticación con **Firebase Authentication** (correo electrónico/contraseña y Google Sign-In) en [`src/services/firebase.js`](src/services/firebase.js) y [`src/services/database.js`](src/services/database.js).
+  2. Persistencia remota en **Cloud Firestore** asociada al `UID` del usuario autenticado (`usuarios`, `productos`, `movimientos`, `facturas`) y reglas en [`firestore.rules`](firestore.rules).
+  3. Módulos secundarios operativos con transacciones atómicas (`runTransaction`): Inventario, Movimientos de bodega, Alertas de stock, Facturación con IVA 13 % y Reportes de 7 días.
+  4. Visualización cronológica del historial de movimientos y comprobantes almacenados en Firestore.
+
+---
+
+Descargas de la versión académica (Avance 1): https://github.com/m4c4c0/comerciales-mely/releases/tag/etapa3-avance1-android-v1.0.1
+
+Proyecto React Native/Expo para DPS941, Universidad Don Bosco, Ciclo II-2026. Etapa 3, Avances 1 y 2. Equipo R.E.F.E.S.
 
 Repositorio compartido: https://github.com/m4c4c0/comerciales-mely
 
