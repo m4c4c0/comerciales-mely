@@ -31,6 +31,23 @@ service cloud.firestore {
           || (movement.tipo == 'Salida'
               && request.resource.data.stock == resource.data.stock - movement.cantidad));
     }
+    function movementHasMatchingStockChange(productId, movementId) {
+      let productPath = /databases/$(database)/documents/productos/$(productId);
+      let productExisted = exists(productPath);
+      let beforeStock = productExisted ? get(productPath).data.stock : 0;
+      let productAfter = getAfter(productPath).data;
+      return existsAfter(productPath)
+        && productAfter.lastMovementId == movementId
+        && ((productExisted
+              && request.resource.data.tipo == 'Entrada'
+              && productAfter.stock == beforeStock + request.resource.data.cantidad)
+          || (productExisted
+              && request.resource.data.tipo == 'Salida'
+              && productAfter.stock == beforeStock - request.resource.data.cantidad)
+          || (!productExisted
+              && request.resource.data.tipo == 'Entrada'
+              && productAfter.stock == request.resource.data.cantidad));
+    }
 
     match /usuarios/{uid} {
       allow read: if signedIn() && (request.auth.uid == uid || hasRole(['Administrador']));
@@ -53,9 +70,11 @@ service cloud.firestore {
     match /movimientos/{id} {
       allow read: if signedIn();
       allow create: if inventoryStaff() && ownsRecord()
+        && request.resource.data.productoId is string
         && request.resource.data.tipo in ['Entrada', 'Salida']
         && request.resource.data.cantidad is int
-        && request.resource.data.cantidad > 0;
+        && request.resource.data.cantidad > 0
+        && movementHasMatchingStockChange(request.resource.data.productoId, id);
       allow update, delete: if false;
     }
 

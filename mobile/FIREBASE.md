@@ -20,7 +20,7 @@ La web y la app móvil usan el proyecto `comerciales-mely` con Firebase Authenti
 npx firebase-tools deploy --only firestore:rules --project comerciales-mely
 ```
 
-El proyecto y las reglas también están definidos en `.firebaserc`, `firebase.json` y `firestore.rules`. La regla de stock exige que cada cambio de existencias vaya acompañado, en la misma operación Firestore, por el movimiento correspondiente.
+El proyecto y las reglas también están definidos en `.firebaserc`, `firebase.json` y `firestore.rules`. Las reglas comprueban en ambos sentidos que los cambios de existencias y sus movimientos de entrada/salida se guarden juntos en la misma operación Firestore; también permiten registrar el movimiento inicial al crear un producto con existencias.
 
 ## Primer administrador y datos iniciales
 
