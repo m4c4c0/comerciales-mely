@@ -1,134 +1,111 @@
-# Comerciales Mely — Sistema de Gestión (Web)
+# Comerciales Mely
 
-Aplicación web desarrollada con **React + Next.js** para la Etapa 2 (Desarrollo Base del Proyecto — Web) de la asignatura **Diseño y Programación de Software Multiplataforma (DPS941)**, Universidad Don Bosco, UDB Virtual. Ciclo II-2026. Equipo **R.E.F.E.S**.
+Sistema académico multiplataforma para inventario, movimientos de bodega, facturación y reportes. Proyecto de DPS941, Universidad Don Bosco, Ciclo II-2026, equipo R.E.F.E.S.
 
-Digitaliza la gestión de **inventario, ventas y facturación** de Comerciales Mely, un comercio de productos variados que actualmente maneja todo en Excel (ver Etapa 1 — Análisis y Planificación).
+> **Estado de entrega:** la web compila y la app Android cuenta con pruebas funcionales del avance móvil. La sincronización Firebase/Firestore entre web y móvil, autenticación social en ambas plataformas y despliegue propio en Vercel aún requieren configuración e integración. No se presentan como funciones terminadas. La matriz completa está en [`mobile/docs/CRITERIOS.md`](mobile/docs/CRITERIOS.md).
 
----
+## Aplicaciones
 
-## 1. Requisitos previos
+| Plataforma | Código | Tecnología | Persistencia actual |
+| --- | --- | --- | --- |
+| Web | raíz (`pages/`, `components/`, `services/`) | React 18, Next.js 14, API REST de Next.js | En memoria; los datos de demostración se reinician al reiniciar el servidor |
+| Android/iOS | [`mobile/`](mobile/) | React Native, Expo Router y JavaScript | SQLite local en cada dispositivo |
 
-- Node.js 18.18 o superior (recomendado 20+)
-- npm 9+
+Ambas aplicaciones implementan inventario, entradas/salidas, ventas con IVA del 13 %, control de existencias y reportes. La base web y la base móvil actual son independientes; todavía no comparten datos.
 
-## 2. Instalación y ejecución local
+## Requisitos
 
-```bash
-# 1) Instalar dependencias
-npm install
+- Node.js 20 o superior y npm.
+- Para Android: Android Studio, Android SDK/NDK y JDK compatibles con Expo SDK 58. Para los pasos comprobados en este equipo, ver [`mobile/README.md`](mobile/README.md).
+- Para Vercel/Firebase: proyectos y credenciales propios configurados en las consolas respectivas. Nunca se deben subir secretos al repositorio.
 
-# 2) (Opcional) crear variables de entorno propias
-cp .env.example .env.local
-# Edita JWT_SECRET en .env.local con una cadena aleatoria propia.
-# Si no lo haces, la app usa un valor de desarrollo por defecto y funciona igual.
+## Ejecutar la web
 
-# 3) Levantar en modo desarrollo
+```powershell
+npm ci
+Copy-Item .env.example .env.local
+# Reemplaza JWT_SECRET por un secreto aleatorio local antes de iniciar sesión.
 npm run dev
-# Abre http://localhost:3000
+```
 
-# 4) Build de producción (el que usa Vercel)
+Abre `http://localhost:3000`. Para compilar y servir la versión de producción:
+
+```powershell
 npm run build
 npm run start
 ```
 
-No se requiere base de datos externa ni ninguna cuenta de servicio para correr el proyecto: el "backend propio" (ver sección 4) trae datos de ejemplo precargados.
+La web incluye acceso, registro con rol limitado, dashboard, CRUD de inventario, movimientos, facturación, usuarios y reportes. La API comprueba roles y valida entradas. Los datos seed y las sesiones en memoria son únicamente para demostración; no son persistentes ni sirven como backend compartido de producción.
 
-## 3. Usuarios de prueba
+## Ejecutar la app móvil
 
-| Rol            | Usuario      | Contraseña   |
-|----------------|--------------|--------------|
-| Administrador  | `admin`      | `admin123`   |
-| Empleado       | `empleado`   | `empleado123`|
-| Facturador     | `facturador` | `factura123` |
-
-También puedes registrar una cuenta nueva desde `/registro` (el registro público solo permite los roles Empleado o Facturador; el rol Administrador únicamente se crea desde el módulo **Usuarios** por un administrador ya autenticado).
-
----
-
-## 4. Arquitectura del proyecto
-
-Separación en capas UI / lógica de negocio / datos, tal como se planteó en la Etapa 1:
-
-```
-pages/                  → Capa de presentación (rutas Next.js)
-  api/                   → "Backend propio": API REST (auth, productos, movimientos, facturas, reportes, usuarios)
-  login.js, registro.js, dashboard.js, inventario/, facturacion.js, reportes.js, usuarios.js
-
-components/             → Componentes de UI reutilizables (Layout, Sidebar, Modal, formularios, etc.)
-
-context/                → Gestión de estado con Context API
-  AuthContext.js          sesión activa, login/registro/logout
-  InventarioContext.js    estado de productos compartido entre Inventario y Facturación,
-                           con actualización dinámica tras cada operación (sin recargar la página)
-
-services/               → Capa de lógica/cliente HTTP (llama a la API REST desde el navegador)
-
-lib/
-  db.js                  → Capa de datos: "backend propio" en memoria (usuarios, productos,
-                           movimientos, facturas) con las reglas de negocio (descuento de stock,
-                           cálculo de IVA/totales, validaciones)
-  auth.js                → JWT + cookies httpOnly (sesión)
-  authSSR.js              → protección de rutas en el servidor (getServerSideProps) por rol
-  validators.js           → esquemas de validación de entradas (Zod)
+```powershell
+cd mobile
+npm ci
+npm run start
 ```
 
-### Nota importante sobre persistencia de datos
+Para construir el APK de Android en un entorno preparado:
 
-La capa de datos (`lib/db.js`) usa **almacenamiento en memoria** con datos semilla, para cumplir el
-requisito de la Etapa 2 de "Integración con API REST (JSON Server, mock o backend propio)" sin
-depender de servicios externos ni de configurar credenciales. Esto significa que **los datos se
-reinician** si el servidor se reinicia (por ejemplo, en un *cold start* de una función serverless en
-Vercel). Para una versión de producción real, la recomendación (ya prevista desde la Etapa 1) es
-sustituir `lib/db.js` por Firebase Firestore u otra base de datos persistente — el resto de la
-aplicación (rutas API, contexts, servicios, páginas) no necesitaría cambiar, porque toda la
-aplicación accede a los datos únicamente a través de las funciones exportadas por ese módulo.
+```powershell
+npm run build:android
+```
 
----
+La guía móvil explica las cuentas locales de demostración, permisos por rol, exportación de comprobantes, compilación iOS y evidencia de Android. Consulta [`mobile/README.md`](mobile/README.md), [`mobile/ENTREGA.md`](mobile/ENTREGA.md) y [`mobile/output/evidence/VERIFICACION.md`](mobile/output/evidence/VERIFICACION.md).
 
-## 5. Cómo se cumple cada criterio de evaluación de la Etapa 2
+## Mockups de la Etapa 1
 
-### 1. Implementación de requerimientos funcionales
-- **Módulo de autenticación**: registro (`/registro`), login (`/login`), rutas protegidas por rol vía `getServerSideProps` + `requireAuthSSR`.
-- **Módulo de gestión principal (CRUD)**: Inventario — crear, listar, actualizar y eliminar productos (`/inventario`).
-- **Módulo de lógica de negocio central**: Facturación (`/facturacion`) — arma la venta, calcula subtotal/IVA/total, **descuenta el stock del inventario de forma atómica** y genera un comprobante numerado.
-- **Dashboard**: KPIs (productos activos, stock bajo, ventas de hoy, facturas emitidas), gráfica de ventas de los últimos 7 días y alertas de stock bajo.
-- **Actualización dinámica de datos**: los Context (`InventarioContext`) actualizan el estado en memoria inmediatamente después de cada operación (crear/editar/eliminar producto, registrar movimiento, generar factura), reflejando los cambios en la interfaz sin recargar la página.
+Diseños de referencia conservados dentro del repositorio. La app móvil mantiene colores, tipografía y estructura de las pantallas base.
 
-### 2. Arquitectura, componentes y buenas prácticas
-- Separación de capas: presentación (`pages`, `components`) → lógica de negocio (`context`, `services`) → datos (`lib/db.js`, `pages/api`).
-- Gestión de estado global con **Context API** (`AuthContext`, `InventarioContext`).
-- Componentes reutilizables (`Panel`, `Modal`, `Button`, `FormField`, formularios de dominio) y hooks personalizados (`useAuth`, `useInventario`).
+### Inicio de sesión
 
-### 3. Integración con API REST y manejo de datos
-- API REST propia construida con **Next.js API Routes** (`pages/api/**`), consumida desde el cliente vía `fetch` (capa `services/`).
-- Manejo de estados de carga y error en cada página (`cargando`, `error`, componentes `Alert`/`EmptyState`).
-- Validación de entradas con **Zod** tanto en el cliente como en el servidor, y manejo estructurado de errores HTTP (400/401/403/404/405).
+![Mockup Figma: inicio de sesión](mobile/docs/diseno/figma-login.png)
 
-### 4. Despliegue y trabajo colaborativo en GitHub
-- Ver la sección 6 de este README para el flujo de trabajo recomendado en GitHub y el despliegue en Vercel.
+### Inventario
 
----
+![Mockup Figma: inventario](mobile/docs/diseno/figma-inventario.png)
 
-## 6. Flujo recomendado para GitHub y Vercel (equipo R.E.F.E.S)
+### Producto
 
-1. Crear el repositorio en GitHub y subir este proyecto a la rama `main`.
-2. Cada integrante crea su propia rama (`feature/nombre-modulo`) y la usa para sus commits — la guía exige que **todos los integrantes tengan rama y commits propios**.
-3. Agregar a todos los integrantes como colaboradores del repositorio.
-4. Abrir un Pull Request de cada rama hacia `main` antes de la fecha de entrega, con una descripción breve de lo trabajado.
-5. Conectar el repositorio a [Vercel](https://vercel.com) (Import Project → seleccionar el repo).
-6. En la configuración del proyecto en Vercel, agregar la variable de entorno `JWT_SECRET` (cualquier cadena aleatoria y secreta).
-7. Desplegar. Vercel detecta Next.js automáticamente (no requiere configuración adicional).
-8. Agregar el enlace del despliegue y capturas de pantalla al README antes de la entrega final (recomendación del docente en el dictamen de la Etapa 1).
+![Mockup Figma: ficha de producto](mobile/docs/diseno/figma-producto.png)
 
----
+### Movimiento de inventario
 
-## 7. Próximos pasos (Etapa 3 — Móvil)
+![Mockup Figma: movimiento](mobile/docs/diseno/figma-movimiento.png)
 
-Según lo planteado en la Etapa 1, la Etapa 3 migrará la app a **React Native**, reutilizando la misma
-lógica de negocio y sustituyendo `lib/db.js` por **Firebase** (Authentication, Firestore y Storage)
-como base de datos persistente compartida entre la web y la app móvil.
+### Alertas
 
+![Mockup Figma: alertas](mobile/docs/diseno/figma-alertas.png)
 
-## Etapa 3 - Aplicación móvil
+Archivo de Figma informado por el equipo: `11GPTpTj3RrHusfOA9qqOr`. Nodos y notas de diseño: [documentación móvil](mobile/README.md#diseño-verificado).
 
-La versión React Native/Expo se encuentra en [mobile](mobile/README.md), con configuración Android/iOS, SQLite, diseño basado en Figma, pruebas y documentación del Foro 1. Consulta [los criterios y pendientes](mobile/docs/CRITERIOS.md) antes de la entrega.
+## Evaluación final
+
+| Criterio | Evidencia actual | Pendiente para declararlo completo |
+| --- | --- | --- |
+| Web React + Next.js | Código en la raíz; `npm run build` | Desplegar esta copia en un proyecto Vercel propio y documentar la URL confirmada |
+| App móvil React Native | Código y pruebas de Android en `mobile/` | Confirmar la integración Firebase de esta rama y validar el backend remoto |
+| Correo y red social en ambas | La web usa usuario/contraseña local; móvil usa SQLite local | Firebase Authentication y proveedor social habilitados, configurados y probados en web y móvil |
+| Módulos principales/secundarios | Inventario, bodega, ventas, reportes, usuarios y alertas | Validar los flujos integrados en ambas plataformas |
+| Firestore compartido | Aún no conectado en esta rama | Una base común, reglas seguras y pruebas de lectura/escritura cruzada |
+| UX/UI alineada con Figma | Pantallas y referencias publicadas arriba | Revisión comparativa final de la versión web y móvil |
+| Licencia Creative Commons | [`LICENCIA-CONTENIDO.md`](LICENCIA-CONTENIDO.md) describe la licencia del material del proyecto | Ver alcance de licencias existentes antes de redistribuir código de terceros |
+| Colaboración | Ramas y miembros documentados en [`mobile/docs/COLABORACION.md`](mobile/docs/COLABORACION.md) | Cada integrante debe mantener sus propios commits reales; no se inventan contribuciones |
+| Originalidad | Se conserva la identidad y el historial del equipo | Las adaptaciones de otro repositorio deben conservar atribución y licencia de origen |
+
+El repositorio de referencia del compañero se consultó como fuente de trabajo del equipo. Sus reglas Firestore encontradas permitían cambios demasiado amplios a cualquier usuario autenticado; por ello no se copiaron ni se presenta ese proyecto o su despliegue como propios. Consulta el historial y las atribuciones del equipo antes de integrar código adicional.
+
+## Seguridad y configuración
+
+- `.env.local` está excluido por `.gitignore`. No publiques claves privadas, archivos de servicio ni contraseñas.
+- En producción web, `JWT_SECRET` debe definirse como variable de entorno secreta. Sin ella la autenticación falla de forma explícita.
+- La configuración actual no incluye Firebase en esta rama. No reutilices credenciales pertenecientes a otro proyecto sin autorización de sus administradores.
+- La base web en memoria se reinicia con el servidor y no ofrece persistencia entre instancias serverless.
+
+## Licencia
+
+El aviso de Creative Commons de este proyecto delimita el material original y sus excepciones en [`LICENCIA-CONTENIDO.md`](LICENCIA-CONTENIDO.md). La aplicación móvil conserva su archivo [`mobile/LICENSE`](mobile/LICENSE); las licencias y atribuciones de dependencias y aportes de terceros prevalecen para esos componentes.
+
+## Historial y colaboración
+
+Repositorio de entrega: [wilfredo409/comerciales-mely-web](https://github.com/wilfredo409/comerciales-mely-web). La rama de trabajo final es `main`. Los integrantes, ramas de trabajo e información sobre el historial se mantienen en [`mobile/docs/COLABORACION.md`](mobile/docs/COLABORACION.md). Todos los cambios que se entreguen deben permanecer documentados y dentro de este repositorio.
