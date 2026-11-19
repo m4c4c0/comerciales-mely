@@ -1,12 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { X } from "lucide-react";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
 import { useAuth } from "../context/AuthContext";
 
-export default function Layout({ title, subtitle, children }) {
-  const { user } = useAuth();
+export default function Layout({ title, subtitle, children, allowedRoles }) {
+  const { user, loading } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
+  const router = useRouter();
+  useEffect(() => {
+    if (!loading && !user) router.replace(`/login?next=${encodeURIComponent(router.asPath)}`);
+  }, [loading, user, router]);
+
+  if (loading || !user) {
+    return <div className="flex min-h-screen items-center justify-center bg-cream text-sm text-muted">Comprobando sesión…</div>;
+  }
+  if (allowedRoles && !allowedRoles.includes(user.rol)) {
+    return <div className="flex min-h-screen items-center justify-center bg-cream text-sm text-muted">No tienes permiso para ver este módulo.</div>;
+  }
 
   return (
     <div className="flex min-h-screen bg-cream">

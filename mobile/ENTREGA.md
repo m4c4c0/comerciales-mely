@@ -1,28 +1,27 @@
-# Entrega móvil de Comerciales Mely
+# Guía de entrega final
 
-## Instalar en Android
+## Configuración y despliegue
 
-Abrir `output/android/Comerciales-Mely-etapa3.apk` desde el teléfono. Permitir la instalación desde la aplicación usada para abrir el archivo cuando Android lo solicite. No hace falta ejecutar Expo ni mantener una computadora encendida.
+1. Configura Firebase con las instrucciones de [FIREBASE.md](FIREBASE.md), habilita Email/Password y Google, y publica las reglas de `../firestore.rules`.
+2. Configura las seis variables `NEXT_PUBLIC_FIREBASE_*` en Vercel y despliega la rama `main`. Agrega el dominio Vercel a los dominios autorizados de Firebase Authentication.
+3. Para Android, crea `.env` desde `.env.example`, define `EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID`, registra el paquete Android y su SHA-1 en Firebase y compila una APK nueva con `npm run build:android`.
+4. Prueba una cuenta con cada rol y una operación de inventario/venta en web y móvil; confirma que el cambio se refleja en ambas plataformas.
 
-| Perfil seleccionado | Usuario | Contraseña de prueba |
-| --- | --- | --- |
-| Admin | admin | admin123 |
-| Empleado | empleado | empleado123 |
-| Cajero | facturador | factura123 |
+No hay credenciales de demostración compartidas. Usa cuentas de Firebase autorizadas para el equipo. El primer administrador debe asignarse desde Firebase Console como se describe en la guía.
 
-Los datos se guardan en cada dispositivo. Son cuentas de demostración.
+## Verificación local
 
-## Archivos para entregar
+Desde `mobile/`:
 
-- APK, código fuente ZIP, informe PDF y video técnico: https://github.com/m4c4c0/comerciales-mely/releases/tag/etapa3-avance1-android-v1.0.0
-- Código del equipo: https://github.com/m4c4c0/comerciales-mely/tree/etapa3/avance1-movil-20261018/mobile
-- Informe local: output/pdf/Informe_Etapa3_Avance1_Comerciales_Mely.pdf
-- Guion de explicación: docs/GUION_VIDEO.md
-- Resultados reales y capturas: output/evidence/VERIFICACION.md
-- Criterios y alcance: docs/CRITERIOS.md
+```powershell
+npm ci
+npm test
+npm run lint
+npm run typecheck
+npm run export:mobile
+npm run build:android
+```
 
-## Estado
+La exportación JavaScript no equivale a una APK ni prueba Google Sign-In nativo. Las capturas y archivos de `output/evidence` y `output/android` se conservan de la etapa anterior y no verifican la integración Firebase actual. Consulta la matriz en [docs/CRITERIOS.md](docs/CRITERIOS.md) para los límites de verificación externa y de iOS.
 
-La compilación universal y las once comprobaciones del recorrido completo pasaron en Android 14. También se compiló ARM64 en Windows. Se exportaron los bundles finales Android e iOS y se prepararon perfiles EAS, permisos e instrucciones para iOS; no se generó un IPA.
-
-La entrega está organizada para el primer avance de la etapa 3. El video automático de apoyo muestra operaciones reales y no tiene voz del equipo: los integrantes deben grabar su explicación de máximo 15 minutos con el guion. Para los avances posteriores quedan Firebase Authentication, Google, Firestore y sincronización con la web, según la matriz de criterios. Los commits y explicaciones de cada integrante deben corresponder a su participación real.
+La entrega en GitHub está en [wilfredo409/comerciales-mely-web](https://github.com/wilfredo409/comerciales-mely-web). El video y la defensa oral del equipo deben grabarse y prepararse con [docs/GUION_VIDEO.md](docs/GUION_VIDEO.md); cada integrante explica sus aportes reales.

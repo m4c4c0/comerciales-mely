@@ -5,12 +5,9 @@ import { AlertTriangle, TrendingUp } from "lucide-react";
 import Layout from "../components/Layout";
 import { Panel, StatInline } from "../components/Panel";
 import { Alert, EmptyState } from "../components/Feedback";
-import { requireAuthSSR } from "../lib/authSSR";
+import { useAuth } from "../context/AuthContext";
 import { reportesService } from "../services/reportesService";
 
-export async function getServerSideProps(context) {
-  return requireAuthSSR(context, ["administrador", "empleado", "facturador"]);
-}
 
 function formatMoneda(n) {
   return `$${Number(n).toFixed(2)}`;
@@ -21,7 +18,8 @@ function formatFechaCorta(fecha) {
   return d.toLocaleDateString("es-SV", { day: "2-digit", month: "short" });
 }
 
-export default function Dashboard({ usuario }) {
+export default function Dashboard() {
+  const { user } = useAuth();
   const [resumen, setResumen] = useState(null);
   const [error, setError] = useState("");
 
@@ -37,7 +35,7 @@ export default function Dashboard({ usuario }) {
       <Head>
         <title>Dashboard · Comerciales Mely</title>
       </Head>
-      <Layout title="Dashboard" subtitle={`Bienvenido(a), ${usuario.nombre}`}>
+      <Layout title="Dashboard" subtitle={`Bienvenido(a), ${user?.nombre || ""}`} allowedRoles={["administrador", "empleado", "facturador"]}>
         {error && <Alert tone="error" className="mb-5">{error}</Alert>}
 
         {!resumen ? (

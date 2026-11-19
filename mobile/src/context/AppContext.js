@@ -47,6 +47,14 @@ export function AppProvider({ children }) {
     setState(result.state);
     setUser(result.user);
   }
+  async function loginGoogle() {
+    const result = await database.loginGoogle();
+    setState(result.state);
+    setUser(result.user);
+  }
+  async function resetPassword(email) {
+    return database.resetPassword(email);
+  }
   async function logout() {
     await database.logout();
     setUser(null);
@@ -81,6 +89,8 @@ export function AppProvider({ children }) {
         error,
         restore,
         authenticate,
+        loginGoogle,
+        resetPassword,
         logout,
         mutate,
         refresh,

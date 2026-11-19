@@ -10,6 +10,7 @@ export const loginSchema = z.object({
 });
 export const registerSchema = z.object({
   nombre: text(3),
+  email: z.email(),
   usuario: text(3).regex(/^[a-zA-Z0-9._-]+$/),
   password: z.string().min(8).max(72),
   rol: z.enum(["empleado", "facturador"]),

@@ -25,8 +25,8 @@ export default function Registro() {
     e.preventDefault();
     setError("");
 
-    if (form.password.length < 6) {
-      setError("La contraseña debe tener al menos 6 caracteres.");
+    if (form.password.length < 8) {
+      setError("La contraseña debe tener al menos 8 caracteres.");
       return;
     }
 
@@ -68,12 +68,16 @@ export default function Registro() {
               <input className={inputClass} value={form.nombre} onChange={(e) => set("nombre", e.target.value)} required />
             </FormField>
 
+            <FormField label="Correo electrónico">
+              <input type="email" autoComplete="email" className={inputClass} value={form.email || ""} onChange={(e) => set("email", e.target.value)} required />
+            </FormField>
+
             <FormField label="Usuario">
               <input className={inputClass} value={form.usuario} onChange={(e) => set("usuario", e.target.value)} required />
             </FormField>
 
-            <FormField label="Contraseña" hint="Mínimo 6 caracteres.">
-              <input type="password" className={inputClass} value={form.password} onChange={(e) => set("password", e.target.value)} required />
+            <FormField label="Contraseña" hint="Mínimo 8 caracteres.">
+              <input type="password" minLength={8} autoComplete="new-password" className={inputClass} value={form.password} onChange={(e) => set("password", e.target.value)} required />
             </FormField>
 
             <FormField label="Rol">

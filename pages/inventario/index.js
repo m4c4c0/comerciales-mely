@@ -8,13 +8,9 @@ import Modal from "../../components/Modal";
 import Button from "../../components/Button";
 import ProductoForm from "../../components/ProductoForm";
 import MovimientoForm from "../../components/MovimientoForm";
-import { requireAuthSSR } from "../../lib/authSSR";
 import { useInventario } from "../../context/InventarioContext";
 import { useAuth } from "../../context/AuthContext";
 
-export async function getServerSideProps(context) {
-  return requireAuthSSR(context, ["administrador", "empleado"]);
-}
 
 export default function Inventario() {
   const { user } = useAuth();
@@ -65,7 +61,7 @@ export default function Inventario() {
       <Head>
         <title>Inventario · Comerciales Mely</title>
       </Head>
-      <Layout title="Inventario" subtitle="Consulta, registra y controla las existencias de productos">
+      <Layout title="Inventario" subtitle="Consulta, registra y controla las existencias de productos" allowedRoles={["administrador", "empleado"]}>
         {(error || accionError) && <Alert tone="error" className="mb-5">{error || accionError}</Alert>}
 
         <Panel

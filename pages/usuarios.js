@@ -8,12 +8,8 @@ import Modal from "../components/Modal";
 import Button from "../components/Button";
 import RoleBadge from "../components/RoleBadge";
 import UsuarioForm from "../components/UsuarioForm";
-import { requireAuthSSR } from "../lib/authSSR";
 import { usuariosService } from "../services/usuariosService";
 
-export async function getServerSideProps(context) {
-  return requireAuthSSR(context, ["administrador"]);
-}
 
 export default function Usuarios() {
   const [usuarios, setUsuarios] = useState([]);
@@ -40,7 +36,7 @@ export default function Usuarios() {
       <Head>
         <title>Usuarios · Comerciales Mely</title>
       </Head>
-      <Layout title="Usuarios" subtitle="Gestión de cuentas y roles del sistema">
+      <Layout title="Usuarios" subtitle="Gestión de cuentas y roles del sistema" allowedRoles={["administrador"]}>
         {error && <Alert tone="error" className="mb-5">{error}</Alert>}
 
         <Panel

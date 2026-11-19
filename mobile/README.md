@@ -1,8 +1,6 @@
-# Comerciales Mely - aplicación móvil
+# Comerciales Mely - aplicación multiplataforma móvil
 
 Guía rápida de instalación y entrega: [ENTREGA.md](ENTREGA.md).
-
-Descargas de la versión académica: https://github.com/m4c4c0/comerciales-mely/releases/tag/etapa3-avance1-android-v1.0.0
 
 Proyecto React Native/Expo para DPS941, Universidad Don Bosco, Ciclo II-2026. Etapa 3, Avance 1. Equipo R.E.F.E.S.
 
@@ -43,27 +41,19 @@ npx eas-cli@latest build --platform ios --profile ios-simulator
 
 La exportación de JavaScript para iOS no equivale a una compilación firmada ni a una prueba en iPhone. Consultar el estado real en `docs/CRITERIOS.md` y `output/evidence/VERIFICACION.md`.
 
-## Cuentas locales de demostración
+## Cuentas y acceso
 
-| Rol | Usuario | Alias de correo | Contraseña |
-| --- | --- | --- | --- |
-| Administrador | admin | administrador@mely.com | admin123 |
-| Empleado | empleado | empleado@mely.com | empleado123 |
-| Facturador/cajero | facturador | facturador@mely.com | factura123 |
-
-Elegir el perfil correspondiente al iniciar sesión. El selector no otorga privilegios: la cuenta almacenada determina el rol. Registro público solo para empleado o facturador, contraseña de al menos 8 caracteres y confirmación.
-
-Estas cuentas son exclusivamente de prueba. Las cuentas y datos se almacenan por dispositivo. La primera inicialización agrega 10 productos de la web y 4 productos del prototipo móvil con sus imágenes de referencia.
+La app usa Firebase Authentication con correo y contraseña o Google. No incluye contraseñas de demostración. El registro móvil permite crear cuentas de Empleado o Facturador; no permite elevarse a Administrador. Para el primer administrador, consulta [FIREBASE.md](FIREBASE.md). El selector en la pantalla de login comprueba el rol de la cuenta; no concede permisos.
 
 ## Funcionalidad
 
-- Login, registro, sesión persistida de hasta 8 horas y cierre con revocación.
+- Login, registro, sesión persistida por Firebase, recuperación de contraseña por correo, Google Sign-In y cierre de sesión.
 - Catálogo con búsqueda, filtros por categoría, detalle, creación/edición y archivo por administrador.
 - Selección de imágenes o captura con cámara, con copia al almacenamiento persistente.
 - Bodega: entradas/salidas con motivo, validación de existencias y trazabilidad.
 - Ventas: carrito, IVA del 13 % de la propuesta académica, control de stock, comprobante y exportación PDF.
 - Alertas de stock, dashboard y reportes con gráfica de siete días.
-- Actualización del estado compartido a través de Context API y persistencia SQLite.
+- Context API para el estado de interfaz; Firebase Authentication y Cloud Firestore para la persistencia compartida con la web.
 
 La barra principal conserva Inventario, Movimientos, Alertas y Perfil del Figma. Desde Perfil se accede al resumen, ventas y reportes. Las pantallas adicionales son extensiones funcionales de la propuesta. Sus botones se ocultan con `tabBarButton` y `tabBarItemStyle`: en Router 58, `href: null` redirige y no sirve para estas rutas accesibles desde Perfil.
 
@@ -74,13 +64,13 @@ La barra principal conserva Inventario, Movimientos, Alertas y Perfil del Figma.
 | UI | src/app, src/components | Rutas, formularios, listas, mensajes y presentación |
 | Estado | src/context/AppContext.js | Sesión y datos compartidos, actualización después de operaciones |
 | Lógica | src/domain/business.mjs | Validación Zod, permisos, stock, impuestos e informes |
-| Datos | src/services/database.js | SQLite, sesiones y transacciones serializadas |
+| Datos | src/services/database.js | Firebase Authentication, perfiles y transacciones de Cloud Firestore |
 | Exportación | src/services/receipt.js | Creación y compartición del comprobante académico |
 | Diseño | src/theme, assets/figma | Tokens y recursos originales descargados de Figma |
 
-Las ventas validan todas las líneas antes de persistir y agrupan productos repetidos. La transacción guarda stock, movimientos y comprobante juntos. La autorización se comprueba en la capa de datos, además de la navegación. Se usan centavos para importes y fechas locales para los reportes diarios.
+Las ventas validan todas las líneas y agrupan productos repetidos. Una transacción Firestore guarda descuentos de stock, movimientos y factura juntos. Los cambios se ven en la web y el móvil al actualizar sus datos. La autorización se comprueba en la lógica de negocio y en [firestore.rules](../firestore.rules). Se usan centavos para importes y fechas ISO para los reportes diarios.
 
-SQLite guarda el estado versionado en una fila JSON; es una decisión para el avance local. No es una base compartida ni una solución de seguridad multiusuario remota. Firebase Authentication, Google, Firestore con reglas y sincronización web/móvil quedan pendientes para Foro 2 y entrega final.
+La configuración y el modelo común están en [FIREBASE.md](FIREBASE.md). El código Firebase móvil fue adaptado de la implementación del equipo y lleva su atribución en [`docs/COLABORACION.md`](docs/COLABORACION.md). Los recursos de imagen elegidos en un teléfono pueden seguir siendo locales; para compartirlos entre dispositivos se necesita habilitar Firebase Storage y cargar imágenes allí.
 
 ## Verificación
 
@@ -125,10 +115,10 @@ Código móvil: https://github.com/m4c4c0/comerciales-mely/tree/etapa3/avance1-m
 Los cinco colaboradores ya tienen acceso. Sus cuentas y ramas reales están documentadas en `docs/COLABORACION.md`. La portada y docente se contrastaron con el README compartido. Guía para completar la plataforma Apple: `docs/IOS_PREPARACION.md`.
 
 
-## APK y resultados de la entrega
+## Estado de compilación y verificación
 
-El APK universal de distribución académica está en `output/android/Comerciales-Mely-etapa3.apk`. El recorrido completo de Android 14 y la compilación terminaron correctamente: https://github.com/wilfredo409/comerciales-mely-web/actions/runs/39199889132 . También se compiló ARM64 en Windows.
+La versión actual usa Firebase y requiere que estén desplegadas las reglas de Firestore. `npm test`, `npm run lint`, `npm run typecheck` y `npm run export:mobile` validan el código y los bundles, pero la exportación JavaScript no es una APK instalable ni sustituye una prueba en Android.
 
-SHA-256 del APK universal: `2c1718a3a1d0f1b27e79e00c6a460b421b831a4dc20bd42a493cda769fd10d2d`.
+La compilación Android actual necesita Android Studio, su SDK/NDK, JDK y Ninja. El script obtiene Ninja si aún no está instalado; si la red está restringida, instálalo por un canal confiable y vuelve a ejecutar `npm run build:android`. La ejecución realizada durante esta entrega no pudo descargar Ninja por falta de conexión al host, por lo que el APK legado de `output/android` no debe usarse para probar Firebase.
 
-Consultar `output/evidence/VERIFICACION.md`, capturas y registro. El video de `docs/demo` es evidencia técnica automática de unos tres minutos, sin voz del equipo; usar el guion para preparar la explicación requerida por la materia.
+Las capturas, APK y registros de `output/evidence` y `output/android` corresponden a la entrega anterior con SQLite y cuentas locales. Se conservan como historial académico; no son pruebas de la implementación Firebase actual. Repite el recorrido con una APK recién compilada antes de presentar el estado móvil como probado. iOS requiere macOS/Xcode o EAS y credenciales de firma Apple para generar una IPA instalable.

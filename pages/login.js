@@ -8,22 +8,18 @@ import { Alert } from "../components/Feedback";
 import { inputClass } from "../components/Panel";
 import Button from "../components/Button";
 
-const DEMO_USERS = [
-  { rol: "Administrador", usuario: "admin", password: "admin123" },
-  { rol: "Empleado", usuario: "empleado", password: "empleado123" },
-  { rol: "Facturador", usuario: "facturador", password: "factura123" },
-];
-
 export default function Login() {
-  const { login } = useAuth();
+  const { login, loginGoogle, resetPassword } = useAuth();
   const router = useRouter();
   const [form, setForm] = useState({ usuario: "", password: "" });
   const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
+    setNotice("");
     setLoading(true);
     try {
       await login(form.usuario.trim(), form.password);
@@ -36,8 +32,18 @@ export default function Login() {
     }
   }
 
-  function fillDemo(u) {
-    setForm({ usuario: u.usuario, password: u.password });
+  async function handlePasswordReset() {
+    setError("");
+    setNotice("");
+    setLoading(true);
+    try {
+      await resetPassword(form.usuario);
+      setNotice("Si existe una cuenta para ese correo, recibirás instrucciones para cambiar la contraseña.");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -88,22 +94,30 @@ export default function Login() {
             </div>
 
             <h1 className="font-display text-2xl font-extrabold text-ink">Iniciar sesión</h1>
-            <p className="mt-1 text-sm text-muted">Ingresa con tu usuario y contraseña para continuar.</p>
+            <p className="mt-1 text-sm text-muted">Ingresa con tu correo electrónico o cuenta de Google.</p>
 
             <form onSubmit={handleSubmit} className="mt-6 space-y-4">
               {error && <Alert tone="error">{error}</Alert>}
+              {notice && <Alert tone="success">{notice}</Alert>}
 
               <label className="block">
-                <span className="mb-1.5 block text-sm font-medium text-ink">Usuario</span>
+                <span className="mb-1.5 block text-sm font-medium text-ink">Correo electrónico</span>
                 <input
                   className={inputClass}
                   value={form.usuario}
                   onChange={(e) => setForm((f) => ({ ...f, usuario: e.target.value }))}
-                  placeholder="admin"
+                  type="email"
+                  autoCapitalize="none"
+                  autoComplete="email"
+                  placeholder="nombre@correo.com"
                   autoFocus
                   required
                 />
               </label>
+
+              <button type="button" onClick={handlePasswordReset} disabled={loading} className="text-sm font-medium text-brand-600 hover:underline disabled:opacity-50">
+                ¿Olvidaste tu contraseña?
+              </button>
 
               <label className="block">
                 <span className="mb-1.5 block text-sm font-medium text-ink">Contraseña</span>
@@ -123,6 +137,15 @@ export default function Login() {
               </Button>
             </form>
 
+            <Button type="button" variant="secondary" className="mt-3 w-full" onClick={async () => {
+              setError(""); setLoading(true);
+              try { await loginGoogle(); router.push("/dashboard"); }
+              catch (err) { setError(err.message); }
+              finally { setLoading(false); }
+            }} disabled={loading}>
+              Continuar con Google
+            </Button>
+
             <p className="mt-5 text-center text-sm text-muted">
               ¿No tienes cuenta?{" "}
               <Link href="/registro" className="font-medium text-brand-600 hover:underline">
@@ -130,21 +153,6 @@ export default function Login() {
               </Link>
             </p>
 
-            <div className="mt-8 rounded-md border border-line bg-surface px-4 py-3">
-              <p className="mb-2 text-xs font-semibold text-faint">Usuarios de prueba</p>
-              <ul className="space-y-1.5">
-                {DEMO_USERS.map((u) => (
-                  <li key={u.usuario} className="flex items-center justify-between text-xs">
-                    <span className="text-muted">
-                      {u.rol}: <code className="text-ink">{u.usuario}</code> / <code className="text-ink">{u.password}</code>
-                    </span>
-                    <button type="button" onClick={() => fillDemo(u)} className="font-medium text-brand-600 hover:underline">
-                      usar
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
           </div>
         </div>
       </div>

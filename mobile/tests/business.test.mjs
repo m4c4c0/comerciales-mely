@@ -125,6 +125,7 @@ test("public registration cannot elevate role to administrator", () => {
   assert.throws(() =>
     parse(registerSchema, {
       nombre: "Persona",
+      email: "persona@example.com",
       usuario: "persona",
       password: "12345678",
       rol: "administrador",

@@ -4,7 +4,7 @@ import { Alert } from "./Feedback";
 import Button from "./Button";
 
 export default function UsuarioForm({ onSubmit, onCancel }) {
-  const [form, setForm] = useState({ nombre: "", usuario: "", password: "", rol: "empleado" });
+  const [form, setForm] = useState({ nombre: "", email: "", usuario: "", password: "", rol: "empleado" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -32,11 +32,14 @@ export default function UsuarioForm({ onSubmit, onCancel }) {
       <FormField label="Nombre completo">
         <input className={inputClass} value={form.nombre} onChange={(e) => set("nombre", e.target.value)} required />
       </FormField>
+      <FormField label="Correo electrónico">
+        <input type="email" autoComplete="email" className={inputClass} value={form.email} onChange={(e) => set("email", e.target.value)} required />
+      </FormField>
       <FormField label="Usuario">
         <input className={inputClass} value={form.usuario} onChange={(e) => set("usuario", e.target.value)} required />
       </FormField>
-      <FormField label="Contraseña" hint="Mínimo 6 caracteres.">
-        <input type="password" className={inputClass} value={form.password} onChange={(e) => set("password", e.target.value)} required minLength={6} />
+      <FormField label="Contraseña" hint="Mínimo 8 caracteres.">
+        <input type="password" className={inputClass} value={form.password} onChange={(e) => set("password", e.target.value)} required minLength={8} />
       </FormField>
       <FormField label="Rol">
         <select className={inputClass} value={form.rol} onChange={(e) => set("rol", e.target.value)}>

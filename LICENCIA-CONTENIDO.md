@@ -10,7 +10,8 @@ La licencia permite compartir y adaptar ese material con atribución, para fines
 
 ## Excepciones y límites
 
-- El código móvil mantiene el aviso MIT ya presente en [`mobile/LICENSE`](mobile/LICENSE).
+- [`mobile/LICENSE`](mobile/LICENSE) contiene el aviso de licencia del template Expo (650 Industries); no se presenta como una licencia de todo el código del equipo.
+- La adaptación de `mobile/src/services/database.js` parte de la implementación del repositorio colaborador indicada en [`mobile/docs/COLABORACION.md`](mobile/docs/COLABORACION.md); se conserva esa atribución y cualquier licencia aplicable del origen.
 - Las dependencias conservan sus respectivas licencias.
 - Los recursos de Figma y cualquier aporte de terceros pertenecen a sus autores. Esta licencia no amplía los derechos que el equipo tenga sobre esos materiales; atribúyelos y usa solo los elementos autorizados.
 - Esta licencia no concede derechos sobre marcas, nombres, logos de terceros ni derechos de privacidad o imagen.

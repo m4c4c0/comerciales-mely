@@ -37,17 +37,15 @@ export default function Cuenta() {
       <Card>
         <Text style={s.heading}>Acerca de esta versión</Text>
         <Text style={s.subtitle}>
-          Comerciales Mely · Etapa 3, Avance 1. React Native, Expo, Context API,
-          Zod y SQLite.
+          Comerciales Mely · React Native, Expo, Context API, Zod y Firebase.
         </Text>
         <Text style={s.subtitle}>
-          Las cuentas, productos, imágenes y ventas permanecen en este
-          dispositivo. La sincronización con Firebase se incorporará en el
-          siguiente avance.
+          La cuenta y los datos del negocio se comparten con la versión web
+          mediante Firebase Authentication y Cloud Firestore.
         </Text>
         <Text style={s.small}>
-          Sesión de hasta 8 horas. El cierre elimina el token del almacén seguro
-          y revoca su acceso en SQLite.
+          La sesión se conserva de forma segura en el dispositivo. Puedes
+          cerrarla desde aquí.
         </Text>
       </Card>
       <ErrorText text={task.error} />

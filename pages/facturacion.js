@@ -5,13 +5,9 @@ import Layout from "../components/Layout";
 import { Panel } from "../components/Panel";
 import { Alert, EmptyState } from "../components/Feedback";
 import Button from "../components/Button";
-import { requireAuthSSR } from "../lib/authSSR";
 import { useInventario } from "../context/InventarioContext";
 import { facturasService } from "../services/facturasService";
 
-export async function getServerSideProps(context) {
-  return requireAuthSSR(context, ["administrador", "facturador"]);
-}
 
 const IVA_RATE = 0.13;
 
@@ -105,7 +101,7 @@ export default function Facturacion() {
       <Head>
         <title>Facturación · Comerciales Mely</title>
       </Head>
-      <Layout title="Facturación" subtitle="Arma la venta y genera el comprobante conectado al inventario">
+      <Layout title="Facturación" subtitle="Arma la venta y genera el comprobante conectado al inventario" allowedRoles={["administrador", "facturador"]}>
         <div className="grid gap-6 lg:grid-cols-3">
           <div className="space-y-6 lg:col-span-2">
             <Panel title="Buscar producto">

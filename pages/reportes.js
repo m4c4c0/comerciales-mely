@@ -5,14 +5,10 @@ import { ArrowDownCircle, ArrowUpCircle } from "lucide-react";
 import Layout from "../components/Layout";
 import { Panel } from "../components/Panel";
 import { Alert, EmptyState } from "../components/Feedback";
-import { requireAuthSSR } from "../lib/authSSR";
 import { reportesService } from "../services/reportesService";
 import { movimientosService } from "../services/movimientosService";
 import { facturasService } from "../services/facturasService";
 
-export async function getServerSideProps(context) {
-  return requireAuthSSR(context, ["administrador", "empleado", "facturador"]);
-}
 
 function formatFechaHora(fecha) {
   return new Date(fecha).toLocaleString("es-SV", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" });
@@ -48,7 +44,7 @@ export default function Reportes() {
       <Head>
         <title>Reportes · Comerciales Mely</title>
       </Head>
-      <Layout title="Reportes" subtitle="Ventas, movimientos de inventario y facturación">
+      <Layout title="Reportes" subtitle="Ventas, movimientos de inventario y facturación" allowedRoles={["administrador", "empleado", "facturador"]}>
         {error && <Alert tone="error" className="mb-5">{error}</Alert>}
 
         <div className="space-y-6">

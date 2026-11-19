@@ -21,8 +21,29 @@ export function AuthProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    refresh();
-  }, [refresh]);
+    let unsubscribe;
+    let active = true;
+    Promise.all([import("../lib/firebase"), import("firebase/auth"), import("../services/firebaseApi")])
+      .then(([firebase, authSdk, profileService]) => {
+        if (!active) return;
+        unsubscribe = authSdk.onAuthStateChanged(firebase.auth, async (firebaseUser) => {
+          try {
+            setUser(firebaseUser ? await profileService.getProfile(firebaseUser) : null);
+          } catch {
+            setUser(null);
+          } finally {
+            setLoading(false);
+          }
+        });
+      })
+      .catch(() => {
+        if (active) setLoading(false);
+      });
+    return () => {
+      active = false;
+      unsubscribe?.();
+    };
+  }, []);
 
   const login = useCallback(async (usuario, password) => {
     const data = await authService.login(usuario, password);
@@ -36,13 +57,21 @@ export function AuthProvider({ children }) {
     return data.usuario;
   }, []);
 
+  const loginGoogle = useCallback(async () => {
+    const data = await authService.google();
+    setUser(data.usuario);
+    return data.usuario;
+  }, []);
+
+  const resetPassword = useCallback((email) => authService.resetPassword(email), []);
+
   const logout = useCallback(async () => {
     await authService.logout();
     setUser(null);
     router.push("/login");
   }, [router]);
 
-  const value = useMemo(() => ({ user, loading, login, registro, logout, refresh }), [user, loading, login, registro, logout, refresh]);
+  const value = useMemo(() => ({ user, loading, login, loginGoogle, resetPassword, registro, logout, refresh }), [user, loading, login, loginGoogle, resetPassword, registro, logout, refresh]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
