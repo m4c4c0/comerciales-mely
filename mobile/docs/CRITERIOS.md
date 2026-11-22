@@ -21,23 +21,23 @@ UI/lógica/datos separados; Context API; más de cinco pantallas; tres roles; im
 
 ## Foro 2 - 8 de noviembre de 2026 (15 %)
 
-La integración final ya incorpora Firebase Authentication (correo y Google) y Firestore. Código móvil adaptado con atribución desde el repositorio del equipo; el adaptador web usa las mismas colecciones. Reglas más restrictivas incluidas en `firestore.rules`. Pendiente de verificación externa: publicar las reglas, confirmar proveedores en Firebase Console y probar login y sincronización con cuentas reales en ambas plataformas.
+La integración final incorpora Firebase Authentication (correo y Google) y Firestore. Código móvil adaptado con atribución desde el repositorio del equipo; el adaptador web usa las mismas colecciones. Las reglas más restrictivas de `firestore.rules` están publicadas en el proyecto propio `comerciales-mely-final`, con región `us-central1`. Los proveedores y la app Android están configurados. Falta probar login y sincronización con cuentas reales en ambas plataformas.
 
 ## Entrega final - 22 de noviembre de 2026 (20 % + 10 % defensa)
 
-| Criterio | Evidencia en el repositorio | Estado por verificar |
+| Criterio | Evidencia en el repositorio y servicios | Estado |
 | --- | --- | --- |
-| Integración web + móvil | Firebase Auth y colecciones Firestore comunes; transacciones para venta e inventario | Probar escritura en una plataforma y lectura en la otra después de publicar reglas |
-| Funcionalidad | Inventario, movimientos, facturación, alertas, usuarios y reportes | Repetir los recorridos de Android anteriores contra el proyecto remoto |
-| UX/UI | Mockups Figma publicados en README, pantallas móviles y web | Revisión visual final en dispositivo |
-| Código/documentación | Guías de instalación, arquitectura, variables y reglas Firebase | Build desplegado y verificación de enlaces |
-| Colaboración | Ramas, miembros y procedencia de Firebase documentados | Commits reales de cada persona, defensa oral y video del equipo |
-| Publicación | Código y recursos dentro del repositorio; configuración Vercel no incluida | Confirmar URL Vercel y configurar sus variables de entorno |
+| Integración web + móvil | Web y móvil apuntan a `comerciales-mely-final`; Firestore `us-central1`; reglas publicadas y transacciones para venta/inventario | Falta probar escritura en una plataforma y lectura en la otra con usuarios reales |
+| Funcionalidad | Inventario, movimientos, facturación, alertas, usuarios y reportes | Falta repetir los recorridos contra el proyecto remoto con una cuenta por rol |
+| UX/UI | Mockups Figma publicados en README; pantallas web y móvil implementadas | Revisar la versión móvil actual en dispositivo con datos reales |
+| Código/documentación | Guías de instalación, arquitectura, variables, reglas Firebase y matriz de evaluación | Web desplegada; falta validar nueva APK Android. La exportación JS no la sustituye |
+| Colaboración | Ramas, miembros y procedencia documentados; commits visibles en `main` | Defensa oral y video del equipo quedan a cargo de sus integrantes |
+| Publicación | Repositorio público `wilfredo409/comerciales-mely-web`; despliegue Vercel listo en [comerciales-mely-web.vercel.app](https://comerciales-mely-web.vercel.app) | Verificación manual final del flujo de negocio y cuentas |
 
 La exportación JavaScript de Expo no es una APK/IPA instalable. Google Sign-In en Android necesita SHA-1 y compilación nativa; iOS requiere firma/perfil y dispositivo Apple para probar en iPhone.
 
 ## Compilaciones y dispositivos
 
-Las capturas y el APK de Foro 1 corresponden a la versión SQLite anterior; no verifican por sí mismos el backend Firebase actual. Los bundles deben regenerarse después de los cambios. Para iOS se necesita Expo/EAS y, para instalar en iPhone, firma Apple y dispositivo autorizado. Consultar `output/evidence/VERIFICACION.md` sin confundir exportación JS con IPA.
+Las capturas y el APK de Foro 1 corresponden a la versión SQLite anterior; no verifican por sí mismos el backend Firebase actual. Los bundles deben regenerarse después de los cambios. Para Android, la SHA-1 de depuración está registrada; la firma de producción requiere registrar también su huella. Para iOS se necesita Expo/EAS y, para instalar en iPhone, firma Apple y dispositivo autorizado. Consultar `output/evidence/VERIFICACION.md` sin confundir exportación JS con IPA.
 
 Equipo y accesos verificados en docs/COLABORACION.md. No se crearon ramas atribuidas a otros integrantes.

@@ -2,13 +2,13 @@
 
 Sistema académico multiplataforma para inventario, movimientos de bodega, facturación y reportes. Proyecto de DPS941, Universidad Don Bosco, Ciclo II-2026, equipo R.E.F.E.S.
 
-> **Estado de integración:** web y móvil ya usan Firebase Authentication y las mismas colecciones de Cloud Firestore. Las reglas de seguridad están incluidas en este repositorio. La compilación web y móvil está en verificación; Google móvil requiere una compilación nativa y la publicación de reglas/despliegue Vercel aún deben confirmarse. Ver [Firebase](mobile/FIREBASE.md) y la [matriz de criterios](mobile/docs/CRITERIOS.md).
+> **Estado de integración (22 de noviembre de 2026):** la web está desplegada en [comerciales-mely-web.vercel.app](https://comerciales-mely-web.vercel.app). Web y móvil apuntan al proyecto Firebase `comerciales-mely-final`; Authentication tiene correo/contraseña y Google habilitados, Firestore está en `us-central1` y las reglas de [`firestore.rules`](firestore.rules) están publicadas. La configuración cliente permanece en archivos locales ignorados por Git. La compilación nativa Android y una prueba de inicio de sesión/sincronización con cuentas reales aún deben verificarse en un dispositivo. Ver [Firebase](mobile/FIREBASE.md) y la [matriz de criterios](mobile/docs/CRITERIOS.md).
 
 ## Aplicaciones
 
 | Plataforma | Código | Tecnología | Persistencia actual |
 | --- | --- | --- | --- |
-| Web | raíz (`pages/`, `components/`, `services/`) | React 18, Next.js 14 y Firebase Web SDK | Cloud Firestore compartido |
+| Web | raíz (`pages/`, `components/`, `services/`) | React 18, Next.js 14 y Firebase Web SDK | Cloud Firestore compartido; [despliegue Vercel](https://comerciales-mely-web.vercel.app) |
 | Android/iOS | [`mobile/`](mobile/) | React Native, Expo Router y Firebase SDK | Cloud Firestore compartido; Firebase Authentication mantiene la sesión |
 
 Ambas aplicaciones implementan inventario, entradas/salidas, ventas con IVA del 13 %, control de existencias y reportes. Los cambios de productos, movimientos y facturas se escriben en las colecciones compartidas `productos`, `movimientos` y `facturas`; las cuentas y roles están en `usuarios/{uid}`. Las operaciones de stock se escriben junto con su movimiento en una transacción.
@@ -17,7 +17,7 @@ Ambas aplicaciones implementan inventario, entradas/salidas, ventas con IVA del 
 
 - Node.js 20 o superior y npm.
 - Para Android: Android Studio, Android SDK/NDK y JDK compatibles con Expo SDK 58. Para los pasos comprobados en este equipo, ver [`mobile/README.md`](mobile/README.md).
-- Variables Firebase del equipo en `.env.local` y `mobile/.env`; las plantillas están en `.env.example` y `mobile/.env.example`. No subas los archivos locales.
+- Variables de tu proyecto Firebase en `.env.local` y `mobile/.env`; las plantillas están en `.env.example` y `mobile/.env.example`. No subas los archivos locales.
 
 ## Ejecutar la web
 
@@ -81,17 +81,17 @@ Archivo de Figma informado por el equipo: `11GPTpTj3RrHusfOA9qqOr`. Nodos y nota
 
 ## Evaluación final
 
-| Criterio | Evidencia actual | Pendiente para declararlo completo |
-| --- | --- | --- |
-| Web React + Next.js | Código en la raíz; compilación de producción | Desplegar esta copia en Vercel y documentar una URL comprobada |
-| App móvil React Native | Código Expo, pruebas de lógica y exportación Android/iOS | Generar una nueva APK con Firebase y comprobarla en Android; la IPA/iPhone exige equipo/perfil Apple |
-| Correo y red social en ambas | Firebase Auth por correo; Google web y módulo Google nativo móvil | Confirmar proveedores habilitados; probar OAuth web y construir/validar Google Sign-In Android con huella SHA-1 |
-| Módulos principales/secundarios | Inventario, bodega, ventas, reportes, usuarios y alertas | Probar todos los flujos contra Firestore compartido con cuentas por rol |
-| Firestore compartido | Colecciones y transacciones comunes; reglas en [`firestore.rules`](firestore.rules) | Publicar reglas en Firebase y verificar sincronización con cuentas reales |
-| UX/UI alineada con Figma | Pantallas y referencias publicadas arriba | Revisión comparativa final de la versión web y móvil |
-| Licencia Creative Commons | [`LICENCIA-CONTENIDO.md`](LICENCIA-CONTENIDO.md) describe la licencia del material del proyecto | Ver alcance de licencias existentes antes de redistribuir código de terceros |
-| Colaboración | Ramas y miembros documentados en [`mobile/docs/COLABORACION.md`](mobile/docs/COLABORACION.md) | Cada integrante debe mantener sus propios commits reales; no se inventan contribuciones |
-| Originalidad | Se conserva la identidad y el historial del equipo | Las adaptaciones de otro repositorio deben conservar atribución y licencia de origen |
+| Criterio | Evidencia y estado |
+| --- | --- |
+| Web React + Next.js | Aplicación publicada en [Vercel](https://comerciales-mely-web.vercel.app), vinculada a `main` |
+| App móvil React Native | Código Expo, pruebas de lógica y exportación JavaScript móvil; falta generar y probar una nueva APK en Android |
+| Correo y red social en ambas | Firebase tiene correo/contraseña y Google habilitados; web tiene el dominio Vercel autorizado. Falta una prueba real de OAuth y del módulo nativo Android |
+| Módulos principales/secundarios | Inventario, bodega, ventas, reportes, usuarios y alertas implementados; falta recorrido de aceptación con cuentas de cada rol |
+| Firestore compartido | Ambas plataformas usan el proyecto `comerciales-mely-final`; reglas publicadas y operaciones de inventario/venta transaccionales. Falta validar sincronización con datos de prueba reales |
+| UX/UI alineada con Figma | Mockups de la Etapa 1 publicados arriba y guía visual conservada en el repositorio |
+| Licencia Creative Commons | [`LICENCIA-CONTENIDO.md`](LICENCIA-CONTENIDO.md) describe la licencia del material del proyecto |
+| Colaboración | Ramas, integrantes y atribuciones documentados en [`mobile/docs/COLABORACION.md`](mobile/docs/COLABORACION.md); el historial Git conserva las contribuciones existentes |
+| Originalidad | Se conserva la identidad e historial del equipo y se atribuye el código reutilizado del repositorio colaborador |
 
 El repositorio de referencia del compañero se consultó como fuente de trabajo del equipo. Sus reglas Firestore encontradas permitían cambios demasiado amplios a cualquier usuario autenticado; por ello no se copiaron ni se presenta ese proyecto o su despliegue como propios. Consulta el historial y las atribuciones del equipo antes de integrar código adicional.
 
@@ -100,8 +100,9 @@ El repositorio de referencia del compañero se consultó como fuente de trabajo 
 - `.env.local` y `mobile/.env` están excluidos por `.gitignore`. La configuración Firebase de cliente identifica el proyecto y no reemplaza reglas de seguridad; no publiques claves privadas ni contraseñas.
 - El primer administrador debe crearse como usuario normal y luego asignarse a `Administrador` en Firebase Console. El cliente nunca permite autoasignarse ese rol.
 - Las altas web con correo y contraseña y las cuentas Google nuevas empiezan como `Empleado`; el alta móvil permite `Empleado` o `Facturador`.
-- Vercel debe recibir las seis variables `NEXT_PUBLIC_FIREBASE_*` del `.env.local`; agrega el dominio del sitio a los dominios autorizados en Firebase Authentication.
-- El Google Sign-In nativo necesita el ID OAuth Web y una app Android registrada con el paquete y SHA-1 que se describen en [mobile/FIREBASE.md](mobile/FIREBASE.md).
+- Vercel ya tiene las seis variables `NEXT_PUBLIC_FIREBASE_*` para producción. La configuración apunta a `comerciales-mely-final`; el dominio `comerciales-mely-web.vercel.app` está autorizado en Firebase Authentication.
+- El proyecto tiene registrada la app Android `com.anonymous.comercialesmelymovil` y la huella SHA-1 de depuración de este equipo. El ID OAuth Web está guardado solo en `mobile/.env`; para compilar en otra máquina registra allí el SHA-1 de la clave que se vaya a usar.
+- El proyecto Firebase está en el plan Spark. Cuotas y límites del plan aplican; no se activó facturación ni respaldos programados de pago.
 
 ## Licencia
 

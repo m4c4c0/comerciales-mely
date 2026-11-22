@@ -1,26 +1,26 @@
 # Firebase compartido
 
-La web y la app móvil usan el proyecto `comerciales-mely` con Firebase Authentication y Cloud Firestore. El código adaptado de la implementación móvil del equipo conserva la atribución a [m4c4c0/comerciales-mely, commit `ed18d69`](docs/COLABORACION.md). Las reglas incluidas aquí restringen perfiles, catálogo, movimientos y facturas por rol.
+La web y la app móvil usan el proyecto Firebase `comerciales-mely-final` (plan Spark) con Firebase Authentication y Cloud Firestore en `us-central1`. La app web y la app Android están registradas. Email/Password y Google están habilitados, y `comerciales-mely-web.vercel.app` está autorizado para OAuth. Las reglas de `../firestore.rules` fueron publicadas el 22 de noviembre de 2026. El código adaptado de la implementación móvil del equipo conserva la atribución a [m4c4c0/comerciales-mely, commit `ed18d69`](docs/COLABORACION.md).
 
 ## Variables locales
 
-1. Copia `mobile/.env.example` como `mobile/.env` y completa los seis valores públicos de configuración de app que da Firebase Console → Project settings → Your apps.
-2. Copia la misma configuración web a la raíz como `.env.local`, usando las variables `NEXT_PUBLIC_FIREBASE_*` de `.env.example`.
-3. Para Google en Android, define `EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID` con el ID de cliente OAuth tipo Web de Firebase Authentication. Estos archivos están ignorados por Git.
+1. Copia `mobile/.env.example` como `mobile/.env` y `../.env.example` como `../.env.local`; completa ambos con la configuración de la app web que entrega Firebase Console → Project settings → Your apps.
+2. En `mobile/.env`, completa `EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID` con el cliente OAuth tipo Web que muestra Authentication → Sign-in method → Google → Web SDK configuration.
+3. Los dos archivos locales están ignorados por Git. La configuración Firebase de cliente se entrega a la app, pero no reemplaza las reglas de seguridad; nunca guardes contraseñas ni credenciales de servicio en ellos.
 
 ## Firebase Console
 
-1. Authentication → Sign-in method: habilita **Email/Password** y **Google**.
-2. Authentication → Settings → Authorized domains: agrega `localhost` y el dominio Vercel una vez publicado.
-3. Project settings → Your apps: registra Android con paquete `com.anonymous.comercialesmelymovil` y registra iOS si vas a compilar para iPhone.
-4. Agrega la huella SHA-1 del certificado usado para compilar Android a la app Android de Firebase/Google Cloud. El Google Sign-In nativo requiere una compilación de desarrollo o APK; Expo Go no contiene su módulo nativo.
-5. Publica las reglas de este repositorio:
+1. Authentication → Sign-in method: **Email/Password** y **Google** ya están habilitados.
+2. Authentication → Settings → Authorized domains: ya incluye `localhost` y `comerciales-mely-web.vercel.app`. Agrega otros dominios de producción si se configuran.
+3. Project settings → Your apps: Android está registrado con paquete `com.anonymous.comercialesmelymovil`; también hay una app web registrada.
+4. La huella SHA-1 de depuración del equipo quedó agregada al registro Android de Firebase. Si firmas con otro keystore o publicas una APK, agrega también la huella SHA-1 de esa clave. Google Sign-In nativo requiere una compilación de desarrollo o APK; Expo Go no contiene su módulo nativo.
+5. Las reglas ya están publicadas. Para publicar cambios futuros, usa:
 
 ```powershell
-npx firebase-tools deploy --only firestore:rules --project comerciales-mely
+npx firebase-tools deploy --only firestore:rules --project comerciales-mely-final
 ```
 
-El proyecto y las reglas también están definidos en `.firebaserc`, `firebase.json` y `firestore.rules`. Las reglas comprueban en ambos sentidos que los cambios de existencias y sus movimientos de entrada/salida se guarden juntos en la misma operación Firestore; también permiten registrar el movimiento inicial al crear un producto con existencias.
+El ID del proyecto se guarda en `../.firebaserc`; la definición de reglas está en `../firestore.rules`. Las reglas comprueban que los cambios de existencias y sus movimientos de entrada/salida se guarden juntos en la misma operación Firestore, también permiten registrar el movimiento inicial al crear un producto con existencias y validan cantidades, importes y roles.
 
 ## Primer administrador y datos iniciales
 

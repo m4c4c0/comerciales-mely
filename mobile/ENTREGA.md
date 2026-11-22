@@ -2,10 +2,10 @@
 
 ## Configuración y despliegue
 
-1. Configura Firebase con las instrucciones de [FIREBASE.md](FIREBASE.md), habilita Email/Password y Google, y publica las reglas de `../firestore.rules`.
-2. Configura las seis variables `NEXT_PUBLIC_FIREBASE_*` en Vercel y despliega la rama `main`. Agrega el dominio Vercel a los dominios autorizados de Firebase Authentication.
-3. Para Android, crea `.env` desde `.env.example`, define `EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID`, registra el paquete Android y su SHA-1 en Firebase y compila una APK nueva con `npm run build:android`.
-4. Prueba una cuenta con cada rol y una operación de inventario/venta en web y móvil; confirma que el cambio se refleja en ambas plataformas.
+1. Firebase está configurado según [FIREBASE.md](FIREBASE.md): Authentication, Firestore y reglas del repositorio están activos en `comerciales-mely-final`.
+2. La rama `main` está vinculada a Vercel y publicada en [comerciales-mely-web.vercel.app](https://comerciales-mely-web.vercel.app). Las seis variables web están configuradas para producción y el dominio está autorizado en Firebase.
+3. El paquete Android, el cliente OAuth Web y la SHA-1 de depuración de este equipo están registrados. Falta compilar una APK nueva con `npm run build:android` y probar Google Sign-In nativo en Android.
+4. Falta una prueba de aceptación con cuentas reales de cada rol y una operación de inventario/venta en ambas plataformas que confirme la sincronización.
 
 No hay credenciales de demostración compartidas. Usa cuentas de Firebase autorizadas para el equipo. El primer administrador debe asignarse desde Firebase Console como se describe en la guía.
 
