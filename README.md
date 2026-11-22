@@ -2,7 +2,7 @@
 
 Sistema académico multiplataforma para inventario, movimientos de bodega, facturación y reportes. Proyecto de DPS941, Universidad Don Bosco, Ciclo II-2026, equipo R.E.F.E.S.
 
-> **Estado de integración (22 de noviembre de 2026):** la web está desplegada en [comerciales-mely-web.vercel.app](https://comerciales-mely-web.vercel.app). Web y móvil apuntan al proyecto Firebase `comerciales-mely-final`; Authentication tiene correo/contraseña y Google habilitados, Firestore está en `us-central1` y las reglas de [`firestore.rules`](firestore.rules) están publicadas. La configuración cliente permanece en archivos locales ignorados por Git. La exportación JavaScript Android/iOS pasó; no se produjo la APK porque Gradle no logró iniciar un script CMake desde la ruta local con espacios y acento. La prueba de inicio de sesión/sincronización con cuentas reales también queda pendiente. Ver [Firebase](mobile/FIREBASE.md) y la [matriz de criterios](mobile/docs/CRITERIOS.md).
+> **Estado de integración (22 de noviembre de 2026):** la web está desplegada en [comerciales-mely-web.vercel.app](https://comerciales-mely-web.vercel.app). Web y móvil apuntan al proyecto Firebase `comerciales-mely-final`; Authentication tiene correo/contraseña y Google habilitados, Firestore está en `us-central1` y las reglas de [`firestore.rules`](firestore.rules) están publicadas. La configuración cliente permanece en archivos locales ignorados por Git. La exportación JavaScript Android/iOS pasó. El build nativo de Android se reintentó en una ruta ASCII y compila Java/Kotlin, pero las tareas CMake de `react-native-worklets` y `react-native-screens` fallan porque Ninja marca `build.ninja` como dirty después de 100 intentos; no se generó una APK nueva verificable. La prueba móvil de Google Sign-In y sincronización con cuentas reales queda pendiente. Ver [Firebase](mobile/FIREBASE.md) y la [matriz de criterios](mobile/docs/CRITERIOS.md).
 
 ## Aplicaciones
 
@@ -84,7 +84,7 @@ Archivo de Figma informado por el equipo: `11GPTpTj3RrHusfOA9qqOr`. Nodos y nota
 | Criterio | Evidencia y estado |
 | --- | --- |
 | Web React + Next.js | Aplicación publicada en [Vercel](https://comerciales-mely-web.vercel.app), vinculada a `main` |
-| App móvil React Native | Código Expo, pruebas de lógica y exportación JavaScript móvil; la APK no se generó en esta ruta Windows y aún falta probarla en Android |
+| App móvil React Native | Código Expo, pruebas de lógica y exportación JavaScript móvil; build Android bloqueado por regeneración CMake/Ninja, por lo que falta APK instalable y prueba en Android |
 | Correo y red social en ambas | Firebase tiene correo/contraseña y Google habilitados; web tiene el dominio Vercel autorizado. Falta una prueba real de OAuth y del módulo nativo Android |
 | Módulos principales/secundarios | Inventario, bodega, ventas, reportes, usuarios y alertas implementados; falta recorrido de aceptación con cuentas de cada rol |
 | Firestore compartido | Ambas plataformas usan el proyecto `comerciales-mely-final`; reglas publicadas y operaciones de inventario/venta transaccionales. Falta validar sincronización con datos de prueba reales |

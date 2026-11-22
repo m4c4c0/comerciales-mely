@@ -24,5 +24,8 @@ yarn-error.log*
 # vercel
 .vercel
 
+# Local Android SDK/CLI runtime
+/.android-runtime/
+
 # typescript
 *.tsbuildinfo

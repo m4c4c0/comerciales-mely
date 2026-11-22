@@ -30,14 +30,14 @@ La integración final incorpora Firebase Authentication (correo y Google) y Fire
 | Integración web + móvil | Web y móvil apuntan a `comerciales-mely-final`; Firestore `us-central1`; reglas publicadas y transacciones para venta/inventario | Falta probar escritura en una plataforma y lectura en la otra con usuarios reales |
 | Funcionalidad | Inventario, movimientos, facturación, alertas, usuarios y reportes | Falta repetir los recorridos contra el proyecto remoto con una cuenta por rol |
 | UX/UI | Mockups Figma publicados en README; pantallas web y móvil implementadas | Revisar la versión móvil actual en dispositivo con datos reales |
-| Código/documentación | Guías de instalación, arquitectura, variables, reglas Firebase y matriz de evaluación | Web desplegada; falta validar nueva APK Android. La exportación JS no la sustituye |
-| Colaboración | Ramas, miembros y procedencia documentados; commits visibles en `main` | Defensa oral y video del equipo quedan a cargo de sus integrantes |
+| Código/documentación | Guías de instalación, arquitectura, variables, reglas Firebase y matriz de evaluación | Web desplegada; build Android desde ruta ASCII compila Java/Kotlin, pero CMake/Ninja falla por `build.ninja` persistentemente dirty. No hay APK nueva verificable |
+| Colaboración | Historial de `main` y atribuciones documentados; miembros y ramas del repositorio de origen anotados | La pertenencia al repositorio de entrega requiere confirmación en GitHub; su página de configuración pidió reautenticación. Defensa oral y video quedan a cargo del equipo |
 | Publicación | Repositorio público `wilfredo409/comerciales-mely-web`; despliegue Vercel listo en [comerciales-mely-web.vercel.app](https://comerciales-mely-web.vercel.app) | Verificación manual final del flujo de negocio y cuentas |
 
-La exportación JavaScript de Expo no es una APK/IPA instalable. El build Android se intentó; Gradle no pudo iniciar el script `prefab_command.bat` desde la ruta Windows actual, que contiene espacios y un carácter acentuado. Reinténtalo desde una ruta corta ASCII. Google Sign-In en Android necesita SHA-1 y compilación nativa; iOS requiere firma/perfil y dispositivo Apple para probar en iPhone.
+La exportación JavaScript de Expo no es una APK/IPA instalable. El build Android se reintentó en una ruta corta ASCII, con dependencias Android descargadas y un solo worker de Gradle. Kotlin/Java compilan, pero las tareas CMake de `react-native-worklets` y `react-native-screens` fallan porque Ninja informa que `build.ninja` sigue dirty después de 100 intentos. Google Sign-In en Android y la sincronización móvil requieren una APK que pueda instalarse y probarse; iOS requiere firma/perfil y dispositivo Apple para probar en iPhone.
 
 ## Compilaciones y dispositivos
 
 Las capturas y el APK de Foro 1 corresponden a la versión SQLite anterior; no verifican por sí mismos el backend Firebase actual. Los bundles deben regenerarse después de los cambios. Para Android, la SHA-1 de depuración está registrada; la firma de producción requiere registrar también su huella. Para iOS se necesita Expo/EAS y, para instalar en iPhone, firma Apple y dispositivo autorizado. Consultar `output/evidence/VERIFICACION.md` sin confundir exportación JS con IPA.
 
-Equipo y accesos verificados en docs/COLABORACION.md. No se crearon ramas atribuidas a otros integrantes.
+Las contribuciones y ramas descritas se contrastaron con los repositorios e historial accesibles; la pertenencia de colaboradores al repositorio de entrega no se pudo confirmar desde GitHub porque la configuración exigió reautenticación. No se crearon ramas ni commits atribuidos a otros integrantes.
