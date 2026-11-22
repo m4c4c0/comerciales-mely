@@ -317,7 +317,7 @@ async function createInvoice(body) {
     invoice = { ...sharedInvoice, subtotal, iva, total, items: details.map(({ product, ...item }) => ({ ...item, nombre: product.nombre })) };
     details.forEach(({ product, productoId, cantidad }, index) => {
       transaction.update(productRefs[index], { stock: product.stock - cantidad, lastMovementId: movementRefs[index].id });
-      transaction.set(movementRefs[index], { productoId, nombre: product.nombre, nombreProducto: product.nombre, tipo: "Salida", cantidad, nota: `Venta ${numero}`, motivo: `Venta ${numero}`, usuario: user.nombre, usuarioId: user.id, fecha });
+      transaction.set(movementRefs[index], { productoId, nombre: product.nombre, nombreProducto: product.nombre, tipo: "Salida", cantidad, facturaId: invoiceRef.id, itemIndex: index, nota: `Venta ${numero}`, motivo: `Venta ${numero}`, usuario: user.nombre, usuarioId: user.id, fecha });
     });
     transaction.set(invoiceRef, sharedInvoice);
   });

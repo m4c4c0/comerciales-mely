@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:rules": "firebase emulators:exec --only firestore --project demo-mely-rules --config firebase.test.json \"node --test tests/firestore-rules.test.mjs\""
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -22,9 +23,11 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@firebase/rules-unit-testing": "^5.0.2",
     "autoprefixer": "^10.4.19",
     "eslint": "^8.57.1",
     "eslint-config-next": "^14.2.35",
+    "firebase-tools": "^15.37.0",
     "postcss": "^8.4.39",
     "tailwindcss": "^3.4.6"
   }
