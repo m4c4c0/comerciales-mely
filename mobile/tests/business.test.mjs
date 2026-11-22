@@ -8,7 +8,18 @@ import {
   parse,
   registerSchema,
   productSchema,
+  normalizeAuthUser,
 } from "../src/domain/business.mjs";
+test("normalizes shared Firebase role labels without granting unknown roles", () => {
+  for (const rol of ["Administrador", "Empleado", "Facturador"]) {
+    const user = normalizeAuthUser({ id: "uid", nombre: "QA", rol });
+    assert.equal(user.rol, rol.toLowerCase());
+    assert.equal(user.id, "uid");
+  }
+  for (const rol of ["", "owner", undefined]) {
+    assert.throws(() => normalizeAuthUser({ rol }), /rol de acceso/);
+  }
+});
 const admin = { id: "a", nombre: "Admin", rol: "administrador" },
   employee = { id: "e", nombre: "Empleado", rol: "empleado" },
   cashier = { id: "c", nombre: "Facturador", rol: "facturador" };

@@ -2,6 +2,13 @@ import { z } from "zod";
 z.config(z.locales.es());
 export const money = (n) => `$${(Number(n) / 100).toFixed(2)}`;
 export const roles = ["administrador", "empleado", "facturador"];
+// Firestore shares title-case role labels with the web; the mobile domain uses
+// lowercase identifiers. Reject unknown roles rather than assigning privileges.
+export function normalizeAuthUser(user) {
+  const rol = String(user?.rol || "").trim().toLowerCase();
+  if (!roles.includes(rol)) throw new Error("La cuenta tiene un rol de acceso no válido.");
+  return { ...user, rol };
+}
 const text = (min) => z.string().trim().min(min).max(120);
 const integer = z.coerce.number().int().min(0).max(1000000);
 export const loginSchema = z.object({
