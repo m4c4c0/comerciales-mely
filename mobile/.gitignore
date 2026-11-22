@@ -11,6 +11,7 @@ expo-env.d.ts
 
 # Native
 .kotlin/
+.gradle-project-cache/
 *.orig.*
 *.jks
 *.p8
@@ -43,6 +44,11 @@ yarn-error.*
 # Entrega móvil: artefactos generados y herramientas locales
 /tools/
 /output/*
+!/output/android/
+/output/android/*
+!/output/android/README.md
+!/output/android/Comerciales-Mely-final-emulador-x86_64.apk
+!/output/android/Comerciales-Mely-final-telefono-arm64.apk
 !/output/pdf/
 !/output/evidence/
 /output/evidence/*

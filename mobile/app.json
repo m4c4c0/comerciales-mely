@@ -41,7 +41,8 @@
       "expo-sharing",
       "expo-image",
       "expo-font",
-      "./plugins/withShortCmakePaths"
+      "./plugins/withShortCmakePaths",
+      "./plugins/withBundledDebug"
     ],
     "scheme": "comercialesmely"
   }
