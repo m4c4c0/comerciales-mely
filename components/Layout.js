@@ -36,7 +36,7 @@ export default function Layout({ title, subtitle, children, allowedRoles }) {
         </div>
       )}
 
-      <div className="flex min-h-screen flex-1 flex-col">
+      <div className="flex min-h-screen min-w-0 flex-1 flex-col">
         <Topbar title={title} subtitle={subtitle} onMenuClick={() => setMenuOpen(true)} />
         <main className="fade-in flex-1 px-5 py-6 md:px-8 md:py-8">{children}</main>
       </div>
