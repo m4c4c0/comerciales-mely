@@ -34,7 +34,7 @@ La integración final incorpora Firebase Authentication (correo y Google) y Fire
 | Colaboración | Ramas, miembros y procedencia documentados; commits visibles en `main` | Defensa oral y video del equipo quedan a cargo de sus integrantes |
 | Publicación | Repositorio público `wilfredo409/comerciales-mely-web`; despliegue Vercel listo en [comerciales-mely-web.vercel.app](https://comerciales-mely-web.vercel.app) | Verificación manual final del flujo de negocio y cuentas |
 
-La exportación JavaScript de Expo no es una APK/IPA instalable. Google Sign-In en Android necesita SHA-1 y compilación nativa; iOS requiere firma/perfil y dispositivo Apple para probar en iPhone.
+La exportación JavaScript de Expo no es una APK/IPA instalable. El build Android se intentó; Gradle no pudo iniciar el script `prefab_command.bat` desde la ruta Windows actual, que contiene espacios y un carácter acentuado. Reinténtalo desde una ruta corta ASCII. Google Sign-In en Android necesita SHA-1 y compilación nativa; iOS requiere firma/perfil y dispositivo Apple para probar en iPhone.
 
 ## Compilaciones y dispositivos
 
