@@ -42,11 +42,12 @@ export default function Registro() {
             label="Correo electrónico"
             value={data.email}
             onChangeText={(v) => change("email", v)}
-            autoCapitalize="none"
             keyboardType="email-address"
+            autoCapitalize="none"
+            autoComplete="email"
           />
           <Field
-            label="Usuario (letras y números)"
+            label="Nombre de usuario"
             value={data.usuario}
             onChangeText={(v) => change("usuario", v)}
           />
@@ -81,12 +82,7 @@ export default function Registro() {
               task.run(() => {
                 if (confirmation !== data.password)
                   throw new Error("Las contraseñas no coinciden.");
-                return authenticate("register", {
-                  ...data,
-                  nombre: (data.nombre || "").trim(),
-                  usuario: (data.usuario || "").trim().toLowerCase(),
-                  email: (data.email || "").trim().toLowerCase(),
-                });
+                return authenticate("register", data);
               })
             }
           />

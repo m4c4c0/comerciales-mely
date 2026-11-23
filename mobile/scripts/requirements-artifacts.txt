@@ -1,4 +1,0 @@
-reportlab
-pdfplumber
-Pillow
-imageio-ffmpeg

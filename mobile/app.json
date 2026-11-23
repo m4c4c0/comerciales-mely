@@ -42,7 +42,7 @@
       "expo-image",
       "expo-font",
       "./plugins/withShortCmakePaths",
-      "@react-native-google-signin/google-signin"
+      "./plugins/withBundledDebug"
     ],
     "scheme": "comercialesmely"
   }

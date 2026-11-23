@@ -25,4 +25,4 @@ EAS solicitará los datos necesarios. No incluir certificados, contraseñas ni p
 
 Repetir registro/login, teclado y áreas seguras, pestañas y detalle, fotografía/galería con denegación y concesión de permisos, entrada/salida, venta, exportación y compartición de PDF, persistencia y cierre de sesión. La exportación Hermes/JavaScript ya generada no acredita estas pruebas ni equivale a un IPA.
 
-La base SQLite actual pertenece a cada instalación; Firebase y sincronización web/móvil requieren el trabajo del siguiente avance. No se crearon cuentas ni se contrataron servicios.
+La app iOS usa el mismo código Firebase y colecciones que la web, pero falta generar una IPA firmada y probarla en un dispositivo Apple. Las exportaciones JavaScript no verifican Firebase en iPhone.

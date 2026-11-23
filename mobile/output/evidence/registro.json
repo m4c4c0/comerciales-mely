@@ -2,16 +2,16 @@
   {
     "paso": "Registro nativo de empleado y acceso automático",
     "resultado": "OK",
-    "segundos": 40.5
+    "segundos": 57.67
   },
   {
     "paso": "Cuenta conservada y autenticada nuevamente",
     "resultado": "OK",
-    "segundos": 84.13
+    "segundos": 93.48
   },
   {
     "paso": "Cierre de sesión de la cuenta registrada",
     "resultado": "OK",
-    "segundos": 97.44
+    "segundos": 105.62
   }
 ]

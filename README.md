@@ -1,175 +1,116 @@
-# Comerciales Mely — Sistema de Gestión Multiplataforma
-## Etapa 2: Aplicación Web con React + Next.js y API REST
+# Comerciales Mely
 
-**Universidad Don Bosco (UDB Virtual) — El Salvador**  
-**Asignatura:** Diseño y Programación de Software Multiplataforma (DPS941) — Ciclo II 2026  
-**Docente:** Alexander Alberto Siguenza Campos  
-**Equipo de Trabajo:** R.E.F.E.S  
+Sistema académico multiplataforma para inventario, movimientos de bodega, facturación y reportes. Proyecto de DPS941, Universidad Don Bosco, Ciclo II-2026, equipo R.E.F.E.S.
 
----
+> **Integración final (22 de noviembre de 2026):** el destino final es el Firebase original del equipo, `comerciales-mely` (Firestore `nam5`). Se conservaron sus datos y se publicaron reglas por rol. Pasaron la compilación web, 18 casos de reglas, 12 pruebas de dominio móvil, 3 de calendario y la comprobación de configuración. El adaptador móvil y la interfaz web local probaron correo, roles, movimientos y ventas reales en ese proyecto. La web publicada ya lee el Firebase original y permite entrar con Google. Se generaron APK Release ARM64 y x86_64 con JavaScript incluido; la aceptación de pantallas Android está en curso. Ver [registro del entorno original](mobile/output/evidence/PRUEBAS-FIREBASE-ORIGINAL-20261122.md) y [matriz de criterios](mobile/docs/CRITERIOS.md).
 
-### Integrantes del Equipo
+## Aplicaciones
 
-| Integrante | Carnet | Rama en GitHub | Módulo Asignado |
-| :--- | :---: | :---: | :--- |
-| **Edwin Wilfredo Cerón Contreras** | CC060761 | `wilfredo_dev` | Dashboard general, métricas y resumen gerencial |
-| **Jorge Steven Moreno Hernández** | MH222714 | `jorge_dev` | CRUD de Inventario y control de permisos de precios |
-| **Raúl Adalberto Mulato Vasquez** | MV222715 | `raul_dev` | Gestión de usuarios y API REST de personal |
-| **Fernando Raúl López Torres** | LT172001 | `fernando_dev` | Menú dinámico, layout y navegación por roles |
-| **Edwin Vladimir Rivera Cubias** | RC232947 | `rivera_dev` | Movimientos de inventario y trazabilidad |
+| Plataforma | Código | Tecnología | Persistencia actual |
+| --- | --- | --- | --- |
+| Web | raíz (`pages/`, `components/`, `services/`) | React 18, Next.js 14 y Firebase Web SDK | Cloud Firestore compartido; [despliegue Vercel](https://comerciales-mely-web.vercel.app) |
+| Android/iOS | [`mobile/`](mobile/) | React Native, Expo Router y Firebase SDK | Cloud Firestore compartido; Firebase Authentication mantiene la sesión |
 
-* **Repositorio en GitHub:** [https://github.com/m4c4c0/comerciales-mely](https://github.com/m4c4c0/comerciales-mely)
-* **Despliegue en Vercel:** [https://comerciales-mely.vercel.app](https://comerciales-mely.vercel.app)
+Ambas aplicaciones implementan inventario, entradas/salidas, ventas con IVA del 13 %, control de existencias y reportes. Los cambios de productos, movimientos y facturas se escriben en las colecciones compartidas `productos`, `movimientos` y `facturas`; las cuentas y roles están en `usuarios/{uid}`. Las operaciones de stock se escriben junto con su movimiento en una transacción.
 
----
+## Requisitos
 
-### Usuarios para Acceder al Sistema (Evaluación)
+- Node.js 20 o superior para la web; Node.js >=22.13 para Expo móvil y npm. Las pruebas de esta entrega se realizaron con Node 24.
+- Para Android: Android Studio, Android SDK/NDK y JDK compatibles con Expo SDK 58. Para los pasos comprobados en este equipo, ver [`mobile/README.md`](mobile/README.md).
+- La web utiliza la configuración pública versionada en [`config/firebase-client.json`](config/firebase-client.json), fijada al Firebase original del equipo. Para móvil, copia `mobile/.env.example` a `mobile/.env`.
 
-| Rol | Usuario / Correo | Contraseña | Nivel de Acceso |
-| :--- | :--- | :---: | :--- |
-| **Administrador** | `raulzometa@gmail.com` | `1234` | Acceso total, gestión de usuarios y fijación de precios |
-| **Empleado** | `rc232946@alumno.udb.edu.sv` | `123456` | Gestión de stock y consulta de inventario |
+## Ejecutar la web
 
-> *Nota: En la pantalla de login (`/login`) también se incluye una sección de **Acceso Rápido por Rol** con botones automáticos (`Admin`, `Empleado`, `Facturador`) para agilizar la revisión.*
-
----
-
-## Descripción de la Actividad (Etapa 2)
-
-En esta etapa se desarrolló la versión web del sistema para **Comerciales Mely** utilizando **React + Next.js**, implementando la lógica de negocio central y una **API REST** conectada a **Cloud Firestore**. 
-
-Este primer avance funcional cumple los requerimientos definidos en la **Etapa 1 (Análisis y Planificación)** y establece la arquitectura base que se integrará con **React Native** en la Etapa 3.
-
----
-
-## Arquitectura y Separación de Capas
-
-El sistema implementa una arquitectura desacoplada en 3 capas de responsabilidad:
-
-1. **Capa de Presentación (UI):**
-   * Construida con **React 19** y **Next.js 16 (App Router)**.
-   * Interfaz moderna, responsiva y adaptable a dispositivos móviles y de escritorio con **Tailwind CSS v4**.
-   * Componentes reutilizables: `AppLayout`, `Sidebar`, `ProtectedRoute` y modales interactivos.
-
-2. **Capa de Lógica de Negocio:**
-   * Gestión de estado global de sesión mediante **Context API** (`AuthContext`).
-   * Validación de reglas de negocio: impedimento de stock negativo, verificación de existencias antes de salidas y restricción de precios según rol.
-   * Manejo centralizado de errores, estados de carga (`loading`) y notificaciones dinámicas (`toast`).
-
-3. **Capa de Datos:**
-   * **API REST interna** desarrollada mediante Next.js Route Handlers (`/api/*`).
-   * Persistencia y operaciones NoSQL en tiempo real con **Google Cloud Firestore**.
-
----
-
-## Requerimientos Técnicos Implementados
-
-* **Framework Web:** React 19 + Next.js 16 (App Router, Turbopack, TypeScript).
-* **Separación de Capas:** UI independiente de la lógica y del acceso a datos (Context API + Servicios REST).
-* **Integración con API REST:** Backend propio con endpoints tipados y respuestas JSON estandarizadas.
-* **Diseño Responsivo:** Tailwind CSS optimizado para pantallas móviles, tablets y monitores de escritorio.
-* **Seguridad y Rutas Protegidas:** Componente `ProtectedRoute` que verifica el token de sesión y valida los roles permitidos por ruta.
-* **Control de Versiones:** Repositorio en GitHub con estrategia de ramas individuales (`*_dev`) y colaboradores asignados.
-* **Despliegue Continuo:** Configurado para despliegue en la plataforma **Vercel**.
-
----
-
-## Requerimientos Funcionales
-
-### 1. Módulo de Autenticación y Control de Acceso
-* **Registro de Usuarios (`/register`):** Creación de cuentas con validación de correo existente, nombre y contraseña cifrada/limpia.
-* **Inicio de Sesión (`/login`):** Validación contra la colección de usuarios en Firestore con entrega de token de sesión.
-* **Acceso Rápido Demo:** Botones de prueba para evaluación docente inmediata por rol (`Admin`, `Empleado`, `Facturador`).
-* **Rutas Protegidas:** Bloqueo automático ante accesos no autenticados o con rol insuficiente.
-
-### 2. Módulo de Gestión Principal (CRUD Inventario en `/inventario`)
-* **Creación:** Registro de productos con código único, nombre, categoría, precio y stock inicial.
-* **Lectura:** Catálogo en tabla y vista de tarjetas con búsqueda en tiempo real por texto y filtros por categoría/nivel de stock.
-* **Actualización:** Edición de datos y stock.
-* **Eliminación:** Borrado de productos del catálogo (exclusivo para Administrador).
-
-### 3. Módulo de Procesamiento y Lógica Central (Movimientos en `/movimientos`)
-* **Trazabilidad Total:** Registro estructurado de cada operación indicando producto, tipo de movimiento, cantidad, fecha y usuario responsable.
-* **Reglas de Negocio:**
-  * No se admiten cantidades negativas o iguales a cero.
-  * No se permiten salidas que superen las existencias actuales.
-  * Actualización automática del stock físico al registrar entradas o salidas.
-
-### 4. Dashboard Gerencial (`/dashboard`)
-* Resumen visual de indicadores clave (KPIs): productos registrados, stock crítico (menor a 5 unidades), valor monetario del inventario y total de unidades físicas.
-* Gráfico de distribución de stock por categorías.
-* Historial de los últimos movimientos realizados para auditoría rápida.
-
-### 5. Actualización Dinámica de Datos
-* Respuestas asíncronas inmediatas: las altas, bajas y cambios de stock se reflejan instantáneamente en la interfaz sin necesidad de recargar la página.
-
----
-
-## Roles y Permisos para los Usuarios del Sistema
-
-| Módulo / Acción | Administrador | Empleado | Facturador |
-| :--- | :---: | :---: | :---: |
-| Acceso al Dashboard | ✅ | ✅ | ✅ |
-| Consultar catálogo de productos | ✅ | ✅ | ✅ |
-| Modificar stock en inventario | ✅ | ✅ | ❌ |
-| Fijar/editar precios y eliminar productos | ✅ | ❌ *(Bloqueado)* | ❌ |
-| Registrar entradas de almacén | ✅ | ✅ | ❌ |
-| Registrar salidas de almacén | ✅ | ✅ | ❌ |
-| Gestión de Usuarios (`/usuarios` y `/api/users`) | ✅ | ❌ *(Bloqueado)* | ❌ |
-
----
-
-## Endpoints de la API REST
-
-| Método | Endpoint | Descripción |
-| :---: | :--- | :--- |
-| `POST` | `/api/auth/login` | Autentica usuario y genera token de sesión |
-| `POST` | `/api/auth/register` | Registra nuevos usuarios en el sistema |
-| `GET` | `/api/products` | Obtiene el catálogo completo de productos |
-| `POST` | `/api/products` | Crea un nuevo producto y genera su movimiento inicial |
-| `PUT` | `/api/products` | Actualiza información o existencias de un producto |
-| `DELETE` | `/api/products` | Elimina un producto del catálogo (Admin) |
-| `GET` | `/api/movements` | Lista el historial completo de movimientos |
-| `POST` | `/api/movements` | Registra entrada o salida ajustando existencias |
-| `GET` | `/api/dashboard` | Retorna métricas, totales y KPIs calculados |
-| `GET` | `/api/users` | Lista los usuarios del sistema sin contraseñas (Admin) |
-| `POST` | `/api/users` | Registra usuarios y asigna roles desde el panel (Admin) |
-
----
-
-## Pasos e Instalación para Ejecución Local
-
-### 1. Clonar repositorio y cambiar a tu rama
-```bash
-git clone https://github.com/m4c4c0/comerciales-mely.git
-cd comerciales-mely
-git checkout raul_dev
-```
-
-### 2. Instalar dependencias
-```bash
-npm install
-```
-
-### 3. Configurar variables de entorno
-Crea un archivo `.env.local` en la raíz del proyecto con las credenciales de Firebase:
-```env
-NEXT_PUBLIC_FIREBASE_API_KEY=tu_api_key
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=tu_auth_domain
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=tu_project_id
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=tu_storage_bucket
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=tu_messaging_sender_id
-NEXT_PUBLIC_FIREBASE_APP_ID=tu_app_id
-```
-
-### 4. Iniciar servidor de desarrollo
-```bash
+```powershell
+npm ci
 npm run dev
 ```
-Abre en tu navegador: [http://localhost:3000](http://localhost:3000)
 
-## Etapa 3: aplicación móvil Android / preparación iOS
+Abre `http://localhost:3000`. Para compilar y servir la versión de producción:
 
-La app React Native/Expo se encuentra en [mobile](mobile/README.md). Ejecutar `npm ci` dentro de esa carpeta; la web conserva su instalación y estructura propias. La entrega móvil está aislada en la rama `etapa3/avance1-movil-20261018`.
+```powershell
+npm run build
+npm run start
+```
 
-Incluye catálogo, movimientos, ventas, reportes y autenticación local para el primer avance. Firebase compartido y pruebas firmadas de iPhone corresponden al alcance posterior indicado en la matriz. Consultar [criterios](mobile/docs/CRITERIOS.md), [informe](mobile/output/pdf/Informe_Etapa3_Avance1_Comerciales_Mely.pdf) y [equipo verificado](mobile/docs/COLABORACION.md).
+La web incluye acceso por correo, registro con rol limitado, inicio social con Google, dashboard, inventario, movimientos, facturación, usuarios y reportes. Authentication y Firestore comprueban la sesión y las reglas de rol en el servidor de Firebase. Las antiguas rutas API permanecen cerradas por middleware.
+
+## Ejecutar la app móvil
+
+```powershell
+cd mobile
+npm ci
+Copy-Item .env.example .env
+npm run start
+```
+
+Para construir el APK de Android en un entorno preparado:
+
+```powershell
+npm run build:android
+```
+
+La guía móvil explica Authentication, Google Sign-In, Firestore, permisos por rol, exportación de comprobantes y compilación nativa. Consulta [`mobile/README.md`](mobile/README.md), [`mobile/FIREBASE.md`](mobile/FIREBASE.md) y [`mobile/ENTREGA.md`](mobile/ENTREGA.md).
+
+## Mockups de la Etapa 1
+
+Diseños de referencia conservados dentro del repositorio. La app móvil mantiene colores, tipografía y estructura de las pantallas base.
+
+### Inicio de sesión
+
+![Mockup Figma: inicio de sesión](mobile/docs/diseno/figma-login.png)
+
+### Inventario
+
+![Mockup Figma: inventario](mobile/docs/diseno/figma-inventario.png)
+
+### Producto
+
+![Mockup Figma: ficha de producto](mobile/docs/diseno/figma-producto.png)
+
+### Movimiento de inventario
+
+![Mockup Figma: movimiento](mobile/docs/diseno/figma-movimiento.png)
+
+### Alertas
+
+![Mockup Figma: alertas](mobile/docs/diseno/figma-alertas.png)
+
+Archivo de Figma informado por el equipo: `11GPTpTj3RrHusfOA9qqOr`. Nodos y notas de diseño: [documentación móvil](mobile/README.md#diseño-verificado).
+
+## Evaluación final
+
+| Criterio | Evidencia y estado |
+| --- | --- |
+| Web React + Next.js | Aplicación publicada en [Vercel](https://comerciales-mely-web.vercel.app), vinculada a `main` |
+| App móvil React Native | Código Expo, 12 pruebas de dominio, APK Release ARM64/x86_64 compiladas y firmadas, con Firebase original verificado en el bundle; aceptación de pantallas Android en curso |
+| Correo y red social en ambas | Sesión Google web comprobada en el Firebase original; acceso móvil por correo probado desde su adaptador de datos. Google Sign-In nativo Android pendiente de prueba |
+| Módulos principales/secundarios | Inventario, bodega, ventas y reportes probados en web como Administrador; permisos del Facturador probados contra Firebase. Falta completar la aceptación de pantallas Android y cada rol |
+| Firestore compartido | En el proyecto original: adaptador móvil 25 → 24, venta desde interfaz web 24 → 23. Transacciones y permisos verificados; pendiente repetir pantallas nativas con la APK nueva |
+| UX/UI alineada con Figma | Mockups de la Etapa 1 publicados arriba y guía visual conservada en el repositorio |
+| Licencia Creative Commons | [`LICENCIA-CONTENIDO.md`](LICENCIA-CONTENIDO.md) describe la licencia del material del proyecto |
+| Colaboración | Ramas y atribuciones documentadas en [`mobile/docs/COLABORACION.md`](mobile/docs/COLABORACION.md); cuatro invitaciones de escritura enviadas. Cada integrante debe aceptar y aportar sus commits auténticos |
+| Originalidad | Se conserva la identidad e historial del equipo y se atribuye el código reutilizado del repositorio colaborador |
+
+El repositorio y Firebase originales del compañero forman parte del trabajo del mismo equipo. Con autorización del propietario de esta entrega, la integración final reutiliza ese Firebase y conserva su catálogo e historial. Las reglas anteriores permitían acceso sin sesión y se sustituyeron por las reglas de este repositorio. La procedencia del código y los aportes se mantienen documentados.
+
+## Pruebas reproducibles
+
+Desde la raíz, `npm run test:rules` inicia un emulador Firestore con el proyecto de demostración `demo-mely-rules` y ejecuta los 18 casos de permisos y ventas atómicas. Requiere Java 21 o superior; no modifica el Firebase remoto. Desde `mobile/`, ejecuta `npm test`, `npm run lint` y `npm run typecheck`. Ejecuta también `npm run test:calendar` y `npm run test:config` desde la raíz (las pruebas de calendario comparan el módulo móvil; instala antes las dependencias de `mobile/`). La aceptación remota del proyecto original y sus datos QA se describen en [su registro del 22 de noviembre](mobile/output/evidence/PRUEBAS-FIREBASE-ORIGINAL-20261122.md).
+
+## Seguridad y configuración
+
+- `.env.local` y `mobile/.env` están excluidos por `.gitignore`. La configuración Firebase de cliente identifica el proyecto y no reemplaza reglas de seguridad; no publiques claves privadas ni contraseñas.
+- El primer administrador debe crearse como usuario normal y luego asignarse a `Administrador` en Firebase Console. El cliente nunca permite autoasignarse ese rol.
+- Las altas web con correo y contraseña y las cuentas Google nuevas empiezan como `Empleado`; el alta móvil permite `Empleado` o `Facturador`.
+- La web usa `config/firebase-client.json` para evitar que variables antiguas de Vercel vuelvan a conectarla al Firebase temporal. El propietario agregó `comerciales-mely-web.vercel.app` a los dominios autorizados del Firebase original. Se verificó Google en producción y la lectura de su inventario; ver capturas 44 y 45.
+- El proyecto tiene registrada la app Android `com.anonymous.comercialesmelymovil` y la huella SHA-1 de depuración de este equipo. El ID OAuth Web público aparece en `mobile/.env.example`; para compilar en otra máquina registra allí el SHA-1 de la clave que se vaya a usar.
+- El proyecto Firebase está en el plan Spark. Cuotas y límites del plan aplican; no se activó facturación ni respaldos programados de pago.
+
+## Licencia
+
+El aviso de Creative Commons de este proyecto delimita el material original y sus excepciones en [`LICENCIA-CONTENIDO.md`](LICENCIA-CONTENIDO.md). La aplicación móvil conserva su archivo [`mobile/LICENSE`](mobile/LICENSE); las licencias y atribuciones de dependencias y aportes de terceros prevalecen para esos componentes.
+
+## Historial y colaboración
+
+Repositorio de entrega: [wilfredo409/comerciales-mely-web](https://github.com/wilfredo409/comerciales-mely-web). La rama de trabajo final es `main`. Los integrantes, ramas de trabajo e información sobre el historial se mantienen en [`mobile/docs/COLABORACION.md`](mobile/docs/COLABORACION.md). La misma entrega se sincroniza también con [m4c4c0/comerciales-mely](https://github.com/m4c4c0/comerciales-mely), conservando ambos historiales. La web de la fase anterior queda disponible en [docs/historial/](docs/historial/).

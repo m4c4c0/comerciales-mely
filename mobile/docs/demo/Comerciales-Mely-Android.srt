@@ -1,0 +1,31 @@
+1
+00:00:09,400 --> 00:00:15,400
+Inicio autónomo del APK y pantalla de acceso
+
+2
+00:00:15,600 --> 00:00:21,600
+Validación de formulario vacío
+
+3
+00:00:48,350 --> 00:00:54,350
+Autenticación y catálogo con recursos de Figma
+
+4
+00:00:54,850 --> 00:01:00,850
+Navegación a ficha técnica con fotografía
+
+5
+00:01:32,680 --> 00:01:38,680
+Entrada de bodega persistida y stock actualizado
+
+6
+00:02:04,070 --> 00:02:10,070
+Venta confirmada con descuento transaccional de inventario
+
+7
+00:02:15,590 --> 00:02:21,590
+Reportes y gráfica actualizados con la venta
+
+8
+00:02:28,550 --> 00:02:34,550
+Datos y sesión conservados tras cerrar y reabrir la app

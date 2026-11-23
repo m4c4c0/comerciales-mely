@@ -2,56 +2,56 @@
   {
     "paso": "Inicio autónomo del APK y pantalla de acceso",
     "resultado": "OK",
-    "segundos": 11.92
+    "segundos": 10.4
   },
   {
     "paso": "Validación de formulario vacío",
     "resultado": "OK",
-    "segundos": 17.94
+    "segundos": 16.6
   },
   {
     "paso": "Autenticación y catálogo con recursos de Figma",
     "resultado": "OK",
-    "segundos": 52.29
+    "segundos": 49.35
   },
   {
     "paso": "Navegación a ficha técnica con fotografía",
     "resultado": "OK",
-    "segundos": 58.76
+    "segundos": 55.85
   },
   {
     "paso": "Entrada de bodega persistida y stock actualizado",
     "resultado": "OK",
-    "segundos": 96.72
+    "segundos": 93.68
   },
   {
     "paso": "Venta confirmada con descuento transaccional de inventario",
     "resultado": "OK",
-    "segundos": 128.29
+    "segundos": 125.07
   },
   {
     "paso": "Reportes y gráfica actualizados con la venta",
     "resultado": "OK",
-    "segundos": 139.76
+    "segundos": 136.59
   },
   {
     "paso": "Datos y sesión conservados tras cerrar y reabrir la app",
     "resultado": "OK",
-    "segundos": 154.31
+    "segundos": 149.55
   },
   {
     "paso": "Permisos diferenciados del empleado",
     "resultado": "OK",
-    "segundos": 192.86
+    "segundos": 187.99
   },
   {
     "paso": "Permisos diferenciados del cajero",
     "resultado": "OK",
-    "segundos": 230.89
+    "segundos": 224.61
   },
   {
     "paso": "Cierre de sesión revocado y retorno al acceso público",
     "resultado": "OK",
-    "segundos": 243.87
+    "segundos": 238.09
   }
 ]

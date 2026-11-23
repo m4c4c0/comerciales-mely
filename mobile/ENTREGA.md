@@ -1,32 +1,47 @@
-# Entrega móvil de Comerciales Mely
+# Guía de entrega final
 
-## Instalar en Android
+## Aplicaciones y backend
 
-Abrir `output/android/Comerciales-Mely-etapa3.apk` desde el teléfono. Permitir la instalación desde la aplicación usada para abrir el archivo cuando Android lo solicite. No hace falta ejecutar Expo ni mantener una computadora encendida.
+- Web React + Next.js publicada en [Vercel](https://comerciales-mely-web.vercel.app), desde `main` de `wilfredo409/comerciales-mely-web`.
+- React Native + Expo Router en `mobile/`, con APK Release [ARM64 para teléfono y x86_64 para emulador](output/android/README.md).
+- Ambas usan el Firebase original **`comerciales-mely`**, Firestore `nam5`, Authentication por correo y Google, perfiles por rol y las mismas colecciones. [Configuración](FIREBASE.md).
+- El dominio Vercel fue autorizado por el propietario. Se comprobó Google web y la lectura del catálogo original. No falta otro cambio de dominios para esta URL.
+- El código y los archivos de la entrega se sincronizan con [el repositorio de la fase anterior](https://github.com/m4c4c0/comerciales-mely). Se conservan ambos historiales y el [archivo de la web previa](../docs/historial/README.md).
 
-| Perfil seleccionado | Usuario | Contraseña de prueba |
-| --- | --- | --- |
-| Admin | admin | admin123 |
-| Empleado | empleado | empleado123 |
-| Cajero | facturador | factura123 |
+## Evidencia y límites
 
-Los datos se guardan en cada dispositivo. Son cuentas de demostración.
+El [registro del Firebase original](output/evidence/PRUEBAS-FIREBASE-ORIGINAL-20261122.md) contiene las pruebas de correo, roles, movimientos, ventas y persistencia del adaptador móvil; pruebas de la web local y publicada; acceso Google web; reglas publicadas y conservación de los datos anteriores. Las APK incluyen el bundle y tienen firma verificada. La aceptación de pantallas Android se documenta en ese registro al ejecutarla; no se confunde una prueba de adaptador con una prueba de dispositivo.
 
-## Archivos para entregar
+Pruebas locales: 18 casos de Firestore (incluyen perfiles concurrentes), 12 de dominio móvil, 3 de calendario local y comprobación de configuración compartida. La web compila con Next.js. El flujo de GitHub compila ambas ABI y comprueba el formulario en Android 14 sin escribir datos remotos.
 
-- **Informe de investigación Avance 2 — Firebase en React Native (PDF APA 7):** [Investigacion_Firebase_ReactNative_Comerciales_Mely.pdf](Investigacion_Firebase_ReactNative_Comerciales_Mely.pdf) / [`output/pdf/Investigacion_Firebase_ReactNative_Comerciales_Mely.pdf`](output/pdf/Investigacion_Firebase_ReactNative_Comerciales_Mely.pdf)
-- **Guía técnica de Firebase y reglas Firestore (Avance 2):** [FIREBASE.md](FIREBASE.md) y [firestore.rules](firestore.rules)
-- APK 1.0.1 con icono Mely, fuentes, informe, manual y video: https://github.com/m4c4c0/comerciales-mely/releases/tag/etapa3-avance1-android-v1.0.1
-- Código del equipo: https://github.com/m4c4c0/comerciales-mely/tree/etapa3/avance1-movil-20261018/mobile
-- Informe local: output/pdf/Informe_Etapa3_Avance1_Comerciales_Mely.pdf
-- Manual paso a paso: output/pdf/Manual_Android_iOS_Comerciales_Mely.pdf
-- Guion para grabar la voz: docs/GUION_NARRACION_VIDEO.md
-- Resultados reales y capturas: output/evidence/VERIFICACION.md
-- Criterios y alcance: docs/CRITERIOS.md
-- Invitación y seguimiento de commits del equipo: https://github.com/m4c4c0/comerciales-mely/issues/9
+No se publican contraseñas de prueba ni respaldos con perfiles. Cada usuario entra con una cuenta autorizada. Los roles Administrador existentes se preservan; no hay autoasignación de privilegios. Las evidencias anteriores de `comerciales-mely-final` y SQLite son históricas.
 
-## Estado
+## Comandos
 
-La compilación universal y las once comprobaciones del recorrido completo pasaron en Android 14. Se exportaron los bundles finales Android e iOS y se prepararon perfiles EAS, permisos e instrucciones para iOS; no se generó un IPA.
+Desde la raíz:
 
-La entrega está organizada para el primer avance de la etapa 3. El video de entrega muestra el registro real de compilación y las pruebas de la app sin audio, subtítulos ni explicaciones superpuestas. Se adjunta un guion con tiempos para grabar la voz y añadirla al montaje final, de máximo 15 minutos. Para los avances posteriores quedan Firebase Authentication, Google, Firestore y sincronización con la web, según la matriz de criterios. Los commits y explicaciones de cada integrante deben corresponder a su participación real.
+```powershell
+npm ci
+npm run dev
+npm run build
+npm run test:rules
+npm run test:calendar
+npm run test:config
+```
+
+Desde `mobile/`:
+
+```powershell
+npm ci
+Copy-Item .env.example .env
+npm test
+npm run lint
+npm run typecheck
+npm run start
+```
+
+La compilación nativa y la exportación se explican en [README.md](README.md). Para iPhone se necesitan firma y dispositivo Apple; una exportación JavaScript no equivale a una IPA probada.
+
+## Acciones del equipo
+
+Consultar la [matriz de evaluación](docs/CRITERIOS.md) y [colaboración](docs/COLABORACION.md). Cada integrante debe conservar su rama y commits auténticos, aceptar las invitaciones pendientes y preparar la defensa. El [guion](docs/GUION_VIDEO.md) es una ayuda para la presentación; no sustituye la participación oral de los integrantes.

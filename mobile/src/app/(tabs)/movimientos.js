@@ -28,7 +28,7 @@ export default function Movimientos() {
   const product = state.productos.find((p) => p.id === selected);
   return (
     <Screen
-      title="Registrar Movimiento"
+      title={allowed(user, "movement") ? "Registrar Movimiento" : "Movimientos de inventario"}
       subtitle="Cada entrada y salida queda registrada."
     >
       {allowed(user, "movement") && (

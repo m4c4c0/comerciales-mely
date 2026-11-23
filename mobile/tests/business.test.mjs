@@ -7,11 +7,19 @@ import {
   report,
   parse,
   registerSchema,
-  loginSchema,
+  productSchema,
   normalizeAuthUser,
-    allowed,
-    productSchema,
 } from "../src/domain/business.mjs";
+test("normalizes shared Firebase role labels without granting unknown roles", () => {
+  for (const rol of ["Administrador", "Empleado", "Facturador"]) {
+    const user = normalizeAuthUser({ id: "uid", nombre: "QA", rol });
+    assert.equal(user.rol, rol.toLowerCase());
+    assert.equal(user.id, "uid");
+  }
+  for (const rol of ["", "owner", undefined]) {
+    assert.throws(() => normalizeAuthUser({ rol }), /rol de acceso/);
+  }
+});
 const admin = { id: "a", nombre: "Admin", rol: "administrador" },
   employee = { id: "e", nombre: "Empleado", rol: "empleado" },
   cashier = { id: "c", nombre: "Facturador", rol: "facturador" };
@@ -128,6 +136,7 @@ test("public registration cannot elevate role to administrator", () => {
   assert.throws(() =>
     parse(registerSchema, {
       nombre: "Persona",
+      email: "persona@example.com",
       usuario: "persona",
       password: "12345678",
       rol: "administrador",
@@ -197,41 +206,4 @@ test("rejects blank names, missing prices and sub-cent amounts", () => {
         stockMinimo: 0,
       }),
     );
-});
-
-test("login validation sanitizes and lowercases username input", () => {
-  const result = parse(loginSchema, {
-    usuario: "  ADMINISTRADOR@MELY.COM  ",
-    password: "password123",
-  });
-  assert.equal(result.usuario, "administrador@mely.com");
-});
-
-test("registration requires valid username format and trims whitespace", () => {
-  assert.throws(() =>
-    parse(registerSchema, {
-      nombre: "Empleado Test",
-      usuario: "empleado!@#",
-      password: "password123",
-      rol: "empleado",
-    }),
-  );
-
-  const valid = parse(registerSchema, {
-    nombre: "Empleado Valido",
-    usuario: "  empleado_01  ",
-    password: "password123",
-    rol: "empleado",
-  });
-  assert.equal(valid.usuario, "empleado_01");
-});
-
-test("normalizeAuthUser standardizes user session profile and roles", () => {
-  const rawUser = { id: "u-1", nombre: "Raul Mulato", usuario: "RAUL.DEV ", rol: "EMPLEADO " };
-  const normalized = normalizeAuthUser(rawUser);
-  assert.equal(normalized.rol, "empleado");
-  assert.equal(normalized.usuario, "raul.dev");
-  assert.equal(allowed(normalized, "product"), true);
-  assert.equal(allowed(normalized, "remove"), false);
-  assert.equal(normalizeAuthUser(null), null);
 });

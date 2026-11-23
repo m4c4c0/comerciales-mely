@@ -1,37 +1,50 @@
-# Firebase en la app móvil (Foro 2)
+# Firebase compartido
 
-La app usa **Firebase Authentication** (correo/contraseña y Google) y **Cloud Firestore**
-(proyecto `comerciales-mely`, el mismo de la web). Los datos de productos, movimientos y facturas
-se comparten con la web y cada movimiento/factura guarda el `usuarioId` del usuario autenticado.
+La web y la app móvil usan el proyecto Firebase `comerciales-mely` (plan Spark) con Firebase Authentication y Cloud Firestore en `nam5`. La app web y la app Android están registradas. Email/Password y Google están habilitados, y el dominio de producción está autorizado y el acceso Google web fue comprobado. Las reglas de `../firestore.rules` fueron publicadas el 22 de noviembre de 2026. El código adaptado de la implementación móvil del equipo conserva la atribución a [m4c4c0/comerciales-mely, commit `ed18d69`](docs/COLABORACION.md).
 
-## Configuración única en Firebase Console
+## Variables locales
 
-1. **Authentication → Sign-in method**: habilitar *Correo electrónico/contraseña* y *Google*.
-2. **Firestore → Reglas**: pegar el contenido de [`firestore.rules`](firestore.rules) y publicar.
-3. **Google en Android** (opcional, solo para el botón «Continuar con Google»):
-   - Authentication → Google → copiar el **Web client ID** (termina en `.apps.googleusercontent.com`).
-   - Project settings → *Your apps* → agregar app Android con el paquete `com.anonymous.comercialesmelymovil`
-     y la huella **SHA-1** de la llave con la que se firma la app (`gradlew signingReport` o `keytool`).
-   - Crear `mobile/.env` con:
-     ```
-     EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID=XXXXXXXX.apps.googleusercontent.com
-     ```
-   - El inicio con Google necesita módulo nativo: funciona en el APK / `expo run:android`, **no en Expo Go**.
+1. La web usa `../config/firebase-client.json`, con la configuración pública original comprobada en Firebase Console. Copia `mobile/.env.example` como `mobile/.env`; ya contiene los mismos identificadores. `npm run test:config` desde la raíz verifica su coincidencia.
+2. El cliente OAuth Web original también está en la plantilla móvil. Verifícalo en Authentication → Sign-in method → Google → Web SDK configuration si el equipo lo modifica.
+3. Los archivos `.env` locales están ignorados por Git. La configuración Firebase de cliente se entrega a la app, pero no reemplaza las reglas de seguridad; nunca guardes contraseñas ni credenciales de servicio en ellos.
 
-El inicio por correo no necesita nada más.
+## Firebase Console
 
-## Modelo de datos (Firestore)
+1. Authentication → Sign-in method: **Email/Password** y **Google** ya están habilitados.
+2. Authentication → Settings → Authorized domains: incluye `localhost` y los dominios predeterminados de Firebase. El propietario agregó `comerciales-mely-web.vercel.app`; su presencia en la lista y el acceso Google a la web desplegada fueron verificados el 22/11.
+3. Project settings → Your apps: Android está registrado con paquete `com.anonymous.comercialesmelymovil`; también hay una app web registrada.
+4. La huella SHA-1 de depuración del equipo quedó agregada al registro Android de Firebase. Si firmas con otro keystore o publicas una APK, agrega también la huella SHA-1 de esa clave. Google Sign-In nativo requiere una compilación de desarrollo o APK; Expo Go no contiene su módulo nativo.
+5. Las reglas ya están publicadas. Para publicar cambios futuros, usa:
 
-| Colección | Documento | Campos principales |
+```powershell
+npx firebase-tools deploy --only firestore:rules --project comerciales-mely
+```
+
+El ID del proyecto se guarda en `../.firebaserc`; la definición de reglas está en `../firestore.rules`. Las reglas comprueban que los cambios de existencias y sus movimientos de entrada/salida se guarden juntos en la misma operación Firestore, también permiten registrar el movimiento inicial al crear un producto con existencias y validan cantidades, importes y roles.
+
+## Primer administrador y datos iniciales
+
+No hay cuentas ni contraseñas de demostración compartidas. Registra una cuenta real con correo y contraseña. Para el primer administrador, localiza su UID en Authentication y cambia `usuarios/{uid}.rol` a `Administrador` en Firestore Console. Luego administra las otras cuentas desde el módulo web **Usuarios**. Las reglas no permiten que el usuario cambie su propio rol.
+
+Al entrar por primera vez en una base sin productos, una cuenta Empleado o Administrador puede inicializar el catálogo del prototipo móvil; la operación registra cada existencia como movimiento inicial. Un Facturador no puede inicializar ni editar inventario.
+
+## Modelo compatible entre web y móvil
+
+| Colección | Documento | Datos compartidos |
 | --- | --- | --- |
-| `usuarios` | `{uid}` | nombre, email, usuario, rol (`Administrador`/`Empleado`/`Facturador`), proveedor |
-| `productos` | id | nombre, codigo, categoria, precio, precioCentavos, stock, stockMinimo, activo |
-| `movimientos` | id | productoId, nombre, tipo, cantidad, nota/motivo, usuario, usuarioId, fecha |
-| `facturas` | id | numero, cliente, items, subtotal, iva, total, usuario, usuarioId, fecha |
+| `usuarios` | UID de Firebase Auth | nombre, correo, nombre de usuario, rol, proveedor |
+| `productos` | ID de producto | nombre, categoría, precio, centavos, stock, stock mínimo, estado, imagen |
+| `movimientos` | ID de movimiento | producto, tipo, cantidad, motivo, usuario/UID, fecha |
+| `facturas` | ID de factura | número, cliente, detalle, subtotal, IVA, total, usuario/UID, fecha |
 
-## Cuentas
+Ventas y movimientos actualizan existencias dentro de transacciones Firestore. Cada venta escribe su factura, descuento de stock y movimientos de salida juntos. Los formularios de ambas plataformas leen y escriben las mismas colecciones.
 
-Ya no existen cuentas de demostración locales. Crea tu cuenta desde **Crear cuenta** (empleado o cajero)
-o entra con Google. Para tener un administrador, cambia el campo `rol` a `Administrador`
-en `usuarios/{uid}` desde Firestore Console.
+## Revisión de colaboración
 
+`mobile/src/services/database.js` se adaptó de la implementación del equipo en el repositorio colaborador. Se retiró la dependencia de almacenamiento local SQLite para autenticación e inventario. La procedencia se registra en [`docs/COLABORACION.md`](docs/COLABORACION.md); revisa ese archivo y los commits de cada integrante antes de la defensa.
+
+## Entorno original y evidencia
+
+Se respaldaron en privado los 9 productos, 20 movimientos, 2 facturas y 9 perfiles anteriores. Las pruebas nuevas usan cuentas sintéticas y un producto QA independiente. El Firebase temporal `comerciales-mely-final` se conserva como historial de pruebas, sin atribuir sus resultados al entorno original. Ver [registro del proyecto original](output/evidence/PRUEBAS-FIREBASE-ORIGINAL-20261122.md).
+
+Los identificadores del SDK Firebase son configuración de cliente. Su publicación está contemplada por [la documentación oficial de Firebase](https://firebase.google.com/docs/projects/api-keys); las cuentas, contraseñas, tokens y claves privadas de servicio no se incluyen.

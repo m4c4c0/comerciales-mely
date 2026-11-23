@@ -3,7 +3,7 @@
 Repositorio del equipo: https://github.com/m4c4c0/comerciales-mely
 Rama móvil: etapa3/avance1-movil-20261018
 
-Consulta autenticada de colaboradores: 19 de octubre de 2026 (America/Guatemala). Cuenta utilizada: wilfredo409.
+Consulta autenticada del repositorio colaborador: 18 de octubre de 2026 (Guatemala).
 
 | Cuenta | Acceso |
 | --- | --- |
@@ -13,26 +13,22 @@ Consulta autenticada de colaboradores: 19 de octubre de 2026 (America/Guatemala)
 | floripeto | Escritura |
 | wilfredo409 | Escritura |
 
-Ramas existentes: fernando_dev, jorge_dev, main, raul_dev, rivera_dev, wilfredo_dev y wilfredo409. Se mantienen sus ramas y aportes previos. Los nombres y carnets de la portada se tomaron del README del repositorio del equipo, que sustituye el borrador local anterior.
+Ramas encontradas en el repositorio colaborador: fernando_dev, jorge_dev, main, raul_dev, rivera_dev, wilfredo_dev y wilfredo409. Los nombres y carnets de la portada se tomaron del README del repositorio del equipo, que sustituye el borrador local anterior.
 
-No se atribuye código móvil a cuentas de otros integrantes. Cada persona debe revisar su módulo, realizar sus cambios y commits reales, y explicar sus decisiones durante la defensa. Los accesos existentes permiten trabajar sin volver a invitar al equipo.
+## Repositorio final: comprobación del 22 de noviembre
+
+La API autenticada de GitHub confirmó que `wilfredo409/comerciales-mely-web` tenía únicamente a su propietario como colaborador y las ramas `main` y `etapa3/avance1-movil-20261018`. Con autorización de Wilfredo se enviaron invitaciones de escritura a `m4c4c0`, `Ferhboot`, `Stevenhzw` y `floripeto`; GitHub respondió HTTP 201 en los cuatro casos. Una invitación enviada no equivale a una aceptación.
+
+Cada integrante debe aceptar su invitación, crear/usar su propia rama y dejar commits auténticos de sus aportes. No se crearon ramas ni commits atribuidos a otros integrantes. El repositorio del equipo conserva las contribuciones previas, pero eso no demuestra participación equivalente en el repositorio final.
+
+No se atribuye código móvil a cuentas de otros integrantes. Cada persona debe revisar su módulo, realizar sus cambios y commits reales, y explicar sus decisiones durante la defensa.
+
+Para la integración final se adaptó `mobile/src/services/database.js` desde `mobile/src/services/database.js` del repositorio colaborador, commit `ed18d69` (autoría original del repositorio del equipo `m4c4c0/comerciales-mely`). La adaptación reemplaza la persistencia SQLite por Firebase Authentication y Firestore; las reglas se reescribieron y se mantienen en este repositorio para aplicar permisos por rol y validar cambios de stock. La autoría de esa implementación de referencia no se atribuye a Wilfredo.
 
 Referencia web adicional proporcionada por Wilfredo: https://github.com/wilfredo409/comerciales-mely-web . La compilación y su registro inicial se ejecutaron allí antes de identificar el repositorio compartido.
 
-## Invitación de trabajo enviada desde wilfredo409
+## Integración de la entrega final en ambos repositorios
 
-Coordinación publicada: https://github.com/m4c4c0/comerciales-mely/issues/9 . Autor confirmado: wilfredo409. Destinatarios asignados y mencionados: Ferhboot, Stevenhzw, m4c4c0 y floripeto.
+Con autorización de Wilfredo se incorporó la entrega final de `wilfredo409/comerciales-mely-web` en `m4c4c0/comerciales-mely`, desde el commit original `ed18d69a0bd791b912569efcf35b77f1f4b84353`. El commit de integración conserva como padres ambos historiales; no se alteran los nombres de autores ni las contribuciones anteriores. La web previa permanece además en `docs/historial/etapa-anterior-web-ed18d69.zip`. El árbol activo contiene la web Next.js/Firebase y la aplicación móvil final con sus dos APK.
 
-Todos ya tienen acceso al repositorio. La invitación organiza revisión, commits propios y pruebas; no crea permisos nuevos ni acredita tareas realizadas. El informe incluye una tabla de seguimiento con los aportes de los cuatro compañeros pendientes de comprobación.
-
-| Cuenta | Revisión propuesta | Estado |
-| --- | --- | --- |
-| Stevenhzw | Inventario, ficha y validaciones | Invitación publicada; aporte pendiente |
-| m4c4c0 | Acceso, registro, sesión y permisos | Invitación publicada; aporte pendiente |
-| Ferhboot | Navegación y flujo por perfil | Invitación publicada; aporte pendiente |
-| floripeto | Movimientos, ventas y trazabilidad | Invitación publicada; aporte pendiente |
-| wilfredo409 | Coordinación e integración | Invitación publicada desde su cuenta |
-
-Los perfiles consultados no publican correos de contacto. Los correos de acceso de la tabla de demostración del README no se usan como destinatarios personales. La coordinación utiliza cuentas GitHub verificadas; la entrega de sus notificaciones depende de las preferencias de cada usuario.
-
-Cada integrante confirma o ajusta su tarea en el issue y adjunta commit/PR, caso de prueba y resultado. Se parte de la rama móvil actual sin borrar las ramas o cambios anteriores.
+Las ramas anteriores del equipo se conservan. Integrar su historial no demuestra por sí solo que cada persona haya completado su parte final o preparado su defensa. Cada integrante debe verificar sus aportes auténticos y el acceso a los repositorios.

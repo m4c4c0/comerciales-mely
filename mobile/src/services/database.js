@@ -1,3 +1,4 @@
+/* Firebase adapter ported from m4c4c0/comerciales-mely/mobile; retained under the project license and cited in docs/COLABORACION.md. */
 import * as Crypto from "expo-crypto";
 import { Platform, TurboModuleRegistry } from "react-native";
 import {
@@ -201,15 +202,36 @@ async function loadProfile(fbUser, rolInicial = "Empleado", nombreInicial) {
 async function readState() {
   let prodSnap = await getDocs(collection(db, "productos"));
   if (prodSnap.empty) {
-    // Primera ejecución sobre una base vacía: se cargan los productos de ejemplo.
-    const batch = writeBatch(db);
-    for (const p of seedProducts())
-      batch.set(doc(db, "productos", p.id), {
-        ...toProductDoc(p),
-        fechaCreacion: serverTimestamp(),
-      });
-    await batch.commit();
-    prodSnap = await getDocs(collection(db, "productos"));
+    // Solo personal autorizado inicializa el catálogo vacío y su trazabilidad.
+    const fb = currentFirebaseUser();
+    const user = await loadProfile(fb);
+    if (user.rol === "administrador" || user.rol === "empleado") {
+      const batch = writeBatch(db);
+      for (const p of seedProducts()) {
+        const movementId = p.stock > 0 ? `seed-${p.id}` : undefined;
+        batch.set(doc(db, "productos", p.id), {
+          ...toProductDoc(p),
+          ...(movementId ? { lastMovementId: movementId } : {}),
+          creadoPorId: fb.uid,
+          creadoPor: user.nombre,
+          fechaCreacion: serverTimestamp(),
+        });
+        if (movementId) {
+          batch.set(doc(db, "movimientos", movementId), toMovementDoc({
+            id: movementId,
+            productoId: p.id,
+            nombre: p.nombre,
+            tipo: "entrada",
+            cantidad: p.stock,
+            nota: "Existencias iniciales",
+            usuario: user.nombre,
+            fecha: new Date().toISOString(),
+          }, fb.uid));
+        }
+      }
+      await batch.commit();
+      prodSnap = await getDocs(collection(db, "productos"));
+    }
   }
   const productos = prodSnap.docs
     .map(fromProduct)
@@ -381,16 +403,31 @@ export async function mutate(action, input) {
       }
       for (const p of changed) {
         const isNew = !prevById.has(p.id);
+        const previous = prevById.get(p.id);
+        const stockMovement = newMovs.find((m) => m.productoId === p.id);
+        if (!isNew && newFacs.length > 0) {
+          // A sale changes stock only; the cashier cannot edit product metadata.
+          tx.update(doc(db, "productos", p.id), {
+            stock: p.stock,
+            lastMovementId: stockMovement.id,
+          });
+          continue;
+        }
         tx.set(
           doc(db, "productos", p.id),
           isNew
-            ? { ...toProductDoc(p), creadoPorId: fb.uid, creadoPor: user.nombre, fechaCreacion: serverTimestamp() }
-            : toProductDoc(p),
+            ? { ...toProductDoc(p), ...(stockMovement ? { lastMovementId: stockMovement.id } : {}), creadoPorId: fb.uid, creadoPor: user.nombre, fechaCreacion: serverTimestamp() }
+            : { ...toProductDoc(p), ...(stockMovement && p.stock !== previous?.stock ? { lastMovementId: stockMovement.id } : {}) },
           { merge: true },
         );
       }
-      for (const m of newMovs)
-        tx.set(doc(db, "movimientos", m.id), toMovementDoc(m, fb.uid));
+      for (const m of newMovs) {
+        const invoice = newFacs.find((f) => f.items.some((item) => item.productoId === m.productoId));
+        tx.set(doc(db, "movimientos", m.id), {
+          ...toMovementDoc(m, fb.uid),
+          ...(invoice ? { facturaId: invoice.id, itemIndex: invoice.items.findIndex((item) => item.productoId === m.productoId) } : {}),
+        });
+      }
       for (const f of newFacs)
         tx.set(doc(db, "facturas", f.id), { ...f, usuarioId: fb.uid });
     });

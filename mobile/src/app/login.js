@@ -24,7 +24,7 @@ const profiles = [
   ["facturador", "Cajero", require("../../assets/figma/s0-imgVector2.svg")],
 ];
 export default function Login() {
-  const { authenticate, resetPassword } = useApp();
+  const { authenticate, loginGoogle, resetPassword } = useApp();
   const [usuario, setUsuario] = useState(""),
     [password, setPassword] = useState(""),
     [expectedRole, setExpectedRole] = useState("administrador"),
@@ -87,9 +87,10 @@ export default function Login() {
                     onChangeText={setUsuario}
                     autoCapitalize="none"
                     autoCorrect={false}
-                    textContentType="username"
-                    placeholder="correo@ejemplo.com"
                     keyboardType="email-address"
+                    autoComplete="email"
+                    textContentType="emailAddress"
+                    placeholder="nombre@correo.com"
                   />
                 </View>
               </View>
@@ -98,15 +99,11 @@ export default function Login() {
                   <Text style={s.label}>Contraseña</Text>
                   <Pressable
                     accessibilityRole="button"
-                    onPress={() =>
-                      task.run(async () => {
-                        await resetPassword(usuario);
-                        Alert.alert(
-                          "Revisa tu correo",
-                          "Te enviamos un enlace para restablecer tu contraseña.",
-                        );
-                      })
-                    }
+                    onPress={() => task.run(async () => {
+                      if (!usuario.trim()) throw new Error("Escribe primero tu correo electrónico.");
+                      await resetPassword(usuario.trim());
+                      Alert.alert("Correo enviado", "Revisa tu correo para restablecer la contraseña.");
+                    })}
                   >
                     <Text
                       style={{
@@ -199,15 +196,15 @@ export default function Login() {
               disabled={task.busy}
               onPress={() =>
                 task.run(() =>
-                  authenticate("login", { usuario: (usuario || "").trim().toLowerCase(), password, expectedRole }),
+                  authenticate("login", { usuario, password, expectedRole }),
                 )
               }
             />
             <Button
-              testID="login-google"
-              title={task.busy ? "Conectando…" : "Continuar con Google"}
+              secondary
+              title="Continuar con Google"
               disabled={task.busy}
-              onPress={() => task.run(() => authenticate("google"))}
+              onPress={() => task.run(loginGoogle)}
             />
             <Link href="/registro" style={s.link}>
               Crear cuenta de empleado o cajero
@@ -224,8 +221,8 @@ export default function Login() {
                 accessibilityRole="button"
                 onPress={() =>
                   Alert.alert(
-                    "Acceso con Firebase",
-                    "Inicia sesión con tu correo y contraseña, o con Google. Si aún no tienes cuenta, usa «Crear cuenta». Los datos se sincronizan con la web a través de Firestore.",
+                    "Soporte de demostración",
+                    "Usa el correo de tu cuenta o continúa con Google. Las cuentas nuevas inician como empleados; un administrador puede asignar otro rol en Firebase Console.",
                   )
                 }
               >

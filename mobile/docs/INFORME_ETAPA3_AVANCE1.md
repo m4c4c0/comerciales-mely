@@ -42,8 +42,6 @@ El prototipo original fue inspeccionado en Figma: login-movil (4:1226), inventar
 
 Los controles táctiles tienen una altura mínima de 48 unidades, etiquetas de accesibilidad y campos identificados por su propósito. El color se acompaña de texto como “Stock bajo” o “Disponible”. Las áreas seguras reducen interferencias con los bordes del dispositivo y las pestañas mantienen visibles las rutas principales. La visualización de reportes incluye valores y fechas además de barras para no depender únicamente de la forma gráfica.
 
-La identidad de lanzamiento utiliza una bolsa comercial con un monograma M, trazos de alto contraste y colores ámbar y azul oscuro. Se elaboraron originales SVG y recursos PNG para el icono general, la capa adaptable y la variante monocromática de Android. El recurso general de 1024 píxeles se comparte con la preparación iOS. Cambiar estos archivos exige recompilar el binario; no basta con recargar JavaScript (Expo, s. f.-f).
-
 ## 3. Arquitectura, navegación y manejo del estado
 
 La presentación está en src/app y src/components; la lógica de negocio está en src/domain/business.mjs; el acceso a SQLite y al almacén seguro se concentra en src/services. AppContext conecta la sesión y los datos con las pantallas. La separación permite probar las reglas sin montar una interfaz y reemplazar posteriormente la persistencia sin reescribir cada formulario.
@@ -86,29 +84,11 @@ En Windows no se dispone de Xcode para compilar localmente iOS. EAS ofrece compi
 
 ## 7. Verificación y evidencias
 
-Las pruebas automatizadas del dominio verifican redondeo monetario, actualización de stock, rechazo de artículos duplicados que exceden existencias, reversión ante una línea inválida, permisos por rol, cantidades fraccionarias, registro sin elevación a administrador, archivo de productos y reportes por fecha local. La evidencia reproducible se obtiene mediante npm test. Lint, revisión sintáctica y exportaciones de plataforma complementan la verificación, sin sustituir las pruebas en el dispositivo. La ejecución 39256275087 de GitHub Actions compiló el APK 1.0.1 con la nueva identidad Mely y completó once comprobaciones de interfaz en Android 14: acceso, validación, catálogo, ficha, entrada, venta, reportes, persistencia, dos perfiles y cierre de sesión. Las figuras 1 a 12 y los registros JSON corresponden a esa ejecución real. Las figuras 13 a 15 documentan casos inválidos del recorrido de video 39259351843, sobre el mismo APK en una instancia independiente de Android 14. Una comprobación adicional sobre el mismo APK confirmó registro de una cuenta de empleado, reingreso y cierre; su registro está incluido como evidencia adicional. Las figuras de registro y alertas muestran pantallas distintas, y las pruebas negativas cuentan con capturas específicas.
+Las pruebas automatizadas del dominio verifican redondeo monetario, actualización de stock, rechazo de artículos duplicados que exceden existencias, reversión ante una línea inválida, permisos por rol, cantidades fraccionarias, registro sin elevación a administrador, archivo de productos y reportes por fecha local. La evidencia reproducible se obtiene mediante npm test. Lint, revisión sintáctica y exportaciones de plataforma complementan la verificación, sin sustituir las pruebas en el dispositivo. La ejecución 39199889132 de GitHub Actions compiló el APK y completó once comprobaciones de interfaz en Android 14: acceso, validación, catálogo, ficha, entrada, venta, reportes, persistencia, dos perfiles y cierre de sesión. Las primeras nueve capturas del anexo y el registro JSON corresponden a esa ejecución real. Una comprobación adicional sobre el mismo APK confirmó registro de una cuenta de empleado, reingreso y cierre; sus tres capturas y registro están incluidos como evidencia adicional.
 
-El recorrido manual recomendado es iniciar sesión con los tres perfiles, registrar una cuenta, buscar un producto, guardar una imagen, crear una entrada, intentar una salida excesiva, emitir una venta y comprobar el descuento en Inventario y el importe en Reportes. Después debe cerrarse y reabrirse la app para revisar persistencia. El video muestra operaciones reales y errores controlados. Se entrega sin audio ni textos superpuestos, acompañado de un guion separado para que el equipo grabe su explicación y la incorpore posteriormente.
+El recorrido manual recomendado es iniciar sesión con los tres perfiles, registrar una cuenta, buscar un producto, guardar una imagen, crear una entrada, intentar una salida excesiva, emitir una venta y comprobar el descuento en Inventario y el importe en Reportes. Después debe cerrarse y reabrirse la app para revisar persistencia. El video debe mostrar errores controlados y explicar el código responsable, no únicamente recorrer pantallas.
 
-Las capturas incorporadas en el anexo provienen de la app ejecutada y deben leerse junto al registro de pruebas. Los requisitos externos pendientes se enumeran en docs/CRITERIOS.md: incorporación posterior de la voz del equipo al video y participación real de cada integrante. No se inventan contribuciones, resultados de dispositivos o enlaces que no existan.
-
-## 8. Colaboración y seguimiento del equipo
-
-El 19 de octubre de 2026 se verificaron mediante la API de GitHub las cinco cuentas con acceso al repositorio del equipo. La cuenta autenticada para coordinar esta revisión es wilfredo409. Los cuatro compañeros ya disponen de permisos suficientes para publicar sus ramas; por ello, la invitación enviada corresponde a tareas de revisión y aportes, sin generar accesos duplicados.
-
-La coordinación está publicada desde wilfredo409 en el issue 9: https://github.com/m4c4c0/comerciales-mely/issues/9 . Se asignó a Ferhboot, Stevenhzw, m4c4c0 y floripeto. Incluye la rama móvil, tareas propuestas, comandos de preparación y la evidencia que debe presentar cada persona (wilfredo409, 2026b).
-
-| Cuenta GitHub | Acceso verificado | Seguimiento de esta invitación |
-| --- | --- | --- |
-| wilfredo409 | Escritura | Coordinación e integración publicadas; seguimiento del equipo. |
-| Ferhboot | Escritura | Invitado a revisar navegación y flujo por perfil; aporte pendiente. |
-| Stevenhzw | Escritura | Invitado a revisar inventario, validaciones y permisos; aporte pendiente. |
-| m4c4c0 | Administrador | Invitado a revisar acceso, registro, sesión y permisos; aporte pendiente. |
-| floripeto | Escritura | Invitado a revisar movimientos, ventas y trazabilidad; aporte pendiente. |
-
-Los nombres y carnets de los cinco integrantes constan en la portada, conforme al README del repositorio. Esta tabla registra permisos y tareas propuestas; no atribuye a un integrante un módulo terminado ni commits que todavía no existen. La aceptación de una tarea y su implementación se comprueban con la respuesta en el issue, el commit o pull request y el resultado de una prueba real.
-
-Cada integrante debe partir de etapa3/avance1-movil-20261018, trabajar en una rama propia y dirigir su pull request a esa rama móvil. Antes de solicitar integración debe ejecutar las verificaciones del proyecto y explicar su cambio. El informe se actualizará con enlaces y resultados comprobables conforme se reciban. No se requieren commits vacíos para aparentar participación.
+Las capturas incorporadas en el anexo provienen de la app ejecutada y deben leerse junto al registro de pruebas. Los requisitos externos pendientes se enumeran en docs/CRITERIOS.md: enlace del video con explicación del equipo y participación real de cada integrante. No se inventan contribuciones, resultados de dispositivos o enlaces que no existan.
 
 ## Conclusiones
 
@@ -120,8 +100,6 @@ El prototipo se consulta en https://www.figma.com/design/11GPTpTj3RrHusfOA9qqOr/
 
 ## Referencias
 
-Equipo R.E.F.E.S. (2026). Comerciales Mely: Sistema de gestión multiplataforma [Código fuente]. GitHub. https://github.com/m4c4c0/comerciales-mely
-
 Expo. (s. f.-a). Expo SDK reference. Recuperado el 18 de octubre de 2026, de https://docs.expo.dev/versions/v58.0.0/
 
 Expo. (s. f.-b). Authentication in Expo Router. Recuperado el 18 de octubre de 2026, de https://docs.expo.dev/router/advanced/authentication/
@@ -131,8 +109,6 @@ Expo. (s. f.-c). SQLite. Recuperado el 18 de octubre de 2026, de https://docs.ex
 Expo. (s. f.-d). SecureStore. Recuperado el 18 de octubre de 2026, de https://docs.expo.dev/versions/v58.0.0/sdk/securestore/
 
 Expo. (s. f.-e). Create your first build. Recuperado el 18 de octubre de 2026, de https://docs.expo.dev/build/setup/
-
-Expo. (s. f.-f). Splash screen and app icon. Recuperado el 19 de octubre de 2026, de https://docs.expo.dev/develop/user-interface/splash-screen-and-app-icon/
 
 Figma. (s. f.). Guide to auto layout in Figma. Recuperado el 18 de octubre de 2026, de https://help.figma.com/hc/en-us/articles/360040451373-Guide-to-auto-layout-in-Figma
 
@@ -146,6 +122,6 @@ Universidad Don Bosco. (2026c). Unidad 2: Introducción a React, biblioteca de J
 
 Universidad Don Bosco. (2026d). Unidad 3: Herramientas de diseño y desarrollo en React Native [Material de cátedra]. Dirección de Educación a Distancia.
 
-wilfredo409. (2026a). Comerciales Mely: Referencia web [Código fuente]. GitHub. https://github.com/wilfredo409/comerciales-mely-web
+Equipo R.E.F.E.S. (2026). Comerciales Mely: Sistema de gestión multiplataforma [Código fuente]. GitHub. https://github.com/m4c4c0/comerciales-mely
 
-wilfredo409. (2026b, 19 de octubre). Etapa 3 móvil: invitación al equipo para revisión, commits y evidencias [Issue 9]. GitHub. https://github.com/m4c4c0/comerciales-mely/issues/9
+wilfredo409. (2026). Comerciales Mely: Referencia web [Código fuente]. GitHub. https://github.com/wilfredo409/comerciales-mely-web

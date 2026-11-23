@@ -1,0 +1,49 @@
+name: Validar registro Android
+on:
+  workflow_dispatch:
+  push:
+    branches: [etapa3/avance1-movil-20261018]
+    paths: [.github/workflows/mobile-register.yml]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
+        with:
+          name: Comerciales-Mely-Android
+          run-id: 39199889132
+          github-token: ${{ github.token }}
+          path: mobile/output/android
+      - name: Habilitar KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          ram-size: 2048M
+          heap-size: 512M
+          disk-size: 2G
+          disable-animations: true
+          emulator-boot-timeout: 600
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none
+          script: |
+            adb install -r mobile/output/android/Comerciales-Mely-etapa3.apk
+            python3 mobile/scripts/android-register.py
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: Comerciales-Mely-Evidencias
+          path: |
+            mobile/output/evidence/
+            mobile/output/video/
+          retention-days: 30
