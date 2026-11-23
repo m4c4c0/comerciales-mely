@@ -10,9 +10,9 @@
 
 ## Evidencia y límites
 
-El [registro del Firebase original](output/evidence/PRUEBAS-FIREBASE-ORIGINAL-20261122.md) contiene las pruebas de correo, roles, movimientos, ventas y persistencia del adaptador móvil; pruebas de la web local y publicada; acceso Google web; reglas publicadas y conservación de los datos anteriores. Las APK incluyen el bundle y tienen firma verificada. La aceptación de pantallas Android se documenta en ese registro al ejecutarla; no se confunde una prueba de adaptador con una prueba de dispositivo.
+El [registro del Firebase original](output/evidence/PRUEBAS-FIREBASE-ORIGINAL-20261122.md) contiene las pruebas de correo, roles, movimientos, ventas y persistencia del adaptador móvil; pruebas de la web local y publicada; acceso Google web; reglas publicadas y conservación de los datos anteriores. Las APK incluyen el bundle y tienen firma verificada. La APK Release pasó correo como Empleado/Cajero, entrada, venta, PDF, persistencia y reportes en Android 14; Google nativo espera el acceso del propietario. Todo se documenta en ese registro; no se confunde una prueba de adaptador con una prueba de dispositivo.
 
-Pruebas locales: 18 casos de Firestore (incluyen perfiles concurrentes), 12 de dominio móvil, 3 de calendario local y comprobación de configuración compartida. La web compila con Next.js. El flujo de GitHub compila ambas ABI y comprueba el formulario en Android 14 sin escribir datos remotos.
+Pruebas locales: 19 casos de Firestore (incluyen perfiles concurrentes), 12 de dominio móvil, 3 de calendario local y comprobación de configuración compartida. La web compila con Next.js. El flujo de GitHub compila ambas ABI y comprueba el formulario en Android 14 sin escribir datos remotos.
 
 No se publican contraseñas de prueba ni respaldos con perfiles. Cada usuario entra con una cuenta autorizada. Los roles Administrador existentes se preservan; no hay autoasignación de privilegios. Las evidencias anteriores de `comerciales-mely-final` y SQLite son históricas.
 

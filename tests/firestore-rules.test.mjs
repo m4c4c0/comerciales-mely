@@ -1,6 +1,6 @@
 import { after, before, beforeEach, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { ensureUserProfile } from '../lib/firebase-profile.mjs';
+import { ensureUserProfile, registerWithProfile } from '../lib/firebase-profile.mjs';
 import { readFile } from 'node:fs/promises';
 import { initializeTestEnvironment, assertFails, assertSucceeds } from '@firebase/rules-unit-testing';
 import { doc, getDoc, setDoc, updateDoc, writeBatch } from 'firebase/firestore';
@@ -39,6 +39,18 @@ test('dos accesos simultáneos crean un único perfil Google sin elevar permisos
 });
 test('el acceso conserva el rol del perfil existente', async () => {
   assert.equal((await ensureUserProfile(dbFor('admin'), { uid: 'admin' })).rol, 'Administrador');
+});
+test('el observador espera al perfil del registro por correo y conserva sus datos', async () => {
+  const user = { uid: 'nuevo-correo', email: 'registro@example.test' };
+  const db = dbFor(user.uid);
+  let observed;
+  await registerWithProfile(async () => {
+    observed = ensureUserProfile(db, user);
+    await setDoc(doc(db, 'usuarios', user.uid), { nombre: 'Nombre del formulario', rol: 'Facturador', email: user.email });
+  });
+  const profile = await observed;
+  assert.equal(profile.nombre, 'Nombre del formulario');
+  assert.equal(profile.rol, 'Facturador');
 });
 function sale(uid, overrides = {}) {
   const db = dbFor(uid);

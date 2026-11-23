@@ -12,3 +12,5 @@ Para instalar: descarga el archivo correspondiente desde GitHub (botón **Downlo
 La firma usa el keystore de demostración Android, con SHA-1 `5E:8F:16:06:2E:A3:CD:2C:4A:0D:54:78:76:BA:A6:F3:8C:AB:F6:25`, registrado en el Firebase original. No se presenta como una publicación de Play Store. Para distribuir en producción se requiere una clave privada propia y registrar su huella.
 
 Huellas de los archivos: [SHA256SUMS.txt](SHA256SUMS.txt). Estado de las pruebas reales: [verificación del Firebase original](../evidence/PRUEBAS-FIREBASE-ORIGINAL-20261122.md). Las capturas de entornos anteriores no sustituyen la aceptación de estas APK.
+
+La APK Release x86_64 se instaló y probó en Android 14: correo Empleado/Cajero, entrada de stock, venta con IVA, PDF, reportes y sincronización con Vercel. La ARM64 fue compilada y su firma/bundle verificados; no se afirma haberla instalado en un teléfono físico. Google nativo espera completar la cuenta en el emulador.

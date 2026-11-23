@@ -2,7 +2,7 @@
 
 Sistema académico multiplataforma para inventario, movimientos de bodega, facturación y reportes. Proyecto de DPS941, Universidad Don Bosco, Ciclo II-2026, equipo R.E.F.E.S.
 
-> **Integración final (22 de noviembre de 2026):** el destino final es el Firebase original del equipo, `comerciales-mely` (Firestore `nam5`). Se conservaron sus datos y se publicaron reglas por rol. Pasaron la compilación web, 18 casos de reglas, 12 pruebas de dominio móvil, 3 de calendario y la comprobación de configuración. El adaptador móvil y la interfaz web local probaron correo, roles, movimientos y ventas reales en ese proyecto. La web publicada ya lee el Firebase original y permite entrar con Google. Se generaron APK Release ARM64 y x86_64 con JavaScript incluido; la aceptación de pantallas Android está en curso. Ver [registro del entorno original](mobile/output/evidence/PRUEBAS-FIREBASE-ORIGINAL-20261122.md) y [matriz de criterios](mobile/docs/CRITERIOS.md).
+> **Integración final (22 de noviembre de 2026):** el destino final es el Firebase original del equipo, `comerciales-mely` (Firestore `nam5`). Se conservaron sus datos y se publicaron reglas por rol. Pasaron la compilación web, 19 casos de reglas, 12 pruebas de dominio móvil, 3 de calendario y la comprobación de configuración. El adaptador móvil y la interfaz web local probaron correo, roles, movimientos y ventas reales en ese proyecto. La web publicada ya lee el Firebase original y permite entrar con Google. Se generaron APK Release ARM64 y x86_64 con JavaScript incluido; la APK Release pasó correo como Empleado y Cajero, entrada, venta, PDF y reportes en Android 14. Google nativo abrió el acceso oficial y espera que el propietario complete su cuenta. Ver [registro del entorno original](mobile/output/evidence/PRUEBAS-FIREBASE-ORIGINAL-20261122.md) y [matriz de criterios](mobile/docs/CRITERIOS.md).
 
 ## Aplicaciones
 
@@ -52,6 +52,10 @@ npm run build:android
 
 La guía móvil explica Authentication, Google Sign-In, Firestore, permisos por rol, exportación de comprobantes y compilación nativa. Consulta [`mobile/README.md`](mobile/README.md), [`mobile/FIREBASE.md`](mobile/FIREBASE.md) y [`mobile/ENTREGA.md`](mobile/ENTREGA.md).
 
+## APK y evidencia de entrega
+
+Descarga las [APK Android ARM64 y x86_64](mobile/output/android/README.md). La [aceptación del Firebase original](mobile/output/evidence/PRUEBAS-FIREBASE-ORIGINAL-20261122.md) incluye capturas y el PDF emitido en Android. El [texto para Aula Digital](docs/ENTREGA-AULA-DIGITAL.txt) facilita registrar el enlace de esta entrega.
+
 ## Mockups de la Etapa 1
 
 Diseños de referencia conservados dentro del repositorio. La app móvil mantiene colores, tipografía y estructura de las pantallas base.
@@ -83,10 +87,10 @@ Archivo de Figma informado por el equipo: `11GPTpTj3RrHusfOA9qqOr`. Nodos y nota
 | Criterio | Evidencia y estado |
 | --- | --- |
 | Web React + Next.js | Aplicación publicada en [Vercel](https://comerciales-mely-web.vercel.app), vinculada a `main` |
-| App móvil React Native | Código Expo, 12 pruebas de dominio, APK Release ARM64/x86_64 compiladas y firmadas, con Firebase original verificado en el bundle; aceptación de pantallas Android en curso |
-| Correo y red social en ambas | Sesión Google web comprobada en el Firebase original; acceso móvil por correo probado desde su adaptador de datos. Google Sign-In nativo Android pendiente de prueba |
-| Módulos principales/secundarios | Inventario, bodega, ventas y reportes probados en web como Administrador; permisos del Facturador probados contra Firebase. Falta completar la aceptación de pantallas Android y cada rol |
-| Firestore compartido | En el proyecto original: adaptador móvil 25 → 24, venta desde interfaz web 24 → 23. Transacciones y permisos verificados; pendiente repetir pantallas nativas con la APK nueva |
+| App móvil React Native | Código Expo, 12 pruebas de dominio, APK Release ARM64/x86_64 compiladas y firmadas, con Firebase original verificado en el bundle; aceptación Android de correo, entrada, venta, PDF y reportes aprobada; Google nativo espera acceso del propietario |
+| Correo y red social en ambas | Sesión Google web comprobada en el Firebase original; acceso móvil por correo probado también en la APK Release como Empleado y Cajero. Google Sign-In nativo Android pendiente de prueba |
+| Módulos principales/secundarios | Inventario, bodega, ventas y reportes probados en web como Administrador; permisos del Facturador probados contra Firebase. Android Empleado y Cajero probaron inventario, entrada, venta, comprobante y reportes en el Firebase original |
+| Firestore compartido | En el proyecto original: adaptador móvil 25 → 24, venta desde interfaz web 24 → 23. APK Release: entrada 23 → 25 y venta 25 → 24; Vercel confirmó ambos cambios y reportes coincidentes |
 | UX/UI alineada con Figma | Mockups de la Etapa 1 publicados arriba y guía visual conservada en el repositorio |
 | Licencia Creative Commons | [`LICENCIA-CONTENIDO.md`](LICENCIA-CONTENIDO.md) describe la licencia del material del proyecto |
 | Colaboración | Ramas y atribuciones documentadas en [`mobile/docs/COLABORACION.md`](mobile/docs/COLABORACION.md); cuatro invitaciones de escritura enviadas. Cada integrante debe aceptar y aportar sus commits auténticos |
@@ -96,7 +100,7 @@ El repositorio y Firebase originales del compañero forman parte del trabajo del
 
 ## Pruebas reproducibles
 
-Desde la raíz, `npm run test:rules` inicia un emulador Firestore con el proyecto de demostración `demo-mely-rules` y ejecuta los 18 casos de permisos y ventas atómicas. Requiere Java 21 o superior; no modifica el Firebase remoto. Desde `mobile/`, ejecuta `npm test`, `npm run lint` y `npm run typecheck`. Ejecuta también `npm run test:calendar` y `npm run test:config` desde la raíz (las pruebas de calendario comparan el módulo móvil; instala antes las dependencias de `mobile/`). La aceptación remota del proyecto original y sus datos QA se describen en [su registro del 22 de noviembre](mobile/output/evidence/PRUEBAS-FIREBASE-ORIGINAL-20261122.md).
+Desde la raíz, `npm run test:rules` inicia un emulador Firestore con el proyecto de demostración `demo-mely-rules` y ejecuta los 19 casos de permisos y ventas atómicas. Requiere Java 21 o superior; no modifica el Firebase remoto. Desde `mobile/`, ejecuta `npm test`, `npm run lint` y `npm run typecheck`. Ejecuta también `npm run test:calendar` y `npm run test:config` desde la raíz (las pruebas de calendario comparan el módulo móvil; instala antes las dependencias de `mobile/`). La aceptación remota del proyecto original y sus datos QA se describen en [su registro del 22 de noviembre](mobile/output/evidence/PRUEBAS-FIREBASE-ORIGINAL-20261122.md).
 
 ## Seguridad y configuración
 

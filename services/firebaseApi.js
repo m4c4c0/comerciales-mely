@@ -20,7 +20,7 @@ import { initializeApp as initializeFirebaseApp, getApp, deleteApp } from "fireb
 import { createUserWithEmailAndPassword as createSecondaryUser, getAuth, signOut as signOutSecondary, updateProfile as updateSecondaryProfile } from "firebase/auth";
 import { auth, db } from "../lib/firebase";
 import { dailySales, localDay } from "../lib/calendar.mjs";
-import { ensureUserProfile } from "../lib/firebase-profile.mjs";
+import { ensureUserProfile, registerWithProfile } from "../lib/firebase-profile.mjs";
 import { facturaSchema, movimientoSchema, productoSchema, registroPublicoSchema, registroSchema } from "../lib/validators";
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -140,21 +140,23 @@ async function login(body) {
 }
 
 async function register(body) {
-  const payload = validated(registroPublicoSchema, body);
-  const email = String(body.email || body.usuario || "").trim().toLowerCase();
-  if (!emailPattern.test(email)) throw new Error("Ingresa un correo electrónico válido.");
-  const credential = await createUserWithEmailAndPassword(auth, email, payload.password);
-  await updateProfile(credential.user, { displayName: payload.nombre });
-  const profile = {
-    nombre: payload.nombre,
-    usuario: payload.usuario,
-    email,
-    rol: payload.rol === "facturador" ? "Facturador" : "Empleado",
-    proveedor: "password",
-    fechaCreacion: serverTimestamp(),
-  };
-  await setDoc(doc(db, "usuarios", credential.user.uid), profile);
-  return { usuario: publicUser(credential.user.uid, profile) };
+  return registerWithProfile(async () => {
+    const payload = validated(registroPublicoSchema, body);
+    const email = String(body.email || body.usuario || "").trim().toLowerCase();
+    if (!emailPattern.test(email)) throw new Error("Ingresa un correo electrónico válido.");
+    const credential = await createUserWithEmailAndPassword(auth, email, payload.password);
+    await updateProfile(credential.user, { displayName: payload.nombre });
+    const profile = {
+      nombre: payload.nombre,
+      usuario: payload.usuario,
+      email,
+      rol: payload.rol === "facturador" ? "Facturador" : "Empleado",
+      proveedor: "password",
+      fechaCreacion: serverTimestamp(),
+    };
+    await setDoc(doc(db, "usuarios", credential.user.uid), profile);
+    return { usuario: publicUser(credential.user.uid, profile) };
+  });
 }
 
 async function createAdminUser(body) {

@@ -68,3 +68,48 @@ El flujo de GitHub `45114795051`, commit móvil `c0ae962`, generó APK Release A
 ![Dominio Vercel autorizado en el Firebase original](44-firebase-original-dominio-autorizado.png)
 
 ![Acceso Google al dashboard original](45-vercel-google-original-dashboard.png)
+
+## Aceptación de la APK Release original en Android 14
+
+Se instaló la APK x86_64 publicada, sin Metro. No se sustituyó por Debug para estas pruebas.
+
+| Recorrido desde la interfaz Android | Resultado |
+|---|---|
+| Acceso por correo como Empleado | Catálogo original visible; producto QA con 23 unidades. Solo funciones autorizadas |
+| Entrada de 2 unidades QA | Stock 23 → 25; nota `QA Android original entrada 2` |
+| Comprobación en Vercel | La web con sesión Google lee stock 25 |
+| Cierre forzado y reapertura | La sesión Empleado se restauró y permitió abrir su perfil sin repetir credenciales |
+| Cierre de sesión y correo como Cajero | Acceso correcto; no aparece el botón de crear productos; sí Ventas y Reportes |
+| Venta de una unidad QA | `MELY-000005`, cliente `QA Android original`, subtotal $10.00, IVA $1.30 y total $11.30 |
+| Comprobación web después de la venta | Stock 24, 5 facturas y $33.90 de ventas del día |
+| Reportes Android | $33.90, 5 comprobantes y fecha local 22/11/2026; coinciden con la web |
+| Comprobante PDF | Compartir abre el diálogo Android; se guardó mediante Print → Save as PDF, sin enviar a terceros ni elevar permisos |
+| Revisión visual del PDF | Una página Letter legible, detalle de una unidad, subtotal/IVA/total correctos, datos sintéticos y aviso académico; sin cortes ni solapamientos |
+| Google web tras publicar la corrección | Cierre de sesión, Google y retorno al dashboard confirmados visualmente y por el usuario |
+| Google nativo | La APK abrió el acceso oficial de Google en el emulador; espera que el propietario complete su cuenta. No se considera aprobado hasta volver a la app |
+
+El PDF real guardado por Android está en [MELY-000005-QA-Android.pdf](../pdf/MELY-000005-QA-Android.pdf), 53,505 bytes. SHA-256: `c76c9e54fa8a38d7ca8cb94ba96e2bee839bb73756c1197316e39615780fa056`. La captura 57 es su renderizado con Poppler, revisado visualmente.
+
+La protección de perfiles también contempla el registro por correo: el observador espera al formulario para conservar su nombre y rol permitido. Tras añadir ese caso, el emulador Firestore terminó con **19 aprobadas y 0 fallidas**. Las 3 pruebas de calendario y la de configuración compartida volvieron a pasar. Las reglas de seguridad publicadas no se relajaron para completar estos accesos.
+
+Las cuentas y contraseñas QA siguen fuera del repositorio. Las pruebas Android solo añadieron un movimiento y una venta sobre el producto QA; el catálogo anterior del equipo se conserva.
+
+![Empleado lee stock original 23](48-android-original-empleado-stock23.png)
+
+![Entrada Android deja stock 25](50-android-original-entrada-stock25.png)
+
+![Vercel confirma stock 25](51-vercel-entrada-android-stock25.png)
+
+![Venta Android registrada](52-android-original-venta-registrada.png)
+
+![Google web y ventas Android compartidas](53-vercel-google-final-ventas-android.png)
+
+![Vercel confirma stock 24](54-vercel-venta-android-stock24.png)
+
+![Comprobante Android MELY-000005](55-android-original-comprobante-000005.png)
+
+![Compartir PDF en Android](56-android-original-compartir-pdf.png)
+
+![PDF real revisado](57-android-original-pdf-000005.png)
+
+![Reportes Android coinciden con la web](58-android-original-reportes.png)

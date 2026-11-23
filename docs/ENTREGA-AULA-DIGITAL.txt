@@ -1,0 +1,17 @@
+Etapa 3: Entrega Final — Comerciales Mely
+Asignatura: Diseño y Programación de Software Multiplataforma (DPS941)
+Equipo: R.E.F.E.S.
+Estudiante: Edwin Wilfredo Cerón Contreras
+
+Se presenta el proyecto Comerciales Mely, una solución multiplataforma para gestionar inventario, movimientos de productos, facturación y reportes.
+
+Repositorio del proyecto:
+https://github.com/m4c4c0/comerciales-mely
+
+La solución integra una aplicación web desarrollada con React y Next.js y una aplicación móvil desarrollada con React Native y Expo. Ambas utilizan el proyecto Firebase original del equipo para autenticación y persistencia compartida en Cloud Firestore.
+
+El repositorio contiene el código fuente, instrucciones de instalación y ejecución, configuración de Firebase, reglas de seguridad por rol, mockups de referencia, licencia, documentación técnica y evidencias de las pruebas realizadas. El README permite localizar la aplicación web desplegada y las APK de Android.
+
+Las funcionalidades implementadas incluyen autenticación por correo y Google, inventario, entradas y salidas, control de existencias, facturación con IVA y reportes. La documentación registra el alcance y los resultados de las verificaciones de ambas plataformas.
+
+Se conserva el historial de las fases anteriores y la atribución de los aportes del equipo.
