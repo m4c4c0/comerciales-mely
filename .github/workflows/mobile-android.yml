@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main, etapa3/avance1-movil-20261018]
-    paths: [mobile/src/**, mobile/assets/**, mobile/package.json, mobile/package-lock.json, mobile/app.json]
+    paths: [mobile/src/**, mobile/assets/**, mobile/scripts/**, mobile/plugins/**, mobile/package.json, mobile/package-lock.json, mobile/app.json, mobile/.env.example, config/firebase-client.json, firestore.rules, lib/calendar.mjs, tests/**, .github/workflows/mobile-android.yml]
 permissions:
   contents: read
 concurrency:
@@ -31,23 +31,30 @@ jobs:
           distribution: temurin
           java-version: '25'
       - name: Instalar dependencias verificables
-        run: npm ci
+        run: |
+          npm ci
+          cp .env.example .env
       - name: Verificar reglas y formularios
         run: |
           npm test
           npm run lint
           npm run typecheck
+          node --test ../tests/calendar.test.mjs ../tests/firebase-config.test.mjs
       - name: Generar proyecto Android
         run: npx expo prebuild --platform android --no-install
       - name: Compilar APK autonomo
         run: |
           chmod +x android/gradlew
           cd android
-          ./gradlew assembleRelease -PreactNativeArchitectures=arm64-v8a,x86_64 --max-workers=2 --no-daemon
+          ./gradlew assembleRelease -PreactNativeArchitectures=arm64-v8a --max-workers=2 --no-daemon
           cd ..
           mkdir -p output/android
-          cp android/app/build/outputs/apk/release/app-release.apk output/android/Comerciales-Mely-etapa3.apk
-          sha256sum output/android/Comerciales-Mely-etapa3.apk > output/android/SHA256SUMS.txt
+          cp android/app/build/outputs/apk/release/app-release.apk output/android/Comerciales-Mely-final-telefono-arm64.apk
+          cd android
+          ./gradlew assembleRelease -PreactNativeArchitectures=x86_64 --max-workers=2 --no-daemon
+          cd ..
+          cp android/app/build/outputs/apk/release/app-release.apk output/android/Comerciales-Mely-final-emulador-x86_64.apk
+          sha256sum output/android/Comerciales-Mely-final-*.apk > output/android/SHA256SUMS.txt
       - name: Guardar APK
         uses: actions/upload-artifact@v7
         with:
@@ -74,9 +81,8 @@ jobs:
           emulator-boot-timeout: 600
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none
           script: |
-            adb install -r mobile/output/android/Comerciales-Mely-etapa3.apk
-            python3 mobile/scripts/android-smoke.py --reset-demo --record
-            python3 mobile/scripts/android-register.py
+            adb install -r mobile/output/android/Comerciales-Mely-final-emulador-x86_64.apk
+            python3 mobile/scripts/android-launch-smoke.py
       - name: Conservar evidencias de dispositivo
         if: always()
         uses: actions/upload-artifact@v7
