@@ -5,6 +5,7 @@ Entorno: web publicada en Vercel, proyecto Firebase `comerciales-mely-final`, cu
 | Recorrido | Resultado observado |
 | --- | --- |
 | Sesión con Google existente | Dashboard, inventario, facturación y reportes accesibles |
+| Nuevo acceso con Google después de cerrar sesión | El usuario completó la selección de cuenta; se verificó el dashboard como Administrador, sin error de permisos: tres facturas y ventas por $33.90 |
 | Crear producto | `QA integracion web movil 20261122`, categoría Hogar, precio $10.00, stock 20 y mínimo 5 |
 | Entrada de inventario | Cinco unidades; stock actualizado a 25 y movimiento guardado |
 | Facturar una unidad | Factura `MELY-81722115`, subtotal $10.00, IVA $1.30 y total $11.30 |
@@ -15,6 +16,7 @@ Entorno: web publicada en Vercel, proyecto Firebase `comerciales-mely-final`, cu
 | Facturador, Firebase remoto con SDK | Cuenta sintética QA: factura `MELY-QA-1795383569225`, stock 24 → 23; cambio de precio y lectura sin sesión rechazados |
 | Código de datos móvil, Firebase remoto | `database.js` y `business.mjs` ejecutados con Node; rol incorrecto rechazado, correo válido, venta sin stock rechazada, factura `MELY-000003` por $11.30, stock 23 → 22, recarga y cierre de sesión correctos |
 | Lectura web posterior | La interfaz publicada muestra stock 22 tras la escritura del adaptador móvil; captura 33 |
+| Gestión de usuarios desde la web | El Administrador creó `QA Empleado Firebase` con rol Empleado; la nueva cuenta aparece en el listado y se conserva la sesión administradora original |
 
 La prueba adicional detectó una importación inexistente de `normalizeAuthUser`. Se implementó la normalización de las etiquetas de rol compartidas con la web y el rechazo de roles desconocidos. Una prueba de regresión cubre este fallo. La suite local móvil tiene 12 pruebas aprobadas; la prueba remota es optativa y se ejecutó por separado con éxito.
 
@@ -25,6 +27,8 @@ La prueba adicional detectó una importación inexistente de `normalizeAuthUser`
 ![Navegación responsive corregida y publicada](31-web-menu-responsive.png)
 
 ![La web lee el stock escrito por el adaptador móvil](33-web-stock-adaptador-movil.png)
+
+![Dashboard después de un nuevo acceso Google](34-web-google-acceso-nuevo.png)
 
 ## Alcance
 

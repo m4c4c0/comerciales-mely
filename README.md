@@ -2,7 +2,7 @@
 
 Sistema académico multiplataforma para inventario, movimientos de bodega, facturación y reportes. Proyecto de DPS941, Universidad Don Bosco, Ciclo II-2026, equipo R.E.F.E.S.
 
-> **Estado de integración (22 de noviembre de 2026):** la web está desplegada en [comerciales-mely-web.vercel.app](https://comerciales-mely-web.vercel.app). Web y móvil apuntan al proyecto Firebase `comerciales-mely-final`; Authentication tiene correo/contraseña y Google habilitados, Firestore está en `us-central1` y las reglas de [`firestore.rules`](firestore.rules) están publicadas. La configuración cliente permanece en archivos locales ignorados por Git. La exportación JavaScript Android/iOS pasó. El build nativo de Android se reintentó en una ruta ASCII y compila Java/Kotlin, pero las tareas CMake de `react-native-worklets` y `react-native-screens` fallan porque Ninja marca `build.ninja` como dirty después de 100 intentos; no se generó una APK nueva verificable. La prueba móvil de Google Sign-In y sincronización con cuentas reales queda pendiente. Ver [Firebase](mobile/FIREBASE.md) y la [matriz de criterios](mobile/docs/CRITERIOS.md).
+> **Estado de integración (22 de noviembre de 2026):** la web está desplegada en [comerciales-mely-web.vercel.app](https://comerciales-mely-web.vercel.app). Web y móvil comparten Firebase `comerciales-mely-final`; Authentication tiene correo/contraseña y Google habilitados, Firestore está en `us-central1` y las reglas de [`firestore.rules`](firestore.rules) están publicadas. Pasaron la compilación web, 16 pruebas de reglas y 12 pruebas de dominio móvil. El adaptador móvil se probó contra Firebase remoto: acceso por correo, roles, venta transaccional, recarga y cierre de sesión; la web confirmó el stock resultante. La exportación final JavaScript Android/iOS pasó y la [APK Android x86_64](mobile/output/android/README.md) compiló con firma y bundle verificados; la instalación y Google Sign-In nativo siguen en verificación. Ver [evidencias actuales](mobile/output/evidence/PRUEBAS-FIREBASE-20261122.md), [Firebase](mobile/FIREBASE.md) y la [matriz de criterios](mobile/docs/CRITERIOS.md).
 
 ## Aplicaciones
 
@@ -15,7 +15,7 @@ Ambas aplicaciones implementan inventario, entradas/salidas, ventas con IVA del 
 
 ## Requisitos
 
-- Node.js 20 o superior y npm.
+- Node.js 20 o superior para la web; Node.js >=22.13 para Expo móvil y npm. Las pruebas de esta entrega se realizaron con Node 24.
 - Para Android: Android Studio, Android SDK/NDK y JDK compatibles con Expo SDK 58. Para los pasos comprobados en este equipo, ver [`mobile/README.md`](mobile/README.md).
 - Variables de tu proyecto Firebase en `.env.local` y `mobile/.env`; las plantillas están en `.env.example` y `mobile/.env.example`. No subas los archivos locales.
 
@@ -84,16 +84,20 @@ Archivo de Figma informado por el equipo: `11GPTpTj3RrHusfOA9qqOr`. Nodos y nota
 | Criterio | Evidencia y estado |
 | --- | --- |
 | Web React + Next.js | Aplicación publicada en [Vercel](https://comerciales-mely-web.vercel.app), vinculada a `main` |
-| App móvil React Native | Código Expo, pruebas de lógica y exportación JavaScript móvil; build Android bloqueado por regeneración CMake/Ninja, por lo que falta APK instalable y prueba en Android |
-| Correo y red social en ambas | Firebase tiene correo/contraseña y Google habilitados; web tiene el dominio Vercel autorizado. Falta una prueba real de OAuth y del módulo nativo Android |
-| Módulos principales/secundarios | Inventario, bodega, ventas, reportes, usuarios y alertas implementados; falta recorrido de aceptación con cuentas de cada rol |
-| Firestore compartido | Ambas plataformas usan el proyecto `comerciales-mely-final`; reglas publicadas y operaciones de inventario/venta transaccionales. Falta validar sincronización con datos de prueba reales |
+| App móvil React Native | Código Expo, 12 pruebas de dominio, exportación final Android/iOS y APK x86_64 compilada/firmada; adaptador Firebase probado remotamente. Instalación y aceptación Android en verificación |
+| Correo y red social en ambas | Sesión Google web comprobada; acceso móvil por correo probado desde su adaptador de datos. Google Sign-In nativo Android pendiente de prueba |
+| Módulos principales/secundarios | Inventario, bodega, ventas y reportes probados en web como Administrador; permisos del Facturador probados contra Firebase. Falta completar la aceptación de pantallas Android y cada rol |
+| Firestore compartido | Venta del adaptador móvil: stock 23 → 22; la web lee 22. Venta y descuento atómicos; 16 pruebas de reglas y escrituras remotas QA documentadas |
 | UX/UI alineada con Figma | Mockups de la Etapa 1 publicados arriba y guía visual conservada en el repositorio |
 | Licencia Creative Commons | [`LICENCIA-CONTENIDO.md`](LICENCIA-CONTENIDO.md) describe la licencia del material del proyecto |
-| Colaboración | Ramas, integrantes y atribuciones documentados en [`mobile/docs/COLABORACION.md`](mobile/docs/COLABORACION.md); el historial Git conserva las contribuciones existentes |
+| Colaboración | Ramas y atribuciones documentadas en [`mobile/docs/COLABORACION.md`](mobile/docs/COLABORACION.md); cuatro invitaciones de escritura enviadas. Cada integrante debe aceptar y aportar sus commits auténticos |
 | Originalidad | Se conserva la identidad e historial del equipo y se atribuye el código reutilizado del repositorio colaborador |
 
 El repositorio de referencia del compañero se consultó como fuente de trabajo del equipo. Sus reglas Firestore encontradas permitían cambios demasiado amplios a cualquier usuario autenticado; por ello no se copiaron ni se presenta ese proyecto o su despliegue como propios. Consulta el historial y las atribuciones del equipo antes de integrar código adicional.
+
+## Pruebas reproducibles
+
+Desde la raíz, `npm run test:rules` inicia un emulador Firestore con el proyecto de demostración `demo-mely-rules` y ejecuta los 16 casos de permisos y ventas atómicas. Requiere Java 21 o superior; no modifica el Firebase remoto. Desde `mobile/`, ejecuta `npm test`, `npm run lint` y `npm run typecheck`. La prueba remota opcional del adaptador móvil y sus datos QA están descritos en [el registro del 22 de noviembre](mobile/output/evidence/PRUEBAS-FIREBASE-20261122.md).
 
 ## Seguridad y configuración
 

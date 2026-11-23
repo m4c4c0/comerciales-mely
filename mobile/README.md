@@ -2,17 +2,17 @@
 
 Guía rápida de instalación y entrega: [ENTREGA.md](ENTREGA.md).
 
-Proyecto React Native/Expo para DPS941, Universidad Don Bosco, Ciclo II-2026. Etapa 3, Avance 1. Equipo R.E.F.E.S.
+Proyecto React Native/Expo para DPS941, Universidad Don Bosco, Ciclo II-2026. Entrega final. Equipo R.E.F.E.S.
 
-Repositorio compartido: https://github.com/m4c4c0/comerciales-mely
+Repositorio de entrega final: https://github.com/wilfredo409/comerciales-mely-web
 
-Referencia web adicional: https://github.com/wilfredo409/comerciales-mely-web
+Repositorio colaborador de origen: https://github.com/m4c4c0/comerciales-mely
 
 Prototipo original: https://www.figma.com/proto/11GPTpTj3RrHusfOA9qqOr/?node-id=4-1226
 
 ## Instalación
 
-Requiere Node.js >=22.13, npm y, para compilación local Android, Android Studio con SDK, NDK y JDK compatibles con Expo SDK 58. El script utiliza el JDK de Android Studio y prepara Ninja 1.13.2 dentro de tools/native, verificando la huella oficial para admitir rutas largas de Windows. No es necesario cambiar el Java global de Windows.
+Requiere Node.js >=22.13, npm y, para compilación local Android, Android Studio con SDK, NDK y JDK compatibles con Expo SDK 58. El script respeta `JAVA_HOME`; si no está definido, utiliza el JDK de Android Studio. Prepara Ninja 1.13.2 dentro de `tools/native/ninja-1.13.2`, verifica la huella oficial y lo configura tanto para la app como para sus dependencias nativas. No es necesario cambiar el Java global de Windows.
 
 ```powershell
 npm ci
@@ -25,11 +25,14 @@ npm run start
 npm run build:android
 ```
 
-Resultado esperado: `output/android/Comerciales-Mely-etapa3.apk`. Incluye JavaScript y recursos; funciona sin Metro. Firma de demostración, no preparada para publicación en Play Store. ABI: arm64-v8a para teléfonos modernos y x86_64 para emuladores.
+Resultado esperado: `output/android/Comerciales-Mely-final-release.apk`. Firma de demostración, no preparada para publicación en Play Store. ABI predeterminadas: arm64-v8a para teléfonos y x86_64 para emuladores. La variante Debug también se configura para incluir JavaScript y recursos:
 
 ```powershell
-adb install -r output/android/Comerciales-Mely-etapa3.apk
+npm run build:android -- -Variant Debug
+adb install -r output/android/Comerciales-Mely-final-debug.apk
 ```
+
+El historial de Gradle queda en `.gradle-project-cache/`, fuera de `android/`, para conservarlo cuando Expo regenera el proyecto. En Windows se recomienda una copia de trabajo con ruta ASCII y un `GRADLE_USER_HOME` sin acentos; la compilación local de esta entrega usa JDK 17. Ninja se instala dentro del proyecto y no sustituye las herramientas globales del SDK.
 
 ## iOS
 
@@ -83,6 +86,8 @@ npm run export:mobile
 
 Los tests verifican reglas de negocio. El proyecto está escrito en JavaScript; `typecheck` usa TypeScript para revisión sintáctica de los archivos, sin afirmar cobertura completa de tipos. Las evidencias de compilación y ejecución se registran por separado.
 
+La prueba opcional `tests/firebase-live.test.mjs` verifica el adaptador de datos móvil contra Firebase remoto usando exclusivamente un producto QA. Sus requisitos, cambios de datos y límites están descritos en [el registro de pruebas Firebase](output/evidence/PRUEBAS-FIREBASE-20261122.md). No se ejecuta contra servicios remotos al hacer `npm test` sin configuración explícita.
+
 ## Documentación y entrega
 
 - `docs/INFORME_ETAPA3_AVANCE1.md`: fuente editable del informe técnico.
@@ -112,13 +117,13 @@ Se conservan fondo #F3F4F6, naranja #D97706, texto #111827, bordes #E5E7EB, Inte
 
 Código móvil: https://github.com/m4c4c0/comerciales-mely/tree/etapa3/avance1-movil-20261018/mobile
 
-Los cinco colaboradores ya tienen acceso. Sus cuentas y ramas reales están documentadas en `docs/COLABORACION.md`. La portada y docente se contrastaron con el README compartido. Guía para completar la plataforma Apple: `docs/IOS_PREPARACION.md`.
+Las cuentas y ramas del repositorio de origen están documentadas en `docs/COLABORACION.md`. Eso no confirma por sí solo los permisos de colaboradores en el repositorio final de Wilfredo. La portada y docente se contrastaron con el README compartido. Guía para completar la plataforma Apple: `docs/IOS_PREPARACION.md`.
 
 
 ## Estado de compilación y verificación
 
 La versión actual usa Firebase y requiere que estén desplegadas las reglas de Firestore. `npm test`, `npm run lint`, `npm run typecheck` y `npm run export:mobile` validan el código y los bundles, pero la exportación JavaScript no es una APK instalable ni sustituye una prueba en Android.
 
-La compilación Android actual necesita Android Studio, su SDK/NDK, JDK y Ninja. El script obtiene Ninja si aún no está instalado; si la red está restringida, instálalo por un canal confiable y vuelve a ejecutar `npm run build:android`. La ejecución realizada durante esta entrega no pudo descargar Ninja por falta de conexión al host, por lo que el APK legado de `output/android` no debe usarse para probar Firebase.
+La compilación Android actual necesita Android Studio, su SDK/NDK, JDK y Ninja. Se preparó Ninja 1.13.2 desde su distribución oficial y se corrigió su selección tanto en la app como en las dependencias nativas. La nueva compilación e instalación siguen en verificación; el APK legado de `output/android` no debe usarse para probar Firebase.
 
-Las capturas, APK y registros de `output/evidence` y `output/android` corresponden a la entrega anterior con SQLite y cuentas locales. Se conservan como historial académico; no son pruebas de la implementación Firebase actual. Repite el recorrido con una APK recién compilada antes de presentar el estado móvil como probado. iOS requiere macOS/Xcode o EAS y credenciales de firma Apple para generar una IPA instalable.
+Las capturas 30 a 33 y [el registro Firebase actual](output/evidence/PRUEBAS-FIREBASE-20261122.md) documentan la web y el adaptador móvil contra Firebase remoto. Las evidencias de Foro 1 y su APK corresponden a SQLite y cuentas locales; se conservan como historial académico. El adaptador pasó acceso por correo, comprobación de rol, venta, recarga y cierre de sesión; esta prueba no sustituye las pantallas ni Google nativo. iOS requiere macOS/Xcode o EAS y credenciales de firma Apple para generar una IPA instalable.
