@@ -1,4 +1,6 @@
 import { after, before, beforeEach, test } from 'node:test';
+import assert from 'node:assert/strict';
+import { ensureUserProfile } from '../lib/firebase-profile.mjs';
 import { readFile } from 'node:fs/promises';
 import { initializeTestEnvironment, assertFails, assertSucceeds } from '@firebase/rules-unit-testing';
 import { doc, getDoc, setDoc, updateDoc, writeBatch } from 'firebase/firestore';
@@ -24,6 +26,20 @@ beforeEach(async () => {
 });
 
 function dbFor(uid) { return environment.authenticatedContext(uid).firestore(); }
+test('dos accesos simultáneos crean un único perfil Google sin elevar permisos', async () => {
+  const user = { uid: 'google-nuevo', email: 'google@example.test', displayName: 'Prueba Google', providerData: [{ providerId: 'google.com' }] };
+  const profiles = await Promise.all([
+    ensureUserProfile(dbFor(user.uid), user),
+    ensureUserProfile(dbFor(user.uid), user),
+  ]);
+  assert.deepEqual(profiles.map((profile) => profile.rol), ['Empleado', 'Empleado']);
+  const saved = await getDoc(doc(dbFor(user.uid), 'usuarios', user.uid));
+  assert.equal(saved.data().proveedor, 'google.com');
+  assert.equal(saved.data().rol, 'Empleado');
+});
+test('el acceso conserva el rol del perfil existente', async () => {
+  assert.equal((await ensureUserProfile(dbFor('admin'), { uid: 'admin' })).rol, 'Administrador');
+});
 function sale(uid, overrides = {}) {
   const db = dbFor(uid);
   const batch = writeBatch(db);

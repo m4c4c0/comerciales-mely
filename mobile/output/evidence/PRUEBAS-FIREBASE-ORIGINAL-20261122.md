@@ -50,3 +50,21 @@ La compilación Next.js con el Firebase original terminó con código 0. La inte
 ![Factura web y stock 23 en Firebase original](41-web-original-factura-stock23.png)
 
 ![Reportes con facturas y movimientos del equipo conservados](42-web-original-reportes.png)
+
+## Producción Vercel y Google
+
+El despliegue usa `config/firebase-client.json` versionado; las variables antiguas de Vercel no lo conectan al entorno temporal. Se comprobó el acceso por correo como Empleado y la lectura del producto QA con stock 23 (captura 43).
+
+El propietario añadió el dominio `comerciales-mely-web.vercel.app` en Authentication del proyecto original. Se verificó su presencia en la lista (captura 44). El acceso Google permitió entrar como Empleado al dashboard y después al inventario, conservando el catálogo original. El gráfico muestra 16–22 de noviembre, ventas del día $22.60 y 4 facturas (captura 45).
+
+El primer intento detectó una condición de carrera entre el observador de sesión y la creación del perfil. `lib/firebase-profile.mjs` utiliza una transacción para crear el perfil una sola vez sin alterar roles existentes. Se añadieron dos pruebas al emulador: creación concurrente y conservación de Administrador; resultado: **18 aprobadas, 0 fallidas**. Referencia de la operación atómica: [documentación Firebase](https://firebase.google.com/docs/firestore/manage-data/transactions).
+
+## APK con el Firebase original
+
+El flujo de GitHub `45114795051`, commit móvil `c0ae962`, generó APK Release ARM64 y x86_64. Se verificaron arquitectura única, bundle JavaScript, presencia del dominio original, ausencia del dominio temporal y firma válida. Las dos firmas coinciden con la SHA-1 registrada en Firebase. Los archivos y hashes están en [android/](../android/README.md). La compilación local Debug x86_64 también terminó correctamente; los archivos entregados son las versiones Release del flujo automatizado.
+
+![Web desplegada con stock original 23](43-vercel-original-inventario-stock23.png)
+
+![Dominio Vercel autorizado en el Firebase original](44-firebase-original-dominio-autorizado.png)
+
+![Acceso Google al dashboard original](45-vercel-google-original-dashboard.png)

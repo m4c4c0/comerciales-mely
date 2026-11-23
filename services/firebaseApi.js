@@ -20,6 +20,7 @@ import { initializeApp as initializeFirebaseApp, getApp, deleteApp } from "fireb
 import { createUserWithEmailAndPassword as createSecondaryUser, getAuth, signOut as signOutSecondary, updateProfile as updateSecondaryProfile } from "firebase/auth";
 import { auth, db } from "../lib/firebase";
 import { dailySales, localDay } from "../lib/calendar.mjs";
+import { ensureUserProfile } from "../lib/firebase-profile.mjs";
 import { facturaSchema, movimientoSchema, productoSchema, registroPublicoSchema, registroSchema } from "../lib/validators";
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -43,20 +44,7 @@ function publicUser(uid, data) {
 
 export async function getProfile(user = auth.currentUser) {
   if (!user) return null;
-  const profileRef = doc(db, "usuarios", user.uid);
-  const snapshot = await import("firebase/firestore").then(({ getDoc }) => getDoc(profileRef));
-  if (snapshot.exists()) return publicUser(user.uid, snapshot.data());
-
-  const profile = {
-    nombre: user.displayName || user.email?.split("@")[0] || "Usuario",
-    email: (user.email || "").toLowerCase(),
-    usuario: (user.email || "").toLowerCase(),
-    rol: "Empleado",
-    proveedor: user.providerData?.[0]?.providerId || "password",
-    fechaCreacion: serverTimestamp(),
-  };
-  await setDoc(profileRef, profile);
-  return publicUser(user.uid, profile);
+  return publicUser(user.uid, await ensureUserProfile(db, user));
 }
 
 function requireRole(user, action) {

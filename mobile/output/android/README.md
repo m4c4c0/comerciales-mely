@@ -1,17 +1,14 @@
-> **Actualización en curso:** esta APK x86_64 corresponde al Firebase temporal `comerciales-mely-final`. Se está regenerando con el Firebase original `comerciales-mely`; no atribuyas las pruebas de esta APK al entorno original.
+# APK Android — Firebase original
 
-# APK de la entrega final
+Compilaciones **Release de demostración** del código móvil `c0ae962`, generadas en [GitHub Actions 45114795051](https://github.com/wilfredo409/comerciales-mely-web/actions/runs/45114795051). Ambas incluyen JavaScript y recursos, apuntan a `comerciales-mely` y no necesitan Metro. La verificación del contenido y las firmas terminó correctamente.
 
-| Arquitectura | Archivo | Estado |
-| --- | --- | --- |
-| x86_64, emulador | [Comerciales-Mely-final-emulador-x86_64.apk](Comerciales-Mely-final-emulador-x86_64.apk) | Compilada el 22/11/2026, firma verificada y JavaScript incluido. Instalación e interfaz pendientes de prueba |
+| Dispositivo | APK | Tamaño |
+|---|---|---|
+| Teléfono Android ARM64 | [Descargar APK ARM64](Comerciales-Mely-final-telefono-arm64.apk) | 42,577,971 bytes |
+| Emulador Android x86_64 | [Descargar APK x86_64](Comerciales-Mely-final-emulador-x86_64.apk) | 44,137,146 bytes |
 
-La APK es una compilación **Debug** con JavaScript y recursos empaquetados. La inclusión del bundle está verificada; su ejecución sin Metro debe comprobarse instalándola. No se presenta como una publicación de Play Store. La APK x86_64 no sirve para teléfonos ARM64.
+Para instalar: descarga el archivo correspondiente desde GitHub (botón **Download raw file**), ábrelo en Android y permite la instalación desde esa aplicación cuando Android lo solicite. En un emulador preparado puedes usar `adb install -r RUTA_APK`. El teléfono requiere conexión a Internet para Firebase. La APK ARM64 no se instala en un emulador x86_64.
 
-SHA-256 de la APK x86_64:
+La firma usa el keystore de demostración Android, con SHA-1 `5E:8F:16:06:2E:A3:CD:2C:4A:0D:54:78:76:BA:A6:F3:8C:AB:F6:25`, registrado en el Firebase original. No se presenta como una publicación de Play Store. Para distribuir en producción se requiere una clave privada propia y registrar su huella.
 
-```text
-11164ac4f899e03969c41791e8c88a604c1f21eb5059ab8c2954e071ae855ae1
-```
-
-Registro de compilación y límites de las pruebas: [PRUEBAS-ANDROID-20261122.md](../evidence/PRUEBAS-ANDROID-20261122.md).
+Huellas de los archivos: [SHA256SUMS.txt](SHA256SUMS.txt). Estado de las pruebas reales: [verificación del Firebase original](../evidence/PRUEBAS-FIREBASE-ORIGINAL-20261122.md). Las capturas de entornos anteriores no sustituyen la aceptación de estas APK.

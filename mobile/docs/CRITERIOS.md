@@ -1,45 +1,39 @@
-> **Actualización del entorno final:** el 22/11 se autorizó el Firebase original `comerciales-mely` (`nam5`). Sus reglas y las pruebas nuevas se documentan en [PRUEBAS-FIREBASE-ORIGINAL-20261122.md](../output/evidence/PRUEBAS-FIREBASE-ORIGINAL-20261122.md). Las referencias a `comerciales-mely-final` de esta matriz corresponden a la aceptación anterior y deben distinguirse de la repetición final en curso.
+# Matriz de evaluación de la entrega final
 
-# Matriz de evaluación y alcance real
+Fuente: RUTA_DE_APRENDIZAJE_DPS941_CII_2026 y criterios proporcionados por el docente. Entrega 20 % + defensa 10 %. Esta matriz distingue implementación, comprobación real y acciones del equipo; no asigna una calificación al proyecto.
 
-Fuente principal: ruta de aprendizaje DPS941 CII-2026. El archivo de unidades 1 a 3 cubre Foro 1; la ruta completa localizada en la misma carpeta también describe Foro 2 y la entrega final.
+| Criterio | Implementación y evidencia | Estado verificable |
+|---|---|---|
+| Integración web + móvil | Next.js/React y React Native comparten `comerciales-mely`, Authentication, perfiles, colecciones y transacciones | Adaptador móvil: entrada 20 → 25 y venta 25 → 24. Interfaz web: venta 24 → 23; producción lee 23. Aceptación nativa final en curso |
+| Funcionalidad | Inventario, movimientos, alertas, ventas, IVA 13 %, reportes, perfiles y usuarios con permisos | Correo, roles, falta de stock, ventas y persistencia probados contra Firebase original; 18 pruebas de reglas y 12 de dominio aprobadas |
+| UX/UI | Mockups de Figma de Etapa 1 publicados en README; identidad, navegación, formularios y estados compartidos | Pantallas web verificadas; capturas móviles históricas separadas de la aceptación de la APK final |
+| Código y documentación | Separación de UI, dominio y datos; instrucciones, arquitectura, fuentes, reglas, licencia y evidencias dentro del repositorio | Compilación web y APK Release ARM64/x86_64 correctas; ambas firmas y el Firebase incrustado verificados |
+| Colaboración y repositorio | Historial original, autorías, ramas reales e integración final en ambos repositorios | Wilfredo tiene escritura en el repositorio del equipo. Cuatro invitaciones enviadas al suyo; la aceptación, aportes individuales y defensa corresponden a cada integrante |
 
-## Foro 1 - 18 de octubre de 2026 (15 %)
+## Requisitos específicos
 
-| Criterio | Implementación/evidencia | Estado |
-| --- | --- | --- |
-| Pantallas React Native | Login, registro, catálogo, ficha, movimientos, alertas, perfil, resumen, ventas y reportes | Verificado en Android 14; ver registro y capturas |
-| Login/registro funcional | Firebase Authentication con correo, perfil Firestore, recuperación y Google | Adaptador móvil probado con correo contra Firebase remoto; falta Google nativo y aceptación de pantallas Android |
-| Módulo principal y navegación | Expo Router; cuatro pestañas del prototipo y rutas secundarias | Implementado |
-| Coherencia con Figma | Nodos originales verificados, tokens e imágenes locales | Referencia aplicada; originales y capturas reales disponibles |
-| Formularios validados | Zod, cantidades enteras, stock, precio mínimo, confirmación de contraseña | Implementado; 12 pruebas de dominio, incluida normalización de roles compartidos |
-| Investigación React Native/Figma en APA 7 | Fuente Markdown e informe PDF con referencias y análisis propio | PDF generado y revisado visualmente |
-| Repositorio GitHub con proyecto móvil | Carpeta mobile en rama etapa3/avance1-movil-20261018 del repositorio del equipo | Publicado en rama de entrega |
-| Video demostrativo <=15 min | Guion y video técnico automático disponibles | Falta explicación grabada del equipo y publicación de su enlace |
+| Requisito | Ubicación / alcance |
+|---|---|
+| Web React + Next.js en Vercel | [Aplicación publicada](https://comerciales-mely-web.vercel.app), código en la raíz |
+| React Native con Firebase | `mobile/src`, [APK ARM64/x86_64](../output/android/README.md) |
+| Correo y redes sociales | Correo en ambas implementaciones y adaptador móvil probado; Google web probado con el Firebase original. Google nativo requiere prueba con cuenta en Android |
+| Persistencia compartida | `productos`, `movimientos`, `facturas`, `usuarios`; transacciones de stock y venta |
+| Módulos principales y secundarios | Inventario, ficha, movimientos, alertas, dashboard, facturación, reportes, cuenta y usuarios según rol |
+| Mockups en README | Imágenes locales `docs/diseno/figma-*.png` y README raíz |
+| Creative Commons | [LICENCIA-CONTENIDO.md](../../LICENCIA-CONTENIDO.md), con excepciones y licencias de terceros |
+| Ramas y colaboradores | [COLABORACION.md](COLABORACION.md); no se fabrican aportes ni autores |
+| Originalidad | Identidad del equipo, historial preservado y procedencia del adaptador atribuida |
+| Todo dentro de GitHub | Código, mockups, guías, APK, capturas e informes dentro del repositorio. Vercel es el servicio de despliegue exigido |
 
-## Complejidad transversal
+## Evidencias
 
-UI/lógica/datos separados; Context API; más de cinco pantallas; tres roles; imágenes locales/cámara; gráfica; inventario, movimientos y ventas relacionados. El código anterior de Foro 1 se comprobó localmente en Android; ese resultado no se atribuye a la versión actual de Firebase sin repetir el flujo.
+El [registro del Firebase original](../output/evidence/PRUEBAS-FIREBASE-ORIGINAL-20261122.md) es la referencia de la integración final. Conserva el catálogo y las dos facturas previas del equipo. Las pruebas nuevas modifican un producto exclusivo QA. Las capturas 40–45 verifican reglas, ventas, stock, reportes, dominio y Google web originales.
 
-## Foro 2 - 8 de noviembre de 2026 (15 %)
+Los informes anteriores de Foro 1, SQLite y del Firebase temporal se conservan como historial; sus resultados no se atribuyen a la APK final. El informe de investigación, sus referencias APA y los mockups siguen disponibles en `docs/`.
 
-La integración final incorpora Firebase Authentication (correo y Google) y Firestore. Código móvil adaptado con atribución desde el repositorio del equipo; el adaptador web usa las mismas colecciones. Las reglas de `firestore.rules` están publicadas en el proyecto propio `comerciales-mely-final`, con región `us-central1`. La web pasó acceso Google y recorridos de inventario/venta/reportes con datos remotos; el adaptador móvil pasó correo, roles, venta transaccional, recarga y cierre de sesión contra ese mismo Firebase. La aceptación nativa se documenta por separado para distinguirla de las pruebas de datos.
+## Pendientes que no deben confundirse con implementación
 
-## Entrega final - 22 de noviembre de 2026 (20 % + 10 % defensa)
-
-| Criterio | Evidencia en el repositorio y servicios | Estado |
-| --- | --- | --- |
-| Integración web + móvil | Web y móvil apuntan a `comerciales-mely-final`; reglas publicadas y transacciones para venta/inventario | El adaptador móvil vendió una unidad (23 → 22) y la web leyó 22. Falta completar el recorrido de pantallas Android |
-| Funcionalidad | Inventario, movimientos, facturación, alertas, usuarios y reportes | Web Administrador y adaptador móvil Facturador probados remotamente; 16 pruebas de reglas y 12 de dominio aprobadas |
-| UX/UI | Mockups Figma publicados en README; pantallas web y móvil implementadas | Revisar la versión móvil actual en dispositivo con datos reales |
-| Código/documentación | Guías de instalación, arquitectura, variables, reglas Firebase y matriz de evaluación | Web desplegada; pruebas reproducibles y evidencia Firebase del 22/11. Compilación Android con Ninja 1.13.2 en verificación |
-| Colaboración | Historial de `main` y atribuciones documentados; repositorio final consultado con la API de GitHub | Se enviaron invitaciones de escritura a las cuatro cuentas del equipo con autorización del propietario. Deben aceptarlas y realizar aportes auténticos en sus ramas; la defensa corresponde al equipo |
-| Publicación | Repositorio público `wilfredo409/comerciales-mely-web`; despliegue Vercel listo en [comerciales-mely-web.vercel.app](https://comerciales-mely-web.vercel.app) | Verificación manual final del flujo de negocio y cuentas |
-
-La exportación JavaScript de Expo no es una APK/IPA instalable. Se detectó que parte del proyecto seguía usando Ninja 1.10.2 del SDK, aunque las dependencias recibían una versión nueva. El plugin ahora selecciona Ninja 1.13.2 para ambos niveles; el script verifica la versión y la huella oficial. La compilación e instalación Android están en verificación. El adaptador de datos móvil sí pasó acceso por correo, rol, venta atómica, recarga y cierre de sesión contra Firebase remoto; la web confirmó el stock resultante. Google Sign-In nativo y la interfaz Android requieren completar las pruebas con una APK instalada. iOS requiere firma/perfil y dispositivo Apple para probar en iPhone.
-
-## Compilaciones y dispositivos
-
-Las capturas y el APK de Foro 1 corresponden a la versión SQLite anterior; no verifican por sí mismos el backend Firebase actual. Los bundles deben regenerarse después de los cambios. Para Android, la SHA-1 de depuración está registrada; la firma de producción requiere registrar también su huella. Para iOS se necesita Expo/EAS y, para instalar en iPhone, firma Apple y dispositivo autorizado. Consultar `output/evidence/VERIFICACION.md` sin confundir exportación JS con IPA.
-
-La API de GitHub confirmó que el repositorio final tenía únicamente a Wilfredo como colaborador y las ramas `main` y `etapa3/avance1-movil-20261018`. Se enviaron las cuatro invitaciones autorizadas (HTTP 201). La aceptación y los commits individuales siguen siendo acciones de cada integrante. No se crearon ramas ni commits atribuidos a otros integrantes; ver [COLABORACION.md](COLABORACION.md).
+- Completar y registrar los recorridos de pantallas Android y Google nativo con las APK originales.
+- Aceptar invitaciones pendientes y comprobar una rama/commits reales de cada integrante; no basta con aparecer en una lista.
+- Preparar la defensa y presentación de cada integrante.
+- iOS: el código es multiplataforma; no se afirma disponer de IPA firmada ni de pruebas en iPhone sin equipo y credenciales Apple.

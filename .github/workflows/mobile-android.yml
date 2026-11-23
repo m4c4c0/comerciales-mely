@@ -82,7 +82,7 @@ jobs:
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none
           script: |
             adb install -r mobile/output/android/Comerciales-Mely-final-emulador-x86_64.apk
-            python3 mobile/scripts/android-launch-smoke.py
+            python3 mobile/scripts/android-launch-smoke.py --output mobile/output/evidence/ci-android-login.png
       - name: Conservar evidencias de dispositivo
         if: always()
         uses: actions/upload-artifact@v7

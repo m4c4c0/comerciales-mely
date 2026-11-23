@@ -1,0 +1,2 @@
+e09a30e4a0319d38f808004351e9f64efbf5ef09c92ba52f60628b4d3cad2051  Comerciales-Mely-final-telefono-arm64.apk
+afa8717ae1d15c66b2757d7e67ef298de17813ac13a02f5e025f8ad1a8df46fe  Comerciales-Mely-final-emulador-x86_64.apk

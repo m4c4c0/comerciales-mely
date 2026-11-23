@@ -47,6 +47,7 @@ yarn-error.*
 !/output/android/
 /output/android/*
 !/output/android/README.md
+!/output/android/SHA256SUMS.txt
 !/output/android/Comerciales-Mely-final-emulador-x86_64.apk
 !/output/android/Comerciales-Mely-final-telefono-arm64.apk
 !/output/pdf/

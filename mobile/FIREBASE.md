@@ -1,6 +1,6 @@
 # Firebase compartido
 
-La web y la app móvil usan el proyecto Firebase `comerciales-mely` (plan Spark) con Firebase Authentication y Cloud Firestore en `nam5`. La app web y la app Android están registradas. Email/Password y Google están habilitados, y el dominio de producción debe autorizarse antes de la aceptación de Google en Vercel. Las reglas de `../firestore.rules` fueron publicadas el 22 de noviembre de 2026. El código adaptado de la implementación móvil del equipo conserva la atribución a [m4c4c0/comerciales-mely, commit `ed18d69`](docs/COLABORACION.md).
+La web y la app móvil usan el proyecto Firebase `comerciales-mely` (plan Spark) con Firebase Authentication y Cloud Firestore en `nam5`. La app web y la app Android están registradas. Email/Password y Google están habilitados, y el dominio de producción está autorizado y el acceso Google web fue comprobado. Las reglas de `../firestore.rules` fueron publicadas el 22 de noviembre de 2026. El código adaptado de la implementación móvil del equipo conserva la atribución a [m4c4c0/comerciales-mely, commit `ed18d69`](docs/COLABORACION.md).
 
 ## Variables locales
 
@@ -11,7 +11,7 @@ La web y la app móvil usan el proyecto Firebase `comerciales-mely` (plan Spark)
 ## Firebase Console
 
 1. Authentication → Sign-in method: **Email/Password** y **Google** ya están habilitados.
-2. Authentication → Settings → Authorized domains: incluye `localhost` y los dominios predeterminados de Firebase. La incorporación de `comerciales-mely-web.vercel.app` queda preparada para autorización del propietario.
+2. Authentication → Settings → Authorized domains: incluye `localhost` y los dominios predeterminados de Firebase. El propietario agregó `comerciales-mely-web.vercel.app`; su presencia en la lista y el acceso Google a la web desplegada fueron verificados el 22/11.
 3. Project settings → Your apps: Android está registrado con paquete `com.anonymous.comercialesmelymovil`; también hay una app web registrada.
 4. La huella SHA-1 de depuración del equipo quedó agregada al registro Android de Firebase. Si firmas con otro keystore o publicas una APK, agrega también la huella SHA-1 de esa clave. Google Sign-In nativo requiere una compilación de desarrollo o APK; Expo Go no contiene su módulo nativo.
 5. Las reglas ya están publicadas. Para publicar cambios futuros, usa:
