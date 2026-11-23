@@ -1,3 +1,5 @@
+> **Actualización en curso:** esta APK x86_64 corresponde al Firebase temporal `comerciales-mely-final`. Se está regenerando con el Firebase original `comerciales-mely`; no atribuyas las pruebas de esta APK al entorno original.
+
 # APK de la entrega final
 
 | Arquitectura | Archivo | Estado |

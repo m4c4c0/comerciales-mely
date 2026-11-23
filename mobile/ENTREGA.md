@@ -1,3 +1,5 @@
+> **Destino final actualizado:** `comerciales-mely` es el Firebase original autorizado. Consulta [el registro de migración y sus pruebas](output/evidence/PRUEBAS-FIREBASE-ORIGINAL-20261122.md). Los recorridos descritos abajo sobre `comerciales-mely-final` corresponden al entorno temporal anterior; las APK y el despliegue final se encuentran en actualización.
+
 # Guía de entrega final
 
 ## Configuración y despliegue

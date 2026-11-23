@@ -80,7 +80,7 @@ export default function Login() {
             </p>
           </div>
 
-          <p className="relative text-xs text-white/40">DPS941 · Etapa 2 — Desarrollo Base del Proyecto (Web)</p>
+          <p className="relative text-xs text-white/40">DPS941 · Entrega final — Proyecto multiplataforma</p>
         </div>
 
         {/* Panel de formulario */}

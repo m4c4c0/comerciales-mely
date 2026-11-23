@@ -19,6 +19,7 @@ import {
 import { initializeApp as initializeFirebaseApp, getApp, deleteApp } from "firebase/app";
 import { createUserWithEmailAndPassword as createSecondaryUser, getAuth, signOut as signOutSecondary, updateProfile as updateSecondaryProfile } from "firebase/auth";
 import { auth, db } from "../lib/firebase";
+import { dailySales, localDay } from "../lib/calendar.mjs";
 import { facturaSchema, movimientoSchema, productoSchema, registroPublicoSchema, registroSchema } from "../lib/validators";
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -327,13 +328,9 @@ async function createInvoice(body) {
 async function report() {
   await currentProfile("read");
   const [productsList, invoiceList] = await Promise.all([products(), invoices()]);
-  const today = new Date().toISOString().slice(0, 10);
-  const salesToday = invoiceList.filter((invoice) => invoice.fecha.slice(0, 10) === today).reduce((sum, invoice) => sum + invoice.total, 0);
-  const days = Array.from({ length: 7 }, (_, index) => {
-    const date = new Date(); date.setDate(date.getDate() - 6 + index);
-    const key = date.toISOString().slice(0, 10);
-    return { fecha: key, total: invoiceList.filter((invoice) => invoice.fecha.slice(0, 10) === key).reduce((sum, invoice) => sum + invoice.total, 0) };
-  });
+  const today = localDay(new Date());
+  const salesToday = invoiceList.filter((invoice) => localDay(invoice.fecha) === today).reduce((sum, invoice) => sum + invoice.total, 0);
+  const days = dailySales(invoiceList);
   const sold = new Map();
   for (const invoice of invoiceList) {
     for (const item of invoice.items) {

@@ -14,7 +14,9 @@ export default function Alertas() {
       <View style={s.row}>
         <View>
           <Text style={s.title}>Alertas de Stock</Text>
-          <Text style={s.subtitle}>Atención urgente requerida</Text>
+          <Text style={s.subtitle}>
+            {bajos.length ? "Productos que requieren reposición" : "Inventario sin alertas de reposición"}
+          </Text>
         </View>
         <Image
           source={require("../../../assets/figma/s4-imgBellIconWrap.svg")}

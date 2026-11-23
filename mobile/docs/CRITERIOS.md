@@ -1,3 +1,5 @@
+> **Actualización del entorno final:** el 22/11 se autorizó el Firebase original `comerciales-mely` (`nam5`). Sus reglas y las pruebas nuevas se documentan en [PRUEBAS-FIREBASE-ORIGINAL-20261122.md](../output/evidence/PRUEBAS-FIREBASE-ORIGINAL-20261122.md). Las referencias a `comerciales-mely-final` de esta matriz corresponden a la aceptación anterior y deben distinguirse de la repetición final en curso.
+
 # Matriz de evaluación y alcance real
 
 Fuente principal: ruta de aprendizaje DPS941 CII-2026. El archivo de unidades 1 a 3 cubre Foro 1; la ruta completa localizada en la misma carpeta también describe Foro 2 y la entrega final.

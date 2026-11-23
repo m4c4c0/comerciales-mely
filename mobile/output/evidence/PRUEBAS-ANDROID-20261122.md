@@ -1,3 +1,5 @@
+> **Entorno histórico:** estas pruebas nativas y las capturas 35–39 corresponden al Firebase temporal `comerciales-mely-final`. La configuración final migra al proyecto original `comerciales-mely`; su aceptación se registra por separado en [PRUEBAS-FIREBASE-ORIGINAL-20261122.md](PRUEBAS-FIREBASE-ORIGINAL-20261122.md).
+
 # Compilación Android — 22 de noviembre de 2026
 
 ## APK x86_64 generada
@@ -18,7 +20,7 @@ Ninja 1.10.2 del SDK seguía siendo utilizado por la app, aunque las dependencia
 
 La variante Debug incluye el bundle mediante un config plugin. El historial Gradle se guarda fuera del directorio nativo para conservarlo cuando Expo regenera Android. Los cambios permanecen en plugins y scripts; los proyectos nativos generados no se versionan.
 
-## Ejecución pendiente
+## Preparación del emulador
 
 Android 14 Google APIs y Android Emulator 37.3.10 están instalados. El primer intento no pudo crear la partición de datos porque necesitaba 7,372.8 MB libres. Después de liberar espacio en D se detectó una instalación incompleta de la imagen: `system.img` tenía 3,088,055,440 bytes y faltaban `vendor.img` y `userdata.img`.
 
@@ -32,4 +34,32 @@ Android terminó el primer arranque (`sys.boot_completed=1`). `adb install --no-
 
 La interfaz quedó inicialmente bloqueada por avisos ANR de **Process system** y **System UI**, con presión de memoria y E/S del emulador. Se redujo la resolución del perfil de pruebas y se reinició conservando datos, usando la GPU anfitriona. No se presenta ese arranque de proceso como aceptación funcional de pantallas ni prueba de Google.
 
-La compilación, firma, bundle e instalación verificados **no equivalen** a una prueba de pantallas, persistencia nativa ni Google Sign-In. Estos recorridos se registrarán después de ejecutarlos. Las pruebas reales del adaptador móvil contra Firebase y la lectura web del resultado están en [PRUEBAS-FIREBASE-20261122.md](PRUEBAS-FIREBASE-20261122.md).
+La compilación, firma, bundle e instalación verificados **no equivalen** a una prueba de pantallas, persistencia nativa ni Google Sign-In. Los recorridos efectivamente completados se registran en la sección siguiente. Las pruebas reales del adaptador móvil contra Firebase y la lectura web del resultado están en [PRUEBAS-FIREBASE-20261122.md](PRUEBAS-FIREBASE-20261122.md).
+
+## Aceptación nativa: recorridos completados
+
+Después de liberar memoria y usar la GPU anfitriona, la APK abrió su formulario **sin Metro** y permitió los siguientes recorridos reales:
+
+| Prueba | Resultado observado |
+| --- | --- |
+| Correo y rol Empleado | Acceso con la cuenta sintética `QA Empleado Firebase`; catálogo remoto con precio $10.00 y stock 22 |
+| Entrada de inventario | Desde Movimientos se seleccionó el producto QA, se ingresaron 2 unidades y una justificación. El historial muestra `+2`, usuario QA y fecha 22/11/2026 18:32:55 |
+| Lectura web de la escritura Android | Se recargó el inventario publicado en Vercel y mostró stock 24, frente a 22 antes de la entrada |
+| Persistencia nativa | Se forzó el cierre del proceso y se abrió de nuevo. La sesión Empleado se restauró sin solicitar credenciales y el catálogo mostró 24 unidades |
+| Opciones por rol | El perfil Empleado mostró su rol y no ofreció Ventas/Facturación ni Reportes, reservados a los roles autorizados |
+| Alertas vacías | Con stock 24 y mínimo 5, la pantalla indicó que no hay productos con stock bajo |
+| Cierre de sesión | Confirmación nativa y regreso al formulario de acceso |
+
+Las credenciales sintéticas se validaron directamente contra Authentication sin publicar contraseña ni token. Durante la automatización se verificaron los campos en privado para evitar confundir retrasos del teclado con fallos del servicio.
+
+Se detectó un subtítulo de urgencia incluso cuando no existían alertas; se ajustó el texto para distinguir el estado vacío. Las 12 pruebas de dominio, lint y tipos volvieron a finalizar sin errores después del cambio. La APK definitiva debe regenerarse para incluir ese ajuste visual.
+
+![Inventario Android antes de la entrada](35-android-empleado-inventario.png)
+
+![La web muestra las 24 unidades escritas desde Android](36-web-entrada-android-stock24.png)
+
+![Historial de la entrada Android con usuario y fecha](37-android-entrada-empleado.png)
+
+![Sesión y catálogo restaurados después de cerrar el proceso](38-android-sesion-restaurada-stock24.png)
+
+Los recorridos nativos Cajero, Google y exportación de comprobantes continúan en verificación. iOS solo tiene exportación JavaScript comprobada; no se dispone aquí de firma y dispositivo Apple para una aceptación nativa.
