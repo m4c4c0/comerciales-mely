@@ -21,19 +21,7 @@ export default function LoginPage() {
     try {
       await loginEmail(email, password);
     } catch (firebaseErr: unknown) {
-      // Respaldo: si es un usuario antiguo en la colección usuarios de Firestore
-      try {
-        const res = await fetch('/api/auth/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password }),
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || traducirErrorAuth(firebaseErr));
-        login(data.token, data.user);
-      } catch {
-        setError(traducirErrorAuth(firebaseErr));
-      }
+      setError(traducirErrorAuth(firebaseErr));
     } finally {
       setLoading(false);
     }
