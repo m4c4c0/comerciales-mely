@@ -103,7 +103,23 @@ async function cargarPerfil(
     proveedor: fb.providerData[0]?.providerId || 'password',
     fechaCreacion: serverTimestamp(),
   };
-  await setDoc(ref, perfil);
+  try {
+    await setDoc(ref, perfil);
+  } catch (err: unknown) {
+    // Si otro listener concurrente ya creó el documento milisegundos antes, lo leemos
+    const retry = await getDoc(ref);
+    if (retry.exists()) {
+      const d = retry.data();
+      return {
+        id: fb.uid,
+        nombre: d.nombre || fb.displayName || fb.email || 'Usuario',
+        email: d.email || fb.email || '',
+        rol: normalizarRol(d.rol),
+        proveedor: d.proveedor,
+      };
+    }
+    throw err;
+  }
   return {
     id: fb.uid,
     nombre: perfil.nombre,
@@ -165,12 +181,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const loginEmail = async (email: string, password: string) => {
-    const cleanEmail = email.trim().toLowerCase();
-    const cred = await signInWithEmailAndPassword(auth, cleanEmail, password);
-    const perfil = await cargarPerfil(cred.user);
-    localStorage.setItem('mely_user', JSON.stringify(perfil));
-    setUser(perfil);
-    router.push('/dashboard');
+    registrando.current = true;
+    try {
+      const cleanEmail = email.trim().toLowerCase();
+      const cred = await signInWithEmailAndPassword(auth, cleanEmail, password);
+      const perfil = await cargarPerfil(cred.user);
+      localStorage.setItem('mely_user', JSON.stringify(perfil));
+      setUser(perfil);
+      router.push('/dashboard');
+    } finally {
+      registrando.current = false;
+    }
   };
 
   const registerEmail = async (nombre: string, email: string, password: string, rol: Rol) => {
@@ -189,13 +210,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const loginGoogle = async () => {
-    const provider = new GoogleAuthProvider();
-    provider.setCustomParameters({ prompt: 'select_account' });
-    const cred = await signInWithPopup(auth, provider);
-    const perfil = await cargarPerfil(cred.user);
-    localStorage.setItem('mely_user', JSON.stringify(perfil));
-    setUser(perfil);
-    router.push('/dashboard');
+    registrando.current = true;
+    try {
+      const provider = new GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: 'select_account' });
+      const cred = await signInWithPopup(auth, provider);
+      const perfil = await cargarPerfil(cred.user);
+      localStorage.setItem('mely_user', JSON.stringify(perfil));
+      setUser(perfil);
+      router.push('/dashboard');
+    } finally {
+      registrando.current = false;
+    }
   };
 
   const loginDemo = (rol: Rol) => {
