@@ -2,6 +2,10 @@
 
 Sistema académico multiplataforma para inventario, movimientos de bodega, facturación y reportes. Proyecto de DPS941, Universidad Don Bosco, Ciclo II-2026, equipo R.E.F.E.S.
 
+## Video de Defensa y Demostración (Entrega Final)
+
+- **Enlace al video en YouTube:** [https://youtu.be/RlOwwy2nz-4](https://youtu.be/RlOwwy2nz-4)
+
 > **Integración final (22 de noviembre de 2026):** el destino final es el Firebase original del equipo, `comerciales-mely` (Firestore `nam5`). Se conservaron sus datos y se publicaron reglas por rol. Pasaron la compilación web, 19 casos de reglas, 12 pruebas de dominio móvil, 3 de calendario y la comprobación de configuración. El adaptador móvil y la interfaz web local probaron correo, roles, movimientos y ventas reales en ese proyecto. La web publicada ya lee el Firebase original y permite entrar con Google. Se generaron APK Release ARM64 y x86_64 con JavaScript incluido; la APK Release pasó correo como Empleado y Cajero, entrada, venta, PDF y reportes en Android 14. Google nativo abrió el acceso oficial y espera que el propietario complete su cuenta. Ver [registro del entorno original](mobile/output/evidence/PRUEBAS-FIREBASE-ORIGINAL-20261122.md) y [matriz de criterios](mobile/docs/CRITERIOS.md).
 
 ## Aplicaciones
@@ -52,9 +56,10 @@ npm run build:android
 
 La guía móvil explica Authentication, Google Sign-In, Firestore, permisos por rol, exportación de comprobantes y compilación nativa. Consulta [`mobile/README.md`](mobile/README.md), [`mobile/FIREBASE.md`](mobile/FIREBASE.md) y [`mobile/ENTREGA.md`](mobile/ENTREGA.md).
 
-## APK y evidencia de entrega
+## APK, Video y evidencia de entrega
 
-Descarga las [APK Android ARM64 y x86_64](mobile/output/android/README.md). La [aceptación del Firebase original](mobile/output/evidence/PRUEBAS-FIREBASE-ORIGINAL-20261122.md) incluye capturas y el PDF emitido en Android. El [texto para Aula Digital](docs/ENTREGA-AULA-DIGITAL.txt) facilita registrar el enlace de esta entrega.
+- **Video de Defensa y Demostración en YouTube:** [https://youtu.be/RlOwwy2nz-4](https://youtu.be/RlOwwy2nz-4)
+- Descarga las [APK Android ARM64 y x86_64](mobile/output/android/README.md). La [aceptación del Firebase original](mobile/output/evidence/PRUEBAS-FIREBASE-ORIGINAL-20261122.md) incluye capturas y el PDF emitido en Android. El [texto para Aula Digital](docs/ENTREGA-AULA-DIGITAL.txt) facilita registrar el enlace de esta entrega.
 
 ## Mockups de la Etapa 1
 

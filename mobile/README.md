@@ -10,6 +10,8 @@ Repositorio colaborador de origen: https://github.com/m4c4c0/comerciales-mely
 
 Prototipo original: https://www.figma.com/proto/11GPTpTj3RrHusfOA9qqOr/?node-id=4-1226
 
+Video de defensa y demostración (YouTube): https://youtu.be/RlOwwy2nz-4
+
 ## Instalación
 
 Requiere Node.js >=22.13, npm y, para compilación local Android, Android Studio con SDK, NDK y JDK compatibles con Expo SDK 58. El script respeta `JAVA_HOME`; si no está definido, utiliza el JDK de Android Studio. Prepara Ninja 1.13.2 dentro de `tools/native/ninja-1.13.2`, verifica la huella oficial y lo configura tanto para la app como para sus dependencias nativas. No es necesario cambiar el Java global de Windows.

@@ -8,6 +8,9 @@ Se presenta el proyecto Comerciales Mely, una solución multiplataforma para ges
 Repositorio del proyecto:
 https://github.com/m4c4c0/comerciales-mely
 
+Video de defensa y demostración del proyecto (YouTube):
+https://youtu.be/RlOwwy2nz-4
+
 La solución integra una aplicación web desarrollada con React y Next.js y una aplicación móvil desarrollada con React Native y Expo. Ambas utilizan el proyecto Firebase original del equipo para autenticación y persistencia compartida en Cloud Firestore.
 
 El repositorio contiene el código fuente, instrucciones de instalación y ejecución, configuración de Firebase, reglas de seguridad por rol, mockups de referencia, licencia, documentación técnica y evidencias de las pruebas realizadas. El README permite localizar la aplicación web desplegada y las APK de Android.
